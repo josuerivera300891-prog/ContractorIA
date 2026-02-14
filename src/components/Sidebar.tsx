@@ -1,91 +1,125 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
     LayoutDashboard,
     Briefcase,
-    FileText,
-    Users,
     BarChart3,
+    Users,
+    FileText,
     Settings,
-    TrendingUp,
-    Zap
+    Menu,
+    X,
+    ChevronRight,
+    PlusCircle,
+    Receipt,
+    Clock
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
-const navItems = [
-    { name: "Home", icon: LayoutDashboard, href: "dashboard" },
-    { name: "Proyectos", icon: Briefcase, href: "projects" },
-    { name: "Presupuestos", icon: FileText, href: "estimates" },
-    { name: "Clientes", icon: Users, href: "clients" },
-    { name: "Reportes", icon: BarChart3, href: "reports" },
-    { name: "Configuración", icon: Settings, href: "settings" },
-];
-
-export default function Sidebar({ tenant }: { tenant: string }) {
+export function Sidebar({ tenant, locale }: { tenant: string; locale: string }) {
+    const [isOpen, setIsOpen] = useState(false);
     const pathname = usePathname();
+    const t = useTranslations("Sidebar");
+
+    const menuItems = [
+        {
+            group: t("infrastructure"),
+            items: [
+                { name: t("dashboard"), href: `/${locale}/${tenant}/dashboard`, icon: LayoutDashboard },
+                { name: t("projects"), href: `/${locale}/${tenant}/projects`, icon: Briefcase },
+                { name: t("estimates"), href: `/${locale}/${tenant}/estimates`, icon: BarChart3 },
+                { name: "Invoices", href: `/${locale}/${tenant}/invoices`, icon: Receipt },
+            ]
+        },
+        {
+            group: t("administration"),
+            items: [
+                { name: t("clients"), href: `/${locale}/${tenant}/clients`, icon: Users },
+                { name: t("expenses"), href: `/${locale}/${tenant}/expenses`, icon: Receipt },
+                { name: t("reports"), href: `/${locale}/${tenant}/reports`, icon: FileText },
+                { name: t("audit"), href: `/${locale}/${tenant}/audit`, icon: Clock },
+                { name: t("settings"), href: `/${locale}/${tenant}/settings`, icon: Settings },
+            ]
+        }
+    ];
+
+    const isActive = (path: string) => pathname === path;
 
     return (
-        <aside className="w-72 bg-white/70 backdrop-blur-2xl border-r border-turq-primary/10 flex flex-col h-screen sticky top-0 z-30 shadow-premium">
-            {/* Logo Section */}
-            <div className="p-8">
-                <Link href={`/${tenant}/dashboard`} className="flex items-center gap-3 group">
-                    <div className="w-10 h-10 bg-turq-primary/10 rounded-2xl flex items-center justify-center shadow-sm transition-all group-hover:scale-110 duration-500">
-                        <TrendingUp className="text-turq-primary" size={24} />
-                    </div>
-                    <div className="flex flex-col">
-                        <span className="text-xl font-[950] text-deep-blue tracking-tighter leading-none font-outfit">
-                            Contractor<span className="text-turq-primary">IA</span>
-                        </span>
-                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mt-1">
-                            Enterprise Engine
-                        </span>
-                    </div>
-                </Link>
-            </div>
+        <>
+            {/* Mobile Toggle */}
+            <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="lg:hidden fixed top-6 left-6 z-50 p-2.5 bg-white/80 backdrop-blur-md rounded-xl border border-turq-primary/10 shadow-lg text-deep-blue"
+            >
+                {isOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
 
-            {/* Navigation */}
-            <nav className="flex-1 px-6 space-y-2 mt-4">
-                {navItems.map((item) => {
-                    const isActive = pathname.includes(item.href);
-                    const Icon = item.icon;
-                    return (
-                        <Link
-                            key={item.name}
-                            href={`/${tenant}/${item.href}`}
-                            className={`flex items-center gap-4 px-4 py-3.5 rounded-2xl transition-all duration-300 group ${isActive
-                                    ? "bg-turq-primary/10 text-turq-primary shadow-sm"
-                                    : "text-slate-500 hover:bg-slate-50 hover:text-deep-blue"
-                                }`}
-                        >
-                            <Icon
-                                size={22}
-                                className={`transition-colors ${isActive ? "text-turq-primary" : "group-hover:text-turq-primary"}`}
-                            />
-                            <span className="text-sm font-bold tracking-wide flex-1">{item.name}</span>
-                            {isActive && (
-                                <div className="w-1.5 h-1.5 rounded-full bg-turq-primary shadow-[0_0_12px_rgba(6,182,212,0.8)] animate-pulse"></div>
-                            )}
+            {/* Sidebar Container */}
+            <aside className={`
+        fixed inset-y-0 left-0 z-40 w-72 bg-white/80 backdrop-blur-xl border-r border-turq-primary/5 transition-transform duration-500 ease-out
+        lg:translate-x-0 ${isOpen ? 'translate-x-0' : '-translate-x-full'}
+      `}>
+                <div className="flex flex-col h-full p-8">
+                    {/* Logo Area */}
+                    <div className="mb-12">
+                        <Link href={`/${locale}/${tenant}/dashboard`} className="flex items-center gap-3 group">
+                            <div className="w-10 h-10 bg-turq-primary rounded-xl flex items-center justify-center shadow-lg shadow-turq-primary/20 group-hover:rotate-12 transition-transform duration-500">
+                                <PlusCircle className="text-white" size={24} />
+                            </div>
+                            <span className="text-xl font-[900] text-deep-blue tracking-tighter font-outfit">
+                                Contractor<span className="text-turq-primary">IA</span>
+                            </span>
                         </Link>
-                    );
-                })}
-            </nav>
+                    </div>
 
-            {/* AI Status / Profile */}
-            <div className="p-6 mt-auto">
-                <div className="bg-gradient-to-br from-turq-primary/5 to-white/50 border border-turq-primary/10 rounded-3xl p-5 relative overflow-hidden group hover:border-turq-primary/30 transition-all duration-500">
-                    <div className="absolute -top-12 -right-12 w-24 h-24 bg-turq-primary/10 rounded-full blur-2xl group-hover:bg-turq-primary/20 transition-all duration-700"></div>
-                    <div className="flex items-center gap-4 relative z-10">
-                        <div className="w-10 h-10 rounded-xl bg-white border border-turq-primary/10 flex items-center justify-center shadow-sm">
-                            <Zap className="text-turq-primary fill-turq-primary/20" size={18} />
-                        </div>
-                        <div className="overflow-hidden">
-                            <p className="text-[10px] font-black text-turq-primary uppercase tracking-widest leading-none mb-1">AI Engine Active</p>
-                            <p className="text-xs font-bold text-deep-blue truncate uppercase tracking-widest">{tenant}</p>
+                    {/* Navigation */}
+                    <nav className="flex-1 space-y-10">
+                        {menuItems.map((section, idx) => (
+                            <div key={idx} className="space-y-4">
+                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] px-4 font-inter">
+                                    {section.group}
+                                </p>
+                                <div className="space-y-1">
+                                    {section.items.map((item) => (
+                                        <Link
+                                            key={item.href}
+                                            href={item.href}
+                                            className={`
+                        flex items-center justify-between px-4 py-3.5 rounded-2xl transition-all duration-300 group
+                        ${isActive(item.href)
+                                                    ? 'bg-turq-primary text-white shadow-xl shadow-turq-primary/20'
+                                                    : 'text-slate-500 hover:bg-turq-primary/5 hover:text-turq-primary'}
+                      `}
+                                            onClick={() => setIsOpen(false)}
+                                        >
+                                            <div className="flex items-center gap-3 font-bold text-sm tracking-tight font-inter">
+                                                <item.icon size={20} strokeWidth={isActive(item.href) ? 2.5 : 2} />
+                                                {item.name}
+                                            </div>
+                                            <ChevronRight
+                                                size={14}
+                                                className={`transition-transform duration-300 ${isActive(item.href) ? 'translate-x-0 opacity-100' : '-translate-x-2 opacity-0 group-hover:translate-x-0 group-hover:opacity-100'}`}
+                                            />
+                                        </Link>
+                                    ))}
+                                </div>
+                            </div>
+                        ))}
+                    </nav>
+
+                    {/* Footer Branding */}
+                    <div className="mt-auto pt-8 border-t border-turq-primary/5">
+                        <div className="p-4 rounded-2xl bg-slate-50/50 border border-slate-100 font-inter">
+                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Plan Actual</p>
+                            <p className="text-sm font-black text-deep-blue">Enterprise v1.2</p>
                         </div>
                     </div>
                 </div>
-            </div>
-        </aside>
+            </aside>
+        </>
     );
 }

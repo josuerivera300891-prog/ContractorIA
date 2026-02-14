@@ -1,17 +1,27 @@
-"use client";
+import { Briefcase, BarChart3, Clock, Plus, Search, Filter, PlusCircle } from "lucide-react";
+import Link from "next/link";
+import { getUserProfile } from "@/app/actions/auth";
+import { getProjects } from "@/app/actions/projects";
 
-import { use } from "react";
-import { Briefcase, BarChart3, Clock, Plus, Search, Filter } from "lucide-react";
+export default async function ProjectsPage({ params }: { params: Promise<{ locale: string; tenant: string }> }) {
+    const { locale, tenant } = await params;
+    const profile = await getUserProfile();
+    const companyId = profile?.companyId;
 
-export default function ProjectsPage({ params }: { params: Promise<{ tenant: string }> }) {
-    const { tenant } = use(params);
+    const projects = companyId ? await getProjects(companyId) : [];
+
+    const stats = [
+        { label: "En Ejecución", value: projects.filter(p => p.status === 'IN_PROGRESS').length.toString(), icon: Briefcase, color: "turq" },
+        { label: "Finalizados", value: projects.filter(p => p.status === 'COMPLETED').length.toString(), icon: BarChart3, color: "turq" },
+        { label: "Pendientes", value: projects.filter(p => p.status === 'PLANNING').length.toString(), icon: Clock, color: "turq" }
+    ];
 
     return (
-        <div className="space-y-10">
+        <div className="space-y-10 font-outfit">
             {/* Header Section */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <div>
-                    <h1 className="text-4xl font-[900] text-deep-blue tracking-tight mb-2 font-outfit">
+                    <h1 className="text-4xl font-[900] text-deep-blue tracking-tight mb-2">
                         Gestión de <span className="text-turq-primary">Proyectos</span>
                     </h1>
                     <p className="text-slate-500 font-medium font-inter">
@@ -26,18 +36,14 @@ export default function ProjectsPage({ params }: { params: Promise<{ tenant: str
 
             {/* Stats Summary */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {[
-                    { label: "En Ejecución", value: "12", icon: Briefcase, color: "turq" },
-                    { label: "Finalizados", value: "48", icon: BarChart3, color: "turq" },
-                    { label: "Pendientes", value: "3", icon: Clock, color: "turq" }
-                ].map((stat, i) => (
+                {stats.map((stat, i) => (
                     <div key={i} className="pro-card bg-white/60 p-6 border-turq-primary/5">
                         <div className="flex items-center gap-4">
                             <div className="w-12 h-12 rounded-2xl bg-turq-primary/10 flex items-center justify-center text-turq-primary">
                                 <stat.icon size={22} />
                             </div>
                             <div>
-                                <h3 className="text-2xl font-[900] text-deep-blue font-outfit">{stat.value}</h3>
+                                <h3 className="text-2xl font-[900] text-deep-blue">{stat.value}</h3>
                                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{stat.label}</p>
                             </div>
                         </div>
@@ -48,7 +54,7 @@ export default function ProjectsPage({ params }: { params: Promise<{ tenant: str
             {/* Main Content Area */}
             <div className="pro-card bg-white/60 p-8 min-h-[400px] flex flex-col">
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-                    <h2 className="text-xl font-[900] text-deep-blue font-outfit flex items-center gap-3">
+                    <h2 className="text-xl font-[900] text-deep-blue flex items-center gap-3">
                         <Briefcase className="text-turq-primary" size={24} />
                         Todos los Proyectos
                     </h2>
@@ -67,19 +73,51 @@ export default function ProjectsPage({ params }: { params: Promise<{ tenant: str
                     </div>
                 </div>
 
-                {/* Empty State / Placeholder */}
-                <div className="flex-1 flex flex-col items-center justify-center py-20 text-center">
-                    <div className="w-20 h-20 rounded-full bg-turq-primary/5 flex items-center justify-center text-turq-primary/30 mb-6">
-                        <Briefcase size={40} />
+                {projects.length === 0 ? (
+                    /* Empty State */
+                    <div className="flex-1 flex flex-col items-center justify-center py-20 text-center">
+                        <div className="w-20 h-20 rounded-full bg-turq-primary/5 flex items-center justify-center text-turq-primary/30 mb-6">
+                            <Briefcase size={40} />
+                        </div>
+                        <h3 className="text-xl font-bold text-deep-blue mb-2">No hay proyectos activos</h3>
+                        <p className="text-slate-500 max-w-sm mb-8 font-medium">
+                            Comienza a utilizar la infraestructura de ContractorIA creando tu primer proyecto inteligente.
+                        </p>
+                        <button className="pro-button !px-8 text-xs uppercase tracking-widest font-black">
+                            Empezar Ahora
+                        </button>
                     </div>
-                    <h3 className="text-xl font-bold text-deep-blue mb-2 font-outfit">No hay proyectos activos</h3>
-                    <p className="text-slate-500 max-w-sm mb-8 font-medium">
-                        Comienza a utilizar la infraestructura de ContractorIA creando tu primer proyecto inteligente.
-                    </p>
-                    <button className="pro-button !px-8 text-xs uppercase tracking-widest font-black">
-                        Empezar Ahora
-                    </button>
-                </div>
+                ) : (
+                    /* Project List */
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {projects.map((project) => (
+                            <Link
+                                href={`/${locale}/${tenant}/projects/${project.id}`}
+                                key={project.id}
+                                className="p-6 rounded-2xl border border-turq-primary/10 bg-white/40 hover:bg-white/60 hover:shadow-xl hover:shadow-turq-primary/5 transition-all group"
+                            >
+                                <div className="flex justify-between items-start mb-4">
+                                    <h4 className="font-bold text-deep-blue group-hover:text-turq-primary transition-colors">{project.name}</h4>
+                                    <span className={`text-[10px] font-black px-2 py-1 rounded-full uppercase tracking-widest ${project.status === 'COMPLETED' ? 'bg-emerald-50 text-emerald-600' :
+                                        project.status === 'IN_PROGRESS' ? 'bg-blue-50 text-blue-600' : 'bg-slate-50 text-slate-500'
+                                        }`}>
+                                        {project.status === 'PLANNING' ? 'Planeación' :
+                                            project.status === 'IN_PROGRESS' ? 'En Marcha' : 'Finalizado'}
+                                    </span>
+                                </div>
+                                <p className="text-sm text-slate-500 line-clamp-2 mb-4">{project.description}</p>
+                                <div className="pt-4 border-t border-turq-primary/5 flex justify-between items-center">
+                                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                                        Creado: {new Date(project.created_at).toLocaleDateString()}
+                                    </span>
+                                    <span className="text-turq-primary font-black text-[10px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
+                                        Ver Detalles
+                                    </span>
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
     );

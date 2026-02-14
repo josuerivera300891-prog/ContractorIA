@@ -37,5 +37,26 @@
     "login": "Login",
     "register": "Try Now",
     "loginMobile": "Client Access"
+  },
+  "Sidebar": {
+    "dashboard": "Dashboard",
+    "projects": "Projects",
+    "estimates": "Estimates",
+    "clients": "Clients",
+    "reports": "Reports",
+    "settings": "Settings",
+    "audit": "Audit",
+    "tasks": "Tasks",
+    "expenses": "Expenses",
+    "infrastructure": "Infrastructure",
+    "administration": "Administration"
+  },
+  "Dashboard": {
+    "welcome": "Welcome back",
+    "infrastructure": "SaaS Infrastructure",
+    "projects": "Active Projects",
+    "estimates": "Pending Quotes",
+    "clients": "Portfolio",
+    "revenue": "Projected Income"
   }
 }

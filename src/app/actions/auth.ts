@@ -141,6 +141,7 @@ export async function getUserProfile() {
     return {
         user,
         role: profile?.role || 'staff',
+        companyId: profile?.company_id || null,
         companySlug: (profile?.companies as any)?.slug || null
     }
 }

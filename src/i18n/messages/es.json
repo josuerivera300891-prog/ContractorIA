@@ -37,5 +37,26 @@
         "login": "Acceso",
         "register": "Probar Ahora",
         "loginMobile": "Acceso Clientes"
+    },
+    "Sidebar": {
+        "dashboard": "Panel de Control",
+        "projects": "Proyectos",
+        "estimates": "Presupuestos",
+        "clients": "Clientes",
+        "reports": "Reportes",
+        "settings": "Configuración",
+        "audit": "Auditoría",
+        "tasks": "Tareas",
+        "expenses": "Gastos",
+        "infrastructure": "Infraestructura",
+        "administration": "Administración"
+    },
+    "Dashboard": {
+        "welcome": "Bienvenido de nuevo",
+        "infrastructure": "Infraestructura SaaS",
+        "projects": "Proyectos Activos",
+        "estimates": "Presupuestos Pendientes",
+        "clients": "Cartera de Clientes",
+        "revenue": "Ingresos Proyectados"
     }
 }
