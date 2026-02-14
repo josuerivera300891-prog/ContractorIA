@@ -57,7 +57,7 @@ export default async function TenantLayout(props: {
             } as React.CSSProperties}
         >
             <Sidebar tenant={tenant} locale={locale} />
-            <div className="flex-1 flex flex-col min-w-0">
+            <div className="flex-1 flex flex-col min-w-0 lg:pl-72">
                 <DashboardHeader />
                 <main className="flex-1 overflow-y-auto p-10">
                     {props.children}

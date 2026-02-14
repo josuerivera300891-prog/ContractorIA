@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Plus, TrendingUp, Clock, AlertCircle, Briefcase, FileText, Users, Receipt } from "lucide-react";
 import { createClient } from "@/utils/supabase/server";
 import { getUserProfile } from "@/app/actions/auth";
@@ -87,10 +88,12 @@ export default async function TenantDashboard({ params }: { params: Promise<{ te
                         {t("infrastructure")} • <span className="text-deep-blue font-bold opacity-80">{tenant}</span>
                     </p>
                 </div>
-                <button className="pro-button shadow-xl shadow-turq-primary/20 group animate-in fade-in slide-in-from-right duration-500">
-                    <Plus size={18} className="group-hover:rotate-90 transition-transform duration-500" />
-                    Nuevo Presupuesto
-                </button>
+                <Link href={`/${tenant}/estimates`} className="block">
+                    <button className="pro-button shadow-xl shadow-turq-primary/20 group animate-in fade-in slide-in-from-right duration-500 w-full md:w-auto">
+                        <Plus size={18} className="group-hover:rotate-90 transition-transform duration-500" />
+                        Nuevo Presupuesto
+                    </button>
+                </Link>
             </div>
 
             {/* Metrics Grid */}

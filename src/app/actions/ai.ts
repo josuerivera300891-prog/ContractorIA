@@ -21,63 +21,64 @@ export async function processAIChatCommand(message: string, tenant: string) {
 
     if (!company) return { role: 'ai', content: 'Lo siento, no puedo identificar tu empresa.' }
 
-    const lowerMsg = message.toLowerCase()
+    const apiKey = process.env.GEMINI_API_KEY;
 
-    // --- GUIDED FLOW LOGIC (Pattern Matching) ---
+    // Fallback Mock Logic (preserved for robustness or if key is missing)
+    const runMockLogic = (msg: string) => {
+        const lowerMsg = msg.toLowerCase()
+        if (lowerMsg.includes('crear presupuesto') || lowerMsg.includes('nuevo presupuesto')) {
+            return `¡Perfecto! Vamos a crear un nuevo presupuesto para **${company.name}**. \n\n¿Para qué cliente es?`;
+        }
+        if (lowerMsg.includes('ayuda') || lowerMsg.includes('help')) {
+            return 'Puedo guiarte paso a paso para:\n- **Crear presupuestos** bilingües.\n- **Registrar clientes** con dirección y notas.\n- **Gestionar revisiones** N+1.\n\nPrueba diciendo: "Crear un nuevo presupuesto".';
+        }
+        return null;
+    };
 
-    // 1. Create Estimate Initiation
-    if (lowerMsg.includes('crear presupuesto') || lowerMsg.includes('nuevo presupuesto')) {
+    if (!apiKey) {
+        console.warn("GEMINI_API_KEY is not set. Using fallback logic.");
+        const mockResponse = runMockLogic(message);
+        if (mockResponse) return { role: 'ai', content: mockResponse };
         return {
             role: 'ai',
-            content: `¡Perfecto! Vamos a crear un nuevo presupuesto para **${company.name}**. \n\n¿Para qué cliente es? Estos son tus últimos clientes activos:\n- **Juan Pérez** (jperez@email.com)\n- **María García** (mgarcia@email.com)\n\n¿O prefieres registrar uno nuevo?`
-        }
+            content: '⚠️ **Modo Demo**: La IA no está activada en este entorno (Falta API Key). \n\nSin embargo, puedo simular acciones básicas. Prueba escribir "Crear presupuesto" o "Ayuda".'
+        };
     }
 
-    // 2. Client Selection (Mocking a match)
-    if (lowerMsg.includes('juan') || lowerMsg.includes('perez')) {
+    try {
+        const { GoogleGenerativeAI } = await import("@google/generative-ai");
+        const genAI = new GoogleGenerativeAI(apiKey);
+        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+        const prompt = `
+            You are ContractorIA, an advanced AI assistant for construction contractors.
+            Current Company: "${company.name}".
+            User: "${user.user_metadata.full_name || 'User'}".
+            
+            Your goal is to help managing the business (estimates, invoices, clients).
+            
+            User message: "${message}"
+            
+            Respond in Spanish (Latin American), professional but friendly. Use Markdown for formatting (bold, lists).
+            If the user wants to create an estimate, guide them or ask for details.
+            Keep it concise.
+        `;
+
+        const result = await model.generateContent(prompt);
+        const response = result.response;
+        const text = response.text();
+
+        return { role: 'ai', content: text };
+
+    } catch (error) {
+        console.error("Gemini API Error:", error);
+        // Fallback to mock if API fails
+        const mockResponse = runMockLogic(message);
+        if (mockResponse) return { role: 'ai', content: mockResponse };
+
         return {
             role: 'ai',
-            content: 'Excelente, trabajaré el presupuesto para **Juan Pérez**. \n\nAhora, dime el concepto. Por ejemplo: *"Pintura de fachada"* o *"Instalación eléctrica"*. '
-        }
-    }
-
-    // 3. Concept and Pricing Guidance
-    if (lowerMsg.includes('pintura') || lowerMsg.includes('fachada') || lowerMsg.includes('instalacion')) {
-        return {
-            role: 'ai',
-            content: `Concepto registrado: **"${message}"**. \n\nPara calcular el total con precisión de 2 decimales (estándar ContractorIA), ¿qué cantidad y precio unitario aplicamos? \n\n*(Ejemplo: 50 sqft a $10.50)*`
-        }
-    }
-
-    // 4. Calculations Confirmation
-    if (lowerMsg.match(/\d+/) && (lowerMsg.includes('$') || lowerMsg.includes('precio'))) {
-        // Mock extraction
-        return {
-            role: 'ai',
-            content: 'He calculado los totales siguiendo la regla determinista: \n\n- **Subtotal**: $525.00\n- **Tax (8%)**: $42.00\n- **Total**: **$567.00**\n\n¿Deseas que genere este presupuesto como borrador (DRAFT) ahora mismo?'
-        }
-    }
-
-    // 5. Final Confirmation (DRAFT CREATION)
-    if (lowerMsg.includes('si') || lowerMsg.includes('generar') || lowerMsg.includes('crear')) {
-        // In a real scenario, we would call createEstimateAction here with the collected data
-        return {
-            role: 'ai',
-            content: '¡Listo! He creado el presupuesto **EST-992** en estado **DRAFT**. \n\nPuedes verlo ahora en tu panel de presupuestos. ¿Necesitas algo más?'
-        }
-    }
-
-    // Help
-    if (lowerMsg.includes('ayuda') || lowerMsg.includes('help')) {
-        return {
-            role: 'ai',
-            content: 'Puedo guiarte paso a paso para:\n- **Crear presupuestos** bilingües.\n- **Registrar clientes** con dirección y notas.\n- **Gestionar revisiones** N+1.\n\nPrueba diciendo: "Crear un nuevo presupuesto".'
-        }
-    }
-
-    // Default Fallback
-    return {
-        role: 'ai',
-        content: 'Entiendo. Como tu asistente de ContractorIA, estoy aquí para agilizar tu flujo de trabajo. ¿Quieres que empecemos con un nuevo presupuesto o prefieres ver tus clientes?'
+            content: "Lo siento, tuve un problema conectando con mi cerebro digital (Gemini API). Por favor intenta más tarde."
+        };
     }
 }
