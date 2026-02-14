@@ -18,7 +18,7 @@ export async function sendEmail({ to, subject, html }: { to: string, subject: st
                 'Authorization': `Bearer ${RESEND_API_KEY}`,
             },
             body: JSON.stringify({
-                from: 'ContractorIA <notifications@contractoria.ai>',
+                from: 'ContractorIA <onboarding@resend.dev>',
                 to,
                 subject,
                 html,
