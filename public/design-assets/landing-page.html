@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ContractorIA - Presupuestos Profesionales con IA para Contratistas</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary": "#0047FF",
+                "corporate-navy": "#001B44",
+                "background-light": "#F8FAFC",
+                "background-dark": "#0B1120",
+              },
+              fontFamily: {
+                "display": ["Inter", "sans-serif"]
+              },
+              borderRadius: {"DEFAULT": "0.375rem", "lg": "0.5rem", "xl": "0.85rem", "2xl": "1rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply font-display;
+            }
+        }
+        .glass-header {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 71, 255, 0.1);
+        }
+        .dark .glass-header {
+            background: rgba(11, 17, 32, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .hero-gradient {
+            background: radial-gradient(circle at 0% 0%, rgba(0, 71, 255, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 100% 100%, rgba(0, 71, 255, 0.03) 0%, transparent 50%);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-100 transition-colors duration-300">
+<nav class="sticky top-0 z-50 w-full glass-header">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between h-20 items-center">
+<div class="flex items-center gap-3">
+<div class="bg-primary p-2 rounded-xl shadow-lg shadow-primary/20">
+<span class="material-icons text-white text-2xl">trending_up</span>
+</div>
+<div class="flex flex-col">
+<span class="text-xl font-extrabold tracking-tight text-corporate-navy dark:text-white leading-none">ContractorIA</span>
+<span class="text-[10px] font-bold text-primary uppercase tracking-[0.2em] mt-0.5">by Skalamarketing</span>
+</div>
+</div>
+<div class="hidden md:flex items-center space-x-10">
+<a class="text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-primary transition-colors" href="#features">Soluciones</a>
+<a class="text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-primary transition-colors" href="#testimonials">Casos de Éxito</a>
+<a class="text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-primary transition-colors" href="#pricing">Precios</a>
+<div class="h-6 w-px bg-slate-200 dark:bg-slate-800"></div>
+<a class="text-sm font-semibold text-slate-600 dark:text-slate-300 hover:text-primary transition-colors" href="#">Acceso Clientes</a>
+<button class="bg-primary hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-sm font-bold transition-all shadow-xl shadow-primary/25">
+                    Probar ContractorIA
+                </button>
+</div>
+<div class="md:hidden">
+<span class="material-icons text-slate-900 dark:text-white">menu</span>
+</div>
+</div>
+</div>
+</nav>
+<section class="relative pt-20 pb-28 overflow-hidden hero-gradient">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+<div class="grid lg:grid-cols-2 gap-16 items-center">
+<div>
+<div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/5 border border-primary/10 text-primary text-xs font-bold uppercase tracking-widest mb-8">
+<span class="flex h-2 w-2 rounded-full bg-primary"></span>
+                    La evolución del presupuesto comercial
+                </div>
+<h1 class="text-5xl lg:text-7xl font-extrabold text-corporate-navy dark:text-white leading-[1.05] mb-8">
+                    Escala tu negocio con presupuestos <span class="text-primary italic font-black">inteligentes</span>.
+                </h1>
+<p class="text-xl text-slate-600 dark:text-slate-400 mb-12 leading-relaxed max-w-xl">
+<span class="font-bold text-slate-900 dark:text-white">ContractorIA</span> presenta la primera plataforma de IA corporativa diseñada por <span class="font-bold text-slate-900 dark:text-white">Skalamarketing LLC</span> para que contratistas cierren tratos en tiempo récord.
+                </p>
+<div class="flex flex-col sm:flex-row gap-5">
+<button class="bg-primary hover:bg-blue-700 text-white px-10 py-5 rounded-2xl text-lg font-bold transition-all shadow-2xl shadow-primary/30 flex items-center justify-center gap-3">
+                        Solicitar Demo Gratuita <span class="material-icons">arrow_forward</span>
+</button>
+<button class="bg-white dark:bg-slate-800 border-2 border-slate-100 dark:border-slate-700 hover:border-primary/20 px-10 py-5 rounded-2xl text-lg font-bold transition-all flex items-center justify-center gap-3">
+<span class="material-symbols-outlined text-primary">play_circle</span> Ver Webinar
+                    </button>
+</div>
+<div class="mt-12 flex items-center gap-6">
+<div class="flex -space-x-3">
+<img alt="User 1" class="h-10 w-10 rounded-full border-4 border-white dark:border-slate-900 shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqUSrPPXI0adC-M7PaPmv_UetSHSX77j_vmOt6cjiAr3TIh_RAsHK4LaYrgEgnFGR9OI0lXy_tg7yeO-GFi5vzLAto0T9wXIguw-fP5YTkHj5N7C4UGDzDq4K3BaN3_pFHf5lPBhAvklD3AzDNqj9wzIuiIr40HJrUmG9WBlF03dSv5e9iZAYR_XhzvQsf5j85eeHAKUasLcZwKvHmS3KWascCY9ifGQ8mpUNgVGyauOYQ9uFkIs9R9V-PsbQXk6ZvspnRFhplLW0t"/>
+<img alt="User 2" class="h-10 w-10 rounded-full border-4 border-white dark:border-slate-900 shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwlbtU7H4Gq-hXq8cjj9hh_TmfpUWfQaGU_4FVBaDiaGUVGOVYoWduIk4jjrBUnXOi3dzI5TIj8OhSgHB73bRRTPHucL4XdZP4qYchxE7rd9G3z90sRZRY-SC1Os968CF78KjdfWK5AL5weIyeKptrjxVLbZFvzP9sFZ2EoZcZHuJmzLXif9e8QNmD31AtJgtgOkNsGVaHMJscRXFstm5NPqf_LY1lJfee6xcDjJbWrde7mVkEemb3EAzhQJPWrV3GUVgBpsIT2nFt"/>
+<img alt="User 3" class="h-10 w-10 rounded-full border-4 border-white dark:border-slate-900 shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwcg8j6v29SFtqN632V40_dGQW5dgyFpW5CrRIfTIE_sMScSXkR5MxVvIMj03PyyQ3IIxuGAHhfA3QFthMyXhHZY2hOU_IcxzQLwJMxvTmIaTJILKMxdutlncP6mNM7xQ_1B5XxdzmXZ0ucUM3698vM-0TPSJdTKu9Ae4ZzSGaqg6dklmhFtKGPn9Bnum_KPUOpt24djr-fJ6uH1ikgoL2RyYeyfO9ttiMiYpKFsAFpOh4C6FXotUVnARxmqw65B3QSpxQFPaffe4m"/>
+</div>
+<div class="text-sm font-medium">
+<span class="text-slate-900 dark:text-white font-bold">+500 líderes</span>
+<span class="text-slate-500">confían en nuestra tecnología</span>
+</div>
+</div>
+</div>
+<div class="relative group">
+<div class="relative bg-white dark:bg-slate-900 rounded-3xl shadow-[0_32px_64px_-16px_rgba(0,0,0,0.15)] border border-slate-200 dark:border-slate-800 overflow-hidden transform group-hover:scale-[1.02] transition-transform duration-500">
+<div class="flex border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/50 px-6 py-4 items-center justify-between">
+<div class="flex gap-2">
+<div class="w-3 h-3 rounded-full bg-slate-300"></div>
+<div class="w-3 h-3 rounded-full bg-slate-300"></div>
+<div class="w-3 h-3 rounded-full bg-slate-300"></div>
+</div>
+<div class="bg-white dark:bg-slate-700 px-4 py-1.5 rounded-full text-[10px] text-slate-400 font-mono tracking-wide border border-slate-100 dark:border-slate-600">
+                            app.contractoria.ai/proyectos
+                        </div>
+<div class="w-10"></div>
+</div>
+<div class="grid grid-cols-12 h-[500px]">
+<div class="col-span-5 border-r border-slate-100 dark:border-slate-800 p-6 flex flex-col bg-white dark:bg-slate-900">
+<div class="flex items-center gap-3 mb-8">
+<div class="bg-primary/10 p-2 rounded-lg text-primary">
+<span class="material-symbols-outlined text-xl">forum</span>
+</div>
+<span class="text-xs font-black uppercase tracking-widest text-corporate-navy dark:text-white">ContractorIA</span>
+</div>
+<div class="space-y-6">
+<div class="bg-slate-50 dark:bg-slate-800 p-4 rounded-2xl rounded-tl-none text-xs leading-relaxed">
+                                    Bienvenido a ContractorIA. ¿Qué tipo de presupuesto corporativo generaremos hoy?
+                                </div>
+<div class="bg-primary text-white p-4 rounded-2xl rounded-tr-none text-xs leading-relaxed shadow-lg shadow-primary/20">
+                                    Instalación de paneles solares industriales para nave de 1.200m2. Incluye mano de obra y certificaciones.
+                                </div>
+<div class="flex items-center gap-3 text-primary text-[10px] font-bold">
+<span class="flex h-2 w-2 rounded-full bg-primary animate-pulse"></span> Procesando base de precios...
+                                </div>
+</div>
+</div>
+<div class="col-span-7 bg-slate-50/30 dark:bg-slate-950 p-8">
+<div class="bg-white dark:bg-slate-900 w-full h-full shadow-xl rounded-xl border border-slate-100 dark:border-slate-800 p-6 flex flex-col">
+<div class="flex justify-between items-start mb-8">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 bg-primary rounded"></div>
+<div class="w-20 h-3 bg-slate-100 dark:bg-slate-800 rounded"></div>
+</div>
+<div class="text-[10px] text-right">
+<p class="font-black text-corporate-navy dark:text-white">REF: CIA-2024-88</p>
+<p class="text-slate-400 mt-1">Status: IA Generative</p>
+</div>
+</div>
+<div class="space-y-4 mb-8">
+<div class="h-2 w-full bg-slate-50 dark:bg-slate-800 rounded"></div>
+<div class="h-2 w-3/4 bg-slate-50 dark:bg-slate-800 rounded"></div>
+<div class="grid grid-cols-4 gap-4 mt-8">
+<div class="h-20 bg-slate-50 dark:bg-slate-800 rounded-lg border border-dashed border-slate-200 dark:border-slate-700"></div>
+<div class="h-20 bg-slate-50 dark:bg-slate-800 rounded-lg border border-dashed border-slate-200 dark:border-slate-700"></div>
+<div class="h-20 bg-slate-50 dark:bg-slate-800 rounded-lg border border-dashed border-slate-200 dark:border-slate-700"></div>
+<div class="h-20 bg-slate-50 dark:bg-slate-800 rounded-lg border border-dashed border-slate-200 dark:border-slate-700"></div>
+</div>
+</div>
+<div class="mt-auto pt-6 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
+<div class="w-24 h-4 bg-slate-100 dark:bg-slate-800 rounded"></div>
+<div class="w-32 h-10 bg-primary rounded-lg"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="absolute -z-10 -bottom-10 -right-10 w-full h-full bg-primary/10 rounded-full blur-[100px]"></div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-16 border-y border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/50">
+<div class="max-w-7xl mx-auto px-4 text-center">
+<p class="text-xs font-bold text-slate-400 uppercase tracking-[0.3em] mb-10">Impulsando el crecimiento de empresas líderes</p>
+<div class="flex flex-wrap justify-center items-center gap-16 opacity-40 grayscale contrast-125">
+<div class="flex items-center gap-2 text-xl font-extrabold tracking-tighter"><span class="material-icons text-primary">corporate_fare</span> INDUSTRIAL</div>
+<div class="flex items-center gap-2 text-xl font-extrabold tracking-tighter"><span class="material-icons text-primary">engineering</span> SOLUTIONS</div>
+<div class="flex items-center gap-2 text-xl font-extrabold tracking-tighter"><span class="material-icons text-primary">precision_manufacturing</span> MATRIX</div>
+<div class="flex items-center gap-2 text-xl font-extrabold tracking-tighter"><span class="material-icons text-primary">construction</span> GLOBAL</div>
+<div class="flex items-center gap-2 text-xl font-extrabold tracking-tighter"><span class="material-icons text-primary">apartment</span> CONTRACT-OPS</div>
+</div>
+</div>
+</section>
+<section class="py-32" id="features">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
+<div class="max-w-2xl">
+<h2 class="text-4xl md:text-5xl font-black text-corporate-navy dark:text-white mb-6">Infraestructura comercial de alto nivel</h2>
+<p class="text-slate-600 dark:text-slate-400 text-xl leading-relaxed">
+                    ContractorIA no es solo una herramienta, es tu nuevo departamento comercial automatizado respaldado por Skalamarketing.
+                </p>
+</div>
+<a class="text-primary font-bold flex items-center gap-2 hover:gap-4 transition-all pb-2 border-b-2 border-primary/20" href="#">
+                Explorar todas las funciones <span class="material-icons">arrow_right_alt</span>
+</a>
+</div>
+<div class="grid md:grid-cols-3 gap-10">
+<div class="group bg-white dark:bg-slate-900 p-10 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl hover:shadow-primary/5 transition-all duration-300">
+<div class="w-16 h-16 bg-primary/5 text-primary rounded-2xl flex items-center justify-center mb-8 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+<span class="material-symbols-outlined text-3xl">verified_user</span>
+</div>
+<h3 class="text-2xl font-extrabold mb-4 text-corporate-navy dark:text-white">Precisión ContractorIA</h3>
+<p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                    Nuestra IA corporativa se conecta con bases de datos de costos en tiempo real, asegurando márgenes de beneficio óptimos en cada oferta.
+                </p>
+</div>
+<div class="group bg-white dark:bg-slate-900 p-10 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl hover:shadow-primary/5 transition-all duration-300">
+<div class="w-16 h-16 bg-primary/5 text-primary rounded-2xl flex items-center justify-center mb-8 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+<span class="material-symbols-outlined text-3xl">branding_watermark</span>
+</div>
+<h3 class="text-2xl font-extrabold mb-4 text-corporate-navy dark:text-white">Identidad Profesional</h3>
+<p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                    Personaliza cada documento con los estándares de ContractorIA: logotipos vectoriales, tipografías premium y colores de marca unificados.
+                </p>
+</div>
+<div class="group bg-white dark:bg-slate-900 p-10 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-2xl hover:shadow-primary/5 transition-all duration-300">
+<div class="w-16 h-16 bg-primary/5 text-primary rounded-2xl flex items-center justify-center mb-8 group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+<span class="material-symbols-outlined text-3xl">payments</span>
+</div>
+<h3 class="text-2xl font-extrabold mb-4 text-corporate-navy dark:text-white">Cierre y Recaudación</h3>
+<p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                    Integramos pasarelas de pago profesionales para que el cliente firme y abone el depósito en segundos, acelerando tu flujo de caja.
+                </p>
+</div>
+</div>
+</div>
+</section>
+<section class="py-32 bg-corporate-navy relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
+<svg class="h-full w-full" preserveAspectRatio="none" viewBox="0 0 100 100">
+<defs>
+<pattern height="10" id="grid" patternUnits="userSpaceOnUse" width="10">
+<path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" stroke-width="0.5"></path>
+</pattern>
+</defs>
+<rect fill="url(#grid)" height="100" width="100"></rect>
+</svg>
+</div>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+<div class="flex flex-col lg:flex-row items-center gap-20">
+<div class="flex-1 text-white">
+<h2 class="text-4xl lg:text-5xl font-black mb-10 leading-tight">Diseñado para la escala de tu empresa.</h2>
+<div class="space-y-10">
+<div class="flex gap-6">
+<div class="shrink-0 w-12 h-12 rounded-2xl bg-primary text-white flex items-center justify-center font-black text-xl shadow-lg shadow-primary/40">1</div>
+<div>
+<h4 class="font-bold text-xl mb-2">Entrada de Datos Inteligente</h4>
+<p class="text-slate-300 leading-relaxed">Utiliza lenguaje natural o comandos de voz para describir proyectos complejos. ContractorIA entiende los detalles técnicos.</p>
+</div>
+</div>
+<div class="flex gap-6">
+<div class="shrink-0 w-12 h-12 rounded-2xl bg-white/10 text-white flex items-center justify-center font-black text-xl border border-white/10">2</div>
+<div>
+<h4 class="font-bold text-xl mb-2">Optimización de Márgenes</h4>
+<p class="text-slate-300 leading-relaxed">Nuestra IA sugiere ajustes de precios basados en la competencia local y el costo actual de suministros industriales.</p>
+</div>
+</div>
+<div class="flex gap-6">
+<div class="shrink-0 w-12 h-12 rounded-2xl bg-white/10 text-white flex items-center justify-center font-black text-xl border border-white/10">3</div>
+<div>
+<h4 class="font-bold text-xl mb-2">Despliegue Multicanal</h4>
+<p class="text-slate-300 leading-relaxed">Exporta en PDF premium, envía vía CRM o comparte un enlace interactivo de seguimiento para saber cuándo lo abren.</p>
+</div>
+</div>
+</div>
+<button class="mt-12 bg-white text-corporate-navy hover:bg-slate-100 px-10 py-5 rounded-2xl font-black text-lg transition-all shadow-2xl">Empezar con ContractorIA</button>
+</div>
+<div class="flex-1 w-full">
+<div class="relative rounded-3xl overflow-hidden shadow-[0_48px_80px_-16px_rgba(0,0,0,0.5)] border-[12px] border-white/5">
+<img alt="ContractorIA Interface" class="w-full h-auto object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9f_sVxaEJ5qqKrO-hC_yL57tbqRVnIvSGKYKdY7SgWaw-d9XlZ1fTIMh43xH7Jyjsja8acWqlSvDmukBPLhj0al4cfPncNQSPI-5LSGWg4MJIKvVXv8e_9C-f-PuVZ8KJ8O1uDlYvUTQoWMx0y2tnM6VGIwSU18WHbLpNMPk2yhf33-RoP31GFCMATApA2QaRySkJGeQFrMQgmurDaoQx1u1qg8kaeFtoMs1RQ9q0OEhG36MzPbWzllwkLJMWKcR8NQIMLwmmhS5f"/>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-32 bg-white dark:bg-background-dark" id="testimonials">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center mb-24">
+<h2 class="text-4xl md:text-5xl font-black text-corporate-navy dark:text-white mb-6">Resultados Reales</h2>
+<p class="text-slate-500 dark:text-slate-400 text-lg mb-8 uppercase tracking-widest font-bold">Por qué las empresas eligen ContractorIA</p>
+<div class="flex justify-center gap-1.5 text-primary">
+<span class="material-icons">star</span>
+<span class="material-icons">star</span>
+<span class="material-icons">star</span>
+<span class="material-icons">star</span>
+<span class="material-icons">star</span>
+</div>
+</div>
+<div class="grid md:grid-cols-3 gap-10">
+<div class="p-10 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 flex flex-col justify-between">
+<p class="text-slate-600 dark:text-slate-300 italic mb-10 leading-relaxed text-lg">"La implementación de ContractorIA en nuestro proceso de ventas redujo el tiempo de cotización de 4 horas a solo 15 minutos. El retorno de inversión fue instantáneo."</p>
+<div class="flex items-center gap-4">
+<img alt="CEO" class="w-14 h-14 rounded-2xl object-cover shadow-md" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1voFZAzBV-27DOeWcvS2252T68ibC8fYSJ09-tUgp107CW4iRGCrEb6J4TuGpmhfLWTLC4A9FlZ5h0w0jPFgdu876RZZq6Ww-MzbGw5lVprH5hDcZR-8FVujmI3HFK_3FRkeeRZOBLecnCIAFdFQ4af9f9MQlU7qF9bhlKPSeCKOih00PfBe2vwxxIxQeywuMcQIhaS2WXIBBsDICYIhsHAZWjTHHL9Y1O8OE36QjZXOS0qV0dAxJcjJ79ciyqQ3nUEbj5aaJ6IVT"/>
+<div>
+<h5 class="font-black text-corporate-navy dark:text-white">Carlos Méndez</h5>
+<p class="text-xs font-bold text-primary uppercase tracking-tight">CEO, Construcciones CM</p>
+</div>
+</div>
+</div>
+<div class="p-10 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 flex flex-col justify-between">
+<p class="text-slate-600 dark:text-slate-300 italic mb-10 leading-relaxed text-lg">"Lo que más valoro es la seriedad corporativa que proyectan los presupuestos. La IA de ContractorIA entiende perfectamente los requerimientos técnicos."</p>
+<div class="flex items-center gap-4">
+<img alt="Director" class="w-14 h-14 rounded-2xl object-cover shadow-md" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtd5Cn2BcOg2LJBHddZppFJ9fXbCXx7bNhua3-DrRuThuLHLxaJLD1uuPb0q68b0M3xhqOY1vylC_GOGpjJmvt35UxiVaKu5g1bRp0E80Y4yhy-oHgVphLmOwm4Yuey4TQMMfGtY_yaW1E7yT57NCj0v8aZZwT5-FqrmaGlbYwDIfEBwjBIEbZIuJqNtnEyql0hqkFCAKdSHCyBLoY5TwUyW61tMmHDBuEB4kWRmYjGP2ycJnkgFHfdkzdn9jJcpfHe88ZVR3MLOaY"/>
+<div>
+<h5 class="font-black text-corporate-navy dark:text-white">Javier Ruiz</h5>
+<p class="text-xs font-bold text-primary uppercase tracking-tight">Director de Proyectos</p>
+</div>
+</div>
+</div>
+<div class="p-10 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 flex flex-col justify-between">
+<p class="text-slate-600 dark:text-slate-300 italic mb-10 leading-relaxed text-lg">"Desde que usamos ContractorIA, nuestra tasa de cierre ha subido un 40%. La firma digital y el pago inmediato son diferenciales clave en el mercado."</p>
+<div class="flex items-center gap-4">
+<img alt="Founder" class="w-14 h-14 rounded-2xl object-cover shadow-md" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBd91id6EbVUPJXDpzmVQlQ8lHEZ8tttt3c07wm-6Wyzd9JkoMa6pcVyC3bq-njUDtKR4Sor1MNaQcAwTMH19Q4dx4EYZ47yiKNZQ_fXrHmX1J4PhjW5gz7mYNSA02BqnG2bbt1_3f0urNpRohZlDTNdhGqUlU5hkvYK7hEz7hY95guIZebhSrCkSfdQSPaY84U6GpTG5jZ3McwnRfU4jZkEYCqptko1zdrm3qAeoJW94Dqxi1BhEnm6DGxPji-JuJHmGmvGRzKQ3j"/>
+<div>
+<h5 class="font-black text-corporate-navy dark:text-white">Elena García</h5>
+<p class="text-xs font-bold text-primary uppercase tracking-tight">Founder, G3 Instalaciones</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-32">
+<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="bg-primary rounded-[40px] p-16 text-center text-white relative overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,71,255,0.4)]">
+<div class="relative z-10">
+<h2 class="text-4xl lg:text-6xl font-black mb-8 leading-tight">¿Listo para elevar el estándar de su empresa?</h2>
+<p class="text-blue-100 text-xl mb-12 max-w-2xl mx-auto font-medium opacity-90">Únase a la élite de contratistas que ya operan con la tecnología de ContractorIA por Skalamarketing LLC. </p>
+<div class="flex flex-col sm:flex-row justify-center gap-6">
+<button class="bg-white text-primary hover:bg-slate-50 px-12 py-5 rounded-2xl text-xl font-black transition-all shadow-xl">Comenzar Ahora</button>
+<button class="bg-blue-900/50 hover:bg-blue-900 border border-white/20 px-12 py-5 rounded-2xl text-xl font-black transition-all">Contactar Consultor</button>
+</div>
+<p class="mt-8 text-sm font-bold tracking-widest uppercase opacity-60">Prueba gratuita de 14 días · Sin compromiso</p>
+</div>
+<div class="absolute -top-24 -right-24 w-96 h-96 bg-white/10 rounded-full blur-[100px]"></div>
+<div class="absolute -bottom-24 -left-24 w-96 h-96 bg-black/20 rounded-full blur-[100px]"></div>
+</div>
+</div>
+</section>
+<footer class="bg-white dark:bg-slate-950 border-t border-slate-100 dark:border-slate-900 pt-24 pb-12">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid md:grid-cols-4 gap-16 mb-20">
+<div class="space-y-6">
+<div class="flex items-center gap-3">
+<div class="bg-primary p-1.5 rounded-lg shadow-sm">
+<span class="material-icons text-white text-xl">trending_up</span>
+</div>
+<span class="text-xl font-black text-corporate-navy dark:text-white tracking-tighter">ContractorIA</span>
+</div>
+<p class="text-sm text-slate-500 leading-relaxed font-medium">Liderando la transformación digital para el sector de la construcción y servicios industriales mediante IA corporativa avanzada.</p>
+<div class="flex gap-5">
+<a class="w-10 h-10 flex items-center justify-center rounded-full bg-slate-50 dark:bg-slate-900 text-slate-400 hover:text-primary transition-colors" href="#"><span class="material-icons text-xl">facebook</span></a>
+<a class="w-10 h-10 flex items-center justify-center rounded-full bg-slate-50 dark:bg-slate-900 text-slate-400 hover:text-primary transition-colors" href="#"><span class="material-icons text-xl">camera_alt</span></a>
+<a class="w-10 h-10 flex items-center justify-center rounded-full bg-slate-50 dark:bg-slate-900 text-slate-400 hover:text-primary transition-colors" href="#"><span class="material-icons text-xl">alternate_email</span></a>
+</div>
+</div>
+<div>
+<h5 class="font-black text-corporate-navy dark:text-white mb-8 uppercase text-xs tracking-[0.2em]">Soluciones</h5>
+<ul class="space-y-4 text-sm font-semibold text-slate-500">
+<li><a class="hover:text-primary transition-colors" href="#">IA para Contratistas</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Gestión de Licitaciones</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Análisis de Costos</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Firmas Digitales</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-black text-corporate-navy dark:text-white mb-8 uppercase text-xs tracking-[0.2em]">Compañía</h5>
+<ul class="space-y-4 text-sm font-semibold text-slate-500">
+<li><a class="hover:text-primary transition-colors" href="#">Sobre Nosotros</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Skalamarketing LLC</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Blog de Industria</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Carreras</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-black text-corporate-navy dark:text-white mb-8 uppercase text-xs tracking-[0.2em]">Legal</h5>
+<ul class="space-y-4 text-sm font-semibold text-slate-500">
+<li><a class="hover:text-primary transition-colors" href="#">Términos y Condiciones</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Privacidad de Datos</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Compliance Comercial</a></li>
+</ul>
+</div>
+</div>
+<div class="border-t border-slate-100 dark:border-slate-900 pt-10 flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex flex-col md:items-start items-center gap-1">
+<p class="text-sm font-bold text-slate-400 text-center md:text-left">ContractorIA es un producto propiedad de Skalamarketing LLC. © 2024 Todos los derechos reservados.</p>
+<p class="text-xs font-medium text-slate-400/80">Distribuido por Skalamarketing LLC</p>
+</div>
+<div class="flex items-center gap-3 text-xs font-black text-slate-400 uppercase tracking-widest">
+<span class="flex h-2 w-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></span> 
+                Sistemas en Línea v2.4.0
+            </div>
+</div>
+</div>
+</footer>
+
+</body></html>

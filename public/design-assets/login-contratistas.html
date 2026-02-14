@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Inicio de Sesión para Contratistas | Skalamarketing LLC</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#137fec",
+              "background-light": "#f6f7f8",
+              "background-dark": "#101922",
+            },
+            fontFamily: {
+              "display": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
+<!-- Background Image with Overlay -->
+<div class="absolute inset-0 z-0">
+<img alt="Modern architectural construction site with blueprints" class="w-full h-full object-cover opacity-15 grayscale" data-alt="Modern architectural construction site with blueprints" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOJ-pjTMJm1Q2aNdBK9tYy8OpcDDHIeJWeYhf7aYFvSHP5w1f5JRPH8NhV3QgWxCk7J-N9q23n_bRcKeD6SnT8JAm2f38908AyOLMBMs7-P8kr9YAqWB9Rtejc2B0FhGiAcOmcD2PAQjQ5SlRowKtvA6QZwph_ErOUUUDZuibs55FhTv5LuCJnctnFUDPUhr3Z4L7k1H9BACsOuxVoRwcJFcM1Xfk6SuXQVazYfTehXFxjUKbs1sxXMSIlH8Kw3TrRB1GdSNAfgcZD"/>
+<div class="absolute inset-0 bg-gradient-to-b from-background-light/80 to-background-light dark:from-background-dark/90 dark:to-background-dark"></div>
+</div>
+<!-- Main Login Container -->
+<main class="relative z-10 w-full max-w-md px-6 py-12">
+<div class="bg-white dark:bg-slate-900 shadow-xl rounded-xl border border-primary/10 overflow-hidden">
+<!-- Branding/Header -->
+<div class="p-8 pb-0 flex flex-col items-center">
+<div class="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
+<span class="material-icons text-primary text-4xl">architecture</span>
+</div>
+<h1 class="text-2xl font-bold text-slate-800 dark:text-white text-center">
+                    Sistema de Presupuestos
+                </h1>
+<p class="mt-2 text-sm text-slate-500 dark:text-slate-400 text-center">
+                    Acceso exclusivo para contratistas autorizados.
+                </p>
+</div>
+<!-- Login Form -->
+<form action="#" class="p-8 space-y-6" method="POST">
+<div class="space-y-4">
+<!-- Email Field -->
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1" for="email">
+                            Correo electrónico
+                        </label>
+<div class="relative">
+<span class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">email</span>
+<input class="block w-full pl-10 pr-4 py-2.5 border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all text-sm" id="email" name="email" placeholder="nombre@empresa.com" required="" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div>
+<div class="flex items-center justify-between mb-1">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300" for="password">
+                                Contraseña
+                            </label>
+<a class="text-xs font-medium text-primary hover:text-primary/80 transition-colors" href="#">
+                                ¿Olvidaste tu contraseña?
+                            </a>
+</div>
+<div class="relative">
+<span class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">lock</span>
+<input class="block w-full pl-10 pr-4 py-2.5 border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all text-sm" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+</div>
+</div>
+</div>
+<!-- Remember Me -->
+<div class="flex items-center">
+<input class="w-4 h-4 text-primary border-slate-300 rounded focus:ring-primary" id="remember" name="remember" type="checkbox"/>
+<label class="ml-2 block text-sm text-slate-600 dark:text-slate-400" for="remember">
+                        Recordar sesión en este equipo
+                    </label>
+</div>
+<!-- Action Button -->
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-3 px-4 rounded-lg shadow-md shadow-primary/20 transform transition-all active:scale-[0.98] flex items-center justify-center gap-2" type="submit">
+<span>Iniciar Sesión</span>
+<span class="material-icons text-sm">arrow_forward</span>
+</button>
+<!-- Create Account Link -->
+<div class="pt-2 text-center">
+<p class="text-sm text-slate-600 dark:text-slate-400">
+                        ¿No tienes una cuenta? 
+                        <a class="font-semibold text-primary hover:underline ml-1" href="#">
+                            Crear una cuenta nueva
+                        </a>
+</p>
+</div>
+</form>
+</div>
+<!-- Footer -->
+<footer class="mt-8 text-center">
+<p class="text-xs font-medium text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                Distribuido por <span class="text-slate-600 dark:text-slate-300">Skalamarketing LLC</span>
+</p>
+<div class="mt-4 flex justify-center gap-4 text-slate-400 dark:text-slate-500">
+<a class="hover:text-primary transition-colors" href="#"><small>Términos</small></a>
+<span class="text-slate-300">•</span>
+<a class="hover:text-primary transition-colors" href="#"><small>Privacidad</small></a>
+<span class="text-slate-300">•</span>
+<a class="hover:text-primary transition-colors" href="#"><small>Soporte</small></a>
+</div>
+</footer>
+</main>
+<!-- Decorative elements for modern feel -->
+<div class="fixed -bottom-24 -left-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
+<div class="fixed -top-24 -right-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
+</body></html>

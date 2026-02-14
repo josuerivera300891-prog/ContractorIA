@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Deposit &amp; Payment Setup | AI Estimate Generator</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .step-active {
+            color: #137fec;
+            border-bottom: 2px solid #137fec;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-800 dark:text-slate-200 min-h-screen">
+<!-- Header / Navigation -->
+<nav class="border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 py-4">
+<div class="max-w-5xl mx-auto flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="bg-primary p-2 rounded-lg">
+<span class="material-icons text-white">auto_awesome</span>
+</div>
+<span class="font-bold text-xl tracking-tight dark:text-white">EstimateAI</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-sm text-slate-500 dark:text-slate-400">Project: Mid-Century Kitchen Remodel</span>
+<div class="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center border border-primary/20">
+<span class="material-icons text-primary text-sm">person</span>
+</div>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="max-w-3xl mx-auto py-12 px-6">
+<!-- Workflow Progress -->
+<div class="flex items-center justify-between mb-10 text-sm font-medium text-slate-400 dark:text-slate-500">
+<div class="flex items-center gap-2">
+<span class="bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 w-6 h-6 rounded-full flex items-center justify-center text-xs">1</span>
+<span>Draft Estimate</span>
+</div>
+<div class="h-px bg-slate-200 dark:bg-slate-800 flex-1 mx-4"></div>
+<div class="flex items-center gap-2 text-primary">
+<span class="bg-primary text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">2</span>
+<span class="font-semibold">Deposit Setup</span>
+</div>
+<div class="h-px bg-slate-200 dark:bg-slate-800 flex-1 mx-4"></div>
+<div class="flex items-center gap-2">
+<span class="bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400 w-6 h-6 rounded-full flex items-center justify-center text-xs">3</span>
+<span>Review &amp; Send</span>
+</div>
+</div>
+<!-- Section Header -->
+<div class="mb-8">
+<h1 class="text-3xl font-bold text-slate-900 dark:text-white mb-2">Deposit &amp; Payment Setup</h1>
+<p class="text-slate-600 dark:text-slate-400">Define the financial terms for this project before finalizing the client proposal.</p>
+</div>
+<div class="space-y-6">
+<!-- Deposit Configuration Card -->
+<section class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 p-8">
+<div class="flex items-center justify-between mb-8">
+<div>
+<h2 class="text-lg font-semibold text-slate-900 dark:text-white">Require a Deposit?</h2>
+<p class="text-sm text-slate-500 dark:text-slate-400">Secure the project start date with an upfront payment.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-14 h-7 bg-slate-200 dark:bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 border-t border-slate-100 dark:border-slate-800">
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">Deposit Type</label>
+<div class="flex p-1 bg-slate-100 dark:bg-slate-800 rounded-lg">
+<button class="flex-1 py-2 px-4 text-sm font-medium rounded-md bg-white dark:bg-slate-700 shadow-sm text-primary">Percentage (%)</button>
+<button class="flex-1 py-2 px-4 text-sm font-medium rounded-md text-slate-500 dark:text-slate-400 hover:text-slate-700">Fixed Amount ($)</button>
+</div>
+<div class="mt-6">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2" for="deposit-value">Percentage Amount</label>
+<div class="relative">
+<input class="block w-full rounded-lg border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 py-3 pl-4 pr-12 focus:border-primary focus:ring-primary dark:text-white" id="deposit-value" placeholder="0" type="number" value="25"/>
+<div class="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-slate-400">
+                                    %
+                                </div>
+</div>
+</div>
+</div>
+<div class="flex flex-col justify-center items-center bg-primary/5 dark:bg-primary/10 rounded-xl p-6 border border-primary/10">
+<span class="text-xs font-bold uppercase tracking-wider text-primary/70 mb-1">Total Deposit Due</span>
+<div class="text-4xl font-bold text-slate-900 dark:text-white">$3,125.00</div>
+<div class="mt-2 text-sm text-slate-500 dark:text-slate-400">Calculated from total: $12,500.00</div>
+</div>
+</div>
+</section>
+<!-- Payment Methods Card -->
+<section class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 p-8">
+<div class="mb-6">
+<h2 class="text-lg font-semibold text-slate-900 dark:text-white">Accepted Payment Methods</h2>
+<p class="text-sm text-slate-500 dark:text-slate-400">Select which methods you'll accept for this project's payments.</p>
+</div>
+<div class="space-y-3">
+<!-- Method 1 -->
+<div class="flex items-center p-4 rounded-lg border border-primary/30 bg-primary/5 dark:bg-primary/10 transition-colors">
+<div class="p-2 bg-white dark:bg-slate-800 rounded-lg shadow-sm mr-4">
+<span class="material-icons text-primary">credit_card</span>
+</div>
+<div class="flex-1">
+<h4 class="font-medium text-slate-900 dark:text-white">Credit / Debit Card</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400">Powered by Stripe • 2.9% + 30¢ fee</p>
+</div>
+<input checked="" class="w-5 h-5 rounded text-primary focus:ring-primary border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800" type="checkbox"/>
+</div>
+<!-- Method 2 -->
+<div class="flex items-center p-4 rounded-lg border border-primary/30 bg-primary/5 dark:bg-primary/10 transition-colors">
+<div class="p-2 bg-white dark:bg-slate-800 rounded-lg shadow-sm mr-4">
+<span class="material-icons text-primary">account_balance</span>
+</div>
+<div class="flex-1">
+<h4 class="font-medium text-slate-900 dark:text-white">Bank Transfer (ACH)</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400">Direct deposit • No transaction fees</p>
+</div>
+<input checked="" class="w-5 h-5 rounded text-primary focus:ring-primary border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800" type="checkbox"/>
+</div>
+<!-- Method 3 -->
+<div class="flex items-center p-4 rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+<div class="p-2 bg-white dark:bg-slate-800 rounded-lg shadow-sm mr-4">
+<span class="material-icons text-slate-400">payments</span>
+</div>
+<div class="flex-1">
+<h4 class="font-medium text-slate-900 dark:text-white">Physical Check</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400">Instructions will include your mailing address</p>
+</div>
+<input class="w-5 h-5 rounded text-primary focus:ring-primary border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800" type="checkbox"/>
+</div>
+</div>
+<div class="mt-6 p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50 flex items-start gap-3">
+<span class="material-icons text-slate-400 text-sm mt-0.5">info</span>
+<p class="text-xs text-slate-500 dark:text-slate-400">These options are pulled from your <a class="text-primary hover:underline" href="#">Company Settings</a>. You can add more methods there for all future estimates.</p>
+</div>
+</section>
+<!-- Bottom Navigation -->
+<div class="flex items-center justify-between pt-6">
+<button class="flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 px-4 py-2">
+<span class="material-icons text-sm">arrow_back</span>
+                    Back to Estimate
+                </button>
+<div class="flex items-center gap-4">
+<button class="px-6 py-3 rounded-lg border border-slate-300 dark:border-slate-700 text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">
+                        Save Draft
+                    </button>
+<button class="px-8 py-3 rounded-lg bg-primary text-white text-sm font-semibold hover:bg-primary/90 shadow-lg shadow-primary/20 flex items-center gap-2">
+                        Next: Review &amp; Send
+                        <span class="material-icons text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Additional Illustration/Graphic -->
+<div class="mt-20 flex flex-col items-center">
+<div class="w-full max-w-sm h-64 bg-slate-200/50 dark:bg-slate-800/30 rounded-2xl flex items-center justify-center relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent"></div>
+<img class="w-full h-full object-cover mix-blend-overlay opacity-40 group-hover:scale-105 transition-transform duration-700" data-alt="Abstract photo of business financial calculator and documents" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWnZjPrG9eyar8MCzMUJATG5O3oBILPE33jgXp3LgJqBcTsLn-irMsQJPUuVO4ynODfj4P2UkaJX8em_9ud_9uwEngWZkqn-i4sNRuUVQq5cGdhR8sJITgC5YpzV92cTlWHXUGOUIdZJQjiX4rMKCN_DNGexxCpGE5ziOhRpKqQjRNmdYzsESWrwvmPjTozt8XVd09tDizPFmZH7xKPveTA7cyvAYtJd_Ug_QZSwR6eI1eOS3ylmcQx1ZaFzsYzuNNPxd_58x_hkud"/>
+<div class="z-10 text-center px-8">
+<div class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm p-4 rounded-xl shadow-xl">
+<span class="material-icons text-primary mb-2">security</span>
+<p class="text-xs font-medium text-slate-600 dark:text-slate-300 italic">"Contractors who request a deposit are 40% more likely to see a project through to completion."</p>
+</div>
+</div>
+</div>
+<p class="mt-4 text-xs text-slate-400 dark:text-slate-500">EstimateAI Pro Insight • Built for Growth</p>
+</div>
+</main>
+<!-- Footer -->
+<footer class="mt-20 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-10">
+<div class="max-w-5xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="text-sm text-slate-500 dark:text-slate-400">
+                © 2024 EstimateAI Solutions Inc. All rights reserved.
+            </div>
+<div class="flex gap-8 text-sm font-medium text-slate-400">
+<a class="hover:text-primary" href="#">Support</a>
+<a class="hover:text-primary" href="#">Terms of Service</a>
+<a class="hover:text-primary" href="#">Privacy Policy</a>
+</div>
+</div>
+</footer>
+</body></html>

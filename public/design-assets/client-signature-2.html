@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Client Signature Portal | AI Estimate</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style type="text/tailwindcss">
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white; padding: 0; }
+            .document-shadow { box-shadow: none !important; border: 1px solid #e2e8f0 !important; }
+        }
+        .signature-pad {
+            background-image: linear-gradient(to right, #e2e8f0 1px, transparent 1px);
+            background-size: 20px 100%;
+            background-repeat: no-repeat;
+            background-position: center bottom 20px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-800 dark:text-slate-200 min-h-screen py-12 px-4">
+<div class="max-w-4xl mx-auto">
+<div class="no-print mb-6 flex justify-between items-center bg-white dark:bg-slate-900 p-4 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-2">
+<span class="flex h-3 w-3 rounded-full bg-emerald-500"></span>
+<span class="text-sm font-medium text-slate-600 dark:text-slate-400">Estimate is active and ready for signature</span>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 hover:text-primary transition-colors" onclick="window.print()">
+<span class="material-icons text-lg">print</span> Print PDF
+                </button>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 rounded-xl shadow-xl overflow-hidden border border-slate-200 dark:border-slate-800 document-shadow">
+<div class="p-10 border-b border-slate-100 dark:border-slate-800">
+<div class="flex flex-col md:flex-row justify-between gap-8">
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 bg-primary rounded-lg flex items-center justify-center">
+<span class="material-icons text-white text-3xl">construction</span>
+</div>
+<div>
+<h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">BuildStream Contractors</h1>
+<p class="text-sm text-slate-500">License #CS-99201-B</p>
+</div>
+</div>
+<div class="text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+                            1282 Industrial Way, Suite 400<br/>
+                            Austin, TX 78701<br/>
+                            (512) 555-0192 | billing@buildstream.ai
+                        </div>
+</div>
+<div class="text-right space-y-1">
+<h2 class="text-4xl font-light text-slate-400 dark:text-slate-600 uppercase tracking-widest mb-4">Estimate</h2>
+<div class="text-sm">
+<span class="text-slate-400 uppercase font-semibold">Estimate No:</span>
+<span class="font-mono font-bold ml-2 text-slate-900 dark:text-white">#EST-2024-081</span>
+</div>
+<div class="text-sm">
+<span class="text-slate-400 uppercase font-semibold">Date:</span>
+<span class="ml-2 text-slate-900 dark:text-white">May 24, 2024</span>
+</div>
+<div class="text-sm">
+<span class="text-slate-400 uppercase font-semibold">Valid Until:</span>
+<span class="ml-2 text-slate-900 dark:text-white">June 24, 2024</span>
+</div>
+<div class="mt-4 inline-flex items-center gap-1 px-2 py-1 bg-primary/10 text-primary rounded text-[10px] font-bold uppercase tracking-wider">
+<span class="material-icons text-xs">auto_awesome</span> AI Optimized
+                        </div>
+</div>
+</div>
+<div class="mt-12 grid grid-cols-2 gap-8">
+<div>
+<h3 class="text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-2">Prepared For</h3>
+<div class="font-semibold text-slate-900 dark:text-white">James T. Sullivan</div>
+<div class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                            492 Maple Avenue<br/>
+                            Austin, TX 78745<br/>
+                            james.sullivan@email.com
+                        </div>
+</div>
+<div>
+<h3 class="text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-2">Project Description</h3>
+<p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed italic">
+                            "Kitchen renovation including custom cabinetry installation, quartz countertop fitting, and lighting upgrades as discussed in the initial consultation."
+                        </p>
+</div>
+</div>
+</div>
+<div class="px-10 py-8">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-slate-200 dark:border-slate-800">
+<th class="py-4 text-[10px] uppercase font-bold text-slate-400 tracking-wider">Description</th>
+<th class="py-4 text-[10px] uppercase font-bold text-slate-400 tracking-wider text-center">Qty</th>
+<th class="py-4 text-[10px] uppercase font-bold text-slate-400 tracking-wider text-right">Unit Price</th>
+<th class="py-4 text-[10px] uppercase font-bold text-slate-400 tracking-wider text-right">Amount</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<tr>
+<td class="py-5">
+<div class="font-semibold text-slate-900 dark:text-white">Custom Shaker Cabinetry</div>
+<div class="text-xs text-slate-500 mt-1">Premium maple wood, soft-close hinges, navy blue finish</div>
+</td>
+<td class="py-5 text-center text-sm">18.0</td>
+<td class="py-5 text-right text-sm">$450.00</td>
+<td class="py-5 text-right font-medium text-slate-900 dark:text-white">$8,100.00</td>
+</tr>
+<tr>
+<td class="py-5">
+<div class="font-semibold text-slate-900 dark:text-white">Quartz Countertop - Calacatta Gold</div>
+<div class="text-xs text-slate-500 mt-1">Includes laser measurement, template, and installation</div>
+</td>
+<td class="py-5 text-center text-sm">45.0</td>
+<td class="py-5 text-right text-sm">$95.00</td>
+<td class="py-5 text-right font-medium text-slate-900 dark:text-white">$4,275.00</td>
+</tr>
+<tr>
+<td class="py-5">
+<div class="font-semibold text-slate-900 dark:text-white">Under-Cabinet LED Lighting</div>
+<div class="text-xs text-slate-500 mt-1">Smart-home compatible, dimmable strip lighting</div>
+</td>
+<td class="py-5 text-center text-sm">1.0</td>
+<td class="py-5 text-right text-sm">$850.00</td>
+<td class="py-5 text-right font-medium text-slate-900 dark:text-white">$850.00</td>
+</tr>
+<tr>
+<td class="py-5">
+<div class="font-semibold text-slate-900 dark:text-white">Plumbing Re-routing</div>
+<div class="text-xs text-slate-500 mt-1">Relocation of sink drain and water lines for island addition</div>
+</td>
+<td class="py-5 text-center text-sm">1.0</td>
+<td class="py-5 text-right text-sm">$1,200.00</td>
+<td class="py-5 text-right font-medium text-slate-900 dark:text-white">$1,200.00</td>
+</tr>
+</tbody>
+</table>
+<div class="flex justify-end mt-8">
+<div class="w-full md:w-64 space-y-3">
+<div class="flex justify-between text-sm">
+<span class="text-slate-500">Subtotal</span>
+<span class="font-medium text-slate-900 dark:text-white">$14,425.00</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-slate-500">Tax (8.25%)</span>
+<span class="font-medium text-slate-900 dark:text-white">$1,190.06</span>
+</div>
+<div class="pt-3 border-t border-slate-200 dark:border-slate-800 flex justify-between items-end">
+<span class="text-sm font-bold uppercase tracking-wider">Total</span>
+<span class="text-2xl font-bold text-primary">$15,615.06</span>
+</div>
+</div>
+</div>
+</div>
+<div class="px-10 py-8 bg-slate-50 dark:bg-slate-800/50 border-t border-b border-slate-100 dark:border-slate-800">
+<h4 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Terms &amp; Conditions</h4>
+<div class="text-[11px] leading-relaxed text-slate-500 space-y-2">
+<p>1. This estimate is valid for 30 days. Material prices are subject to market fluctuations thereafter.</p>
+<p>2. A 40% deposit is required upon approval to secure scheduling and material procurement.</p>
+<p>3. By signing this document, the client agrees to the scope of work outlined above and BuildStream’s standard Master Service Agreement.</p>
+</div>
+</div>
+<div class="p-10">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-end">
+<div class="space-y-4">
+<label class="block text-xs font-bold uppercase tracking-widest text-slate-400">Digital Signature</label>
+<div class="relative group">
+<div class="w-full h-48 bg-slate-50 dark:bg-slate-900 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-xl flex items-center justify-center cursor-crosshair overflow-hidden relative">
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
+<span class="material-icons text-6xl">draw</span>
+</div>
+<div class="absolute bottom-4 left-0 right-0 flex justify-center">
+<div class="w-4/5 border-b border-primary/40"></div>
+</div>
+<canvas class="absolute inset-0 w-full h-full"></canvas>
+</div>
+<button class="no-print mt-2 text-[10px] font-bold text-slate-400 hover:text-primary uppercase tracking-tighter flex items-center gap-1 transition-colors">
+<span class="material-icons text-xs">refresh</span> Clear Signature
+                            </button>
+</div>
+</div>
+<div class="space-y-6">
+<div class="space-y-2">
+<label class="block text-xs font-bold uppercase tracking-widest text-slate-400" for="printed-name">Signed By (Printed Name)</label>
+<input class="w-full bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 rounded-lg py-3 px-4 text-sm focus:ring-primary focus:border-primary transition-all dark:text-white" id="printed-name" type="text" value="James T. Sullivan"/>
+</div>
+<div class="space-y-2">
+<label class="block text-xs font-bold uppercase tracking-widest text-slate-400" for="sign-date">Date of Signing</label>
+<input class="w-full bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg py-3 px-4 text-sm text-slate-500 cursor-not-allowed" id="sign-date" readonly="" type="text" value="May 24, 2024"/>
+</div>
+</div>
+</div>
+<div class="mt-12 flex flex-col items-center gap-4 no-print">
+<button class="w-full md:w-auto px-12 py-4 bg-primary hover:bg-primary/90 text-white font-bold rounded-xl shadow-lg shadow-primary/30 transition-all transform hover:-translate-y-0.5 active:scale-95 flex items-center justify-center gap-3">
+<span class="material-icons">verified_user</span>
+                        Accept &amp; Sign Estimate
+                    </button>
+<p class="text-[10px] text-slate-400 uppercase tracking-widest">Securely processed via BuildStream eSign™</p>
+</div>
+</div>
+</div>
+<div class="mt-12 mb-8 text-center">
+<div class="flex flex-col gap-4">
+<div class="text-slate-500 dark:text-slate-400 text-[11px] font-medium tracking-wide">
+                    © 2024 BuildStream Contractors. All Rights Reserved.
+                </div>
+<div class="flex items-center justify-center gap-2 text-slate-400 dark:text-slate-500 text-[10px] uppercase tracking-[0.15em]">
+<span>Desarrollado y Distribuido por</span>
+<span class="font-bold text-slate-500 dark:text-slate-300">Skalamarketing LLC</span>
+</div>
+<div class="flex justify-center gap-6 no-print">
+<a class="text-xs text-slate-400 hover:text-primary transition-colors border-b border-transparent hover:border-primary/30 pb-0.5" href="#">Privacy Policy</a>
+<a class="text-xs text-slate-400 hover:text-primary transition-colors border-b border-transparent hover:border-primary/30 pb-0.5" href="#">Terms of Service</a>
+<a class="text-xs text-slate-400 hover:text-primary transition-colors border-b border-transparent hover:border-primary/30 pb-0.5" href="#">Contact Support</a>
+</div>
+</div>
+</div>
+</div>
+<div class="hidden">
+<img data-alt="Minimalist construction company logo with blue accents" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwNL9rMiIEU8ffdFjSPEmU44I7E7bM1oGwh64UaKZee_sq00EtqjzUf-fEa3W-T7r_oPx6Qjsz-uBUVpDDjfVIAuInK-6J5PfY4FLFCScFHGEWAZXpq_4WzS1GIFvmUo_h8-IQFKo2K6hUaIMT8PjnD-LSebxRIGCzuQH5memH781G7nMABBibWlk4Rcd0NkM0cZv-KCQsWIypGaZI_wxPLYqN7S6ZvJYeGoIZEMH9XP6UOBRjeK4RGvwfvzK4JY0A-9AmOUcudzKp"/>
+<img data-alt="Subtle watermarked background showing a security shield icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCY1idSqQszcG2I5GGGteOJsWrI0z_QZscfWw0ZsibI1x_3t4Y8Y5EcUlCqYWqtlJfXL7C2i7W4ImLaJLraPR98b5Ar1QS-bwIRttr2EhqZY4_dte7Ge2l4S6RsKPfQR_-zMXNi011kOS4NrhOLCeVHdN6TRV80UuaRitl1yf9XxoX9kZ11uaVTRxh9oJraPFiuxIV-w6J4GpvwKS0nAwCI1It2yT7BF3rAd_e3Hozq6oYBWU3Qv-fmSOd53Jw6uhvcMfrtW8blvcDy"/>
+</div>
+
+</body></html>

@@ -1,0 +1,41 @@
+{
+    "Landing": {
+        "evolution": "10 Días de Prueba Gratuita • La evolución del presupuesto comercial",
+        "title": "Escala tu negocio con presupuestos <italic>inteligentes</italic>.",
+        "description": "<bold>ContractorIA</bold> presenta la primera plataforma de IA corporativa diseñada para que contratistas cierren tratos en tiempo récord.",
+        "ctaRequest": "Solicitar Demo Gratuita",
+        "ctaWebinar": "Ver Webinar",
+        "socialProof": "+500 líderes confían en nuestra tecnología"
+    },
+    "Login": {
+        "title": "Inicia sesión en tu cuenta",
+        "email": "Correo electrónico",
+        "password": "Contraseña",
+        "rememberMe": "Recuérdame",
+        "forgotPassword": "¿Olvidaste tu contraseña?",
+        "signIn": "Iniciar sesión",
+        "processing": "Iniciando sesión...",
+        "or": "O",
+        "register": "comienza tu prueba gratuita de 14 días"
+    },
+    "Register": {
+        "title": "Comienza tu prueba gratuita",
+        "firstName": "Nombre",
+        "lastName": "Apellido",
+        "companyName": "Nombre de la Empresa",
+        "email": "Correo electrónico",
+        "password": "Contraseña",
+        "signUp": "Crear cuenta",
+        "processing": "Creando cuenta...",
+        "haveAccount": "¿Ya tienes una cuenta?",
+        "signIn": "Inicia sesión"
+    },
+    "Navbar": {
+        "solutions": "Soluciones",
+        "success": "Casos de Éxito",
+        "pricing": "Precios",
+        "login": "Acceso",
+        "register": "Probar Ahora",
+        "loginMobile": "Acceso Clientes"
+    }
+}

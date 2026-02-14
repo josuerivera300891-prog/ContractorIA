@@ -1,0 +1,41 @@
+{
+  "Landing": {
+    "evolution": "10-Day Free Trial • The evolution of the commercial budget",
+    "title": "Escala tu negocio con presupuestos <italic>inteligentes</italic>.",
+    "description": "<bold>ContractorIA</bold> presents the first corporate AI platform designed for contractors to close deals in record time.",
+    "ctaRequest": "Request Free Demo",
+    "ctaWebinar": "Watch Webinar",
+    "socialProof": "+500 leaders trust our technology"
+  },
+  "Login": {
+    "title": "Sign in to your account",
+    "email": "Email address",
+    "password": "Password",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot your password?",
+    "signIn": "Sign in",
+    "processing": "Signing in...",
+    "or": "Or",
+    "register": "start your 14-day free trial"
+  },
+  "Register": {
+    "title": "Start your 14-day free trial",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "companyName": "Company Name",
+    "email": "Email address",
+    "password": "Password",
+    "signUp": "Create account",
+    "processing": "Creating account...",
+    "haveAccount": "Already have an account?",
+    "signIn": "Sign in"
+  },
+  "Navbar": {
+    "solutions": "Solutions",
+    "success": "Success Stories",
+    "pricing": "Pricing",
+    "login": "Login",
+    "register": "Try Now",
+    "loginMobile": "Client Access"
+  }
+}

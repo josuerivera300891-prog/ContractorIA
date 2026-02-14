@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Panel de Gestión y Revisiones | IA Contractors</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-100 font-display min-h-screen">
+<div class="flex h-screen overflow-hidden">
+<!-- Sidebar Navigation (Minimalist) -->
+<aside class="w-20 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col items-center py-6 gap-8">
+<div class="w-12 h-12 bg-primary rounded-xl flex items-center justify-center text-white">
+<span class="material-icons">auto_awesome</span>
+</div>
+<nav class="flex flex-col gap-6">
+<button class="p-3 bg-primary/10 text-primary rounded-lg">
+<span class="material-icons">dashboard</span>
+</button>
+<button class="p-3 text-slate-400 hover:text-primary transition-colors">
+<span class="material-icons">people</span>
+</button>
+<button class="p-3 text-slate-400 hover:text-primary transition-colors">
+<span class="material-icons">description</span>
+</button>
+<button class="p-3 text-slate-400 hover:text-primary transition-colors">
+<span class="material-icons">settings</span>
+</button>
+</nav>
+<div class="mt-auto">
+<img alt="Avatar" class="w-10 h-10 rounded-full border-2 border-slate-200 dark:border-slate-700" data-alt="Profile picture of the contractor user" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDK2pwxrszxSRecAEpgwZty1UW1yDAn2XAsa8d_gVMpvnnnJmE2259doxTXZOQOKsq_-2f3xRKX0JeA8wXv5a-f_WCfi2HtiyaUXbFAJkKHSJi7FrVY88JsdJ8Ou7FSMgB8qn67z9tELV8hynI5SUy42jxUw1DEv0UTncJoW1sZ5mJTlWOPMfXQMoNkIRy0kxfXwAvpVbilNgIEJ826wd1Vk24MjH71SBdWr4T6prNscBXQ7SmgKk50ciZ10tVPZvGCfbBjU1C4UeXT"/>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col overflow-hidden">
+<!-- Top Command Bar -->
+<header class="h-20 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center px-8 justify-between">
+<div class="flex-1 max-w-2xl relative">
+<span class="material-icons absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+<input class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl py-3 pl-12 pr-4 focus:ring-2 focus:ring-primary text-sm transition-all outline-none" placeholder="IA Command: 'Buscar presupuesto de Juan' o 'Ver firmados esta semana'" type="text"/>
+<div class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
+<span class="text-[10px] font-bold text-slate-400 border border-slate-300 dark:border-slate-600 px-1.5 py-0.5 rounded uppercase">⌘ K</span>
+</div>
+</div>
+<div class="flex items-center gap-4 ml-8">
+<button class="flex items-center gap-2 bg-primary text-white px-5 py-2.5 rounded-lg font-medium hover:bg-primary/90 transition-colors shadow-sm">
+<span class="material-icons text-sm">add</span>
+                        Nuevo Presupuesto
+                    </button>
+</div>
+</header>
+<div class="flex-1 flex overflow-hidden">
+<!-- Table Section -->
+<div class="flex-1 overflow-y-auto p-8">
+<div class="mb-6">
+<h1 class="text-2xl font-bold dark:text-white">Panel de Gestión y Revisiones</h1>
+<p class="text-slate-500 text-sm">Gestiona tus presupuestos generados con IA y controla las versiones.</p>
+</div>
+<!-- Stats Quick View -->
+<div class="grid grid-cols-4 gap-4 mb-8">
+<div class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+<p class="text-xs text-slate-500 uppercase font-bold tracking-wider">Total Presupuestos</p>
+<p class="text-2xl font-bold mt-1">124</p>
+</div>
+<div class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+<p class="text-xs text-slate-500 uppercase font-bold tracking-wider">Enviados</p>
+<p class="text-2xl font-bold mt-1 text-primary">42</p>
+</div>
+<div class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+<p class="text-xs text-slate-500 uppercase font-bold tracking-wider">Firmados</p>
+<p class="text-2xl font-bold mt-1 text-emerald-500">18</p>
+</div>
+<div class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+<p class="text-xs text-slate-500 uppercase font-bold tracking-wider">Tasa de Cierre</p>
+<p class="text-2xl font-bold mt-1 text-orange-500">32%</p>
+</div>
+</div>
+<!-- Main Data Table -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50">
+<th class="py-4 px-6 text-xs font-bold text-slate-500 uppercase tracking-wider">ID</th>
+<th class="py-4 px-6 text-xs font-bold text-slate-500 uppercase tracking-wider">Cliente</th>
+<th class="py-4 px-6 text-xs font-bold text-slate-500 uppercase tracking-wider">Estado</th>
+<th class="py-4 px-6 text-xs font-bold text-slate-500 uppercase tracking-wider">Versión</th>
+<th class="py-4 px-6 text-xs font-bold text-slate-500 uppercase tracking-wider">Monto Total</th>
+<th class="py-4 px-6"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<!-- Row 1: Active Selection -->
+<tr class="bg-primary/5 hover:bg-primary/10 cursor-pointer transition-colors border-l-4 border-l-primary">
+<td class="py-4 px-6 font-mono text-sm">#2024-082</td>
+<td class="py-4 px-6 font-semibold">Juan Pérez</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">Enviado</span>
+</td>
+<td class="py-4 px-6 text-sm text-slate-500">v2</td>
+<td class="py-4 px-6 font-bold text-slate-900 dark:text-white">$4,500.00</td>
+<td class="py-4 px-6 text-right">
+<button class="text-slate-400 hover:text-primary"><span class="material-icons text-lg">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 cursor-pointer transition-colors border-l-4 border-l-transparent">
+<td class="py-4 px-6 font-mono text-sm">#2024-081</td>
+<td class="py-4 px-6 font-semibold">Marta Sánchez</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">Firmado</span>
+</td>
+<td class="py-4 px-6 text-sm text-slate-500">v1</td>
+<td class="py-4 px-6 font-bold text-slate-900 dark:text-white">$12,850.00</td>
+<td class="py-4 px-6 text-right">
+<button class="text-slate-400 hover:text-primary"><span class="material-icons text-lg">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 cursor-pointer transition-colors border-l-4 border-l-transparent">
+<td class="py-4 px-6 font-mono text-sm">#2024-080</td>
+<td class="py-4 px-6 font-semibold">Residencial Los Olivos</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-300">Borrador</span>
+</td>
+<td class="py-4 px-6 text-sm text-slate-500">v3</td>
+<td class="py-4 px-6 font-bold text-slate-900 dark:text-white">$25,300.00</td>
+<td class="py-4 px-6 text-right">
+<button class="text-slate-400 hover:text-primary"><span class="material-icons text-lg">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 cursor-pointer transition-colors border-l-4 border-l-transparent">
+<td class="py-4 px-6 font-mono text-sm">#2024-079</td>
+<td class="py-4 px-6 font-semibold">Carlos Ruiz</td>
+<td class="py-4 px-6">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300">Enviado</span>
+</td>
+<td class="py-4 px-6 text-sm text-slate-500">v1</td>
+<td class="py-4 px-6 font-bold text-slate-900 dark:text-white">$1,200.00</td>
+<td class="py-4 px-6 text-right">
+<button class="text-slate-400 hover:text-primary"><span class="material-icons text-lg">more_vert</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="px-6 py-4 bg-slate-50 dark:bg-slate-800/50 flex justify-between items-center text-sm text-slate-500">
+<span>Mostrando 4 de 124 resultados</span>
+<div class="flex gap-2">
+<button class="px-3 py-1 border border-slate-200 dark:border-slate-700 rounded hover:bg-white dark:hover:bg-slate-700 transition-colors">Anterior</button>
+<button class="px-3 py-1 border border-slate-200 dark:border-slate-700 rounded hover:bg-white dark:hover:bg-slate-700 transition-colors">Siguiente</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Detail Sidebar -->
+<aside class="w-96 bg-white dark:bg-slate-900 border-l border-slate-200 dark:border-slate-800 flex flex-col">
+<div class="p-6 border-b border-slate-100 dark:border-slate-800">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h2 class="font-bold text-lg dark:text-white">Detalle de Presupuesto</h2>
+<span class="text-xs text-slate-500 font-mono">ID: #2024-082</span>
+</div>
+<button class="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors">
+<span class="material-icons">close</span>
+</button>
+</div>
+<div class="space-y-4">
+<div class="flex flex-col gap-1">
+<span class="text-xs text-slate-400 uppercase tracking-wider font-bold">Cliente Principal</span>
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs font-bold">JP</div>
+<span class="font-semibold text-slate-800 dark:text-slate-200">Juan Pérez</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-xs text-slate-400 uppercase tracking-wider font-bold">Proyecto</span>
+<span class="text-sm dark:text-slate-300 font-medium">Remodelación Cocina y Sala</span>
+</div>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto p-6">
+<h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">Historial de Revisiones</h3>
+<!-- Revision Timeline -->
+<div class="relative space-y-6">
+<div class="absolute left-4 top-1 bottom-1 w-px bg-slate-200 dark:bg-slate-800"></div>
+<!-- Rev v2 (Active) -->
+<div class="relative pl-10">
+<div class="absolute left-2.5 top-1.5 w-3 h-3 rounded-full bg-primary border-4 border-white dark:border-slate-900 ring-1 ring-primary z-10"></div>
+<div class="flex justify-between items-start">
+<div>
+<p class="text-sm font-bold dark:text-white">Versión Actual (v2)</p>
+<p class="text-xs text-slate-500">Hace 2 horas</p>
+<p class="text-xs mt-1 italic text-slate-400">"Ajuste de materiales según nueva normativa"</p>
+</div>
+<span class="text-sm font-bold text-primary">$4,500</span>
+</div>
+</div>
+<!-- Rev v1 -->
+<div class="relative pl-10 opacity-60">
+<div class="absolute left-3 top-1.5 w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-600 z-10"></div>
+<div class="flex justify-between items-start">
+<div>
+<p class="text-sm font-medium dark:text-white">Versión Original (v1)</p>
+<p class="text-xs text-slate-500">22 May, 2024</p>
+<p class="text-xs mt-1 text-slate-400">Presupuesto inicial base</p>
+</div>
+<span class="text-sm font-medium text-slate-600 dark:text-slate-400">$4,200</span>
+</div>
+<div class="mt-2 flex gap-2">
+<button class="text-[10px] uppercase font-bold text-primary hover:underline">Restaurar</button>
+<button class="text-[10px] uppercase font-bold text-slate-400 hover:underline">Ver PDF</button>
+</div>
+</div>
+</div>
+</div>
+<div class="p-6 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-3">
+<button class="w-full bg-primary text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-primary/90 transition-all shadow-md active:scale-[0.98]">
+<span class="material-icons text-lg">history_edu</span>
+                            Crear Nueva Revisión
+                        </button>
+<div class="grid grid-cols-2 gap-2">
+<button class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 py-2 rounded-lg text-sm font-medium flex items-center justify-center gap-2 hover:bg-slate-100 transition-colors">
+<span class="material-icons text-sm">download</span>
+                                PDF
+                            </button>
+<button class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 py-2 rounded-lg text-sm font-medium flex items-center justify-center gap-2 hover:bg-slate-100 transition-colors text-primary">
+<span class="material-icons text-sm">send</span>
+                                Enviar
+                            </button>
+</div>
+<p class="text-[10px] text-center text-slate-400 px-4">Utiliza la IA para sugerir cambios automáticos basados en nuevos requerimientos del cliente.</p>
+</div>
+</aside>
+</div>
+</main>
+</div>
+</body></html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Configuración de Plantillas de Pago - Skalamarketing LLC</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display min-h-screen flex flex-col">
+<!-- Header / Navigation -->
+<header class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-30">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between h-16 items-center">
+<div class="flex items-center gap-4">
+<div class="bg-primary/10 p-2 rounded-lg">
+<span class="material-icons text-primary">payments</span>
+</div>
+<div>
+<h1 class="text-xl font-bold text-slate-800 dark:text-white">Skalamarketing LLC</h1>
+<p class="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wider font-semibold">Configuración de Perfil</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors font-medium text-sm">
+<span class="material-icons text-sm">add</span>
+                        Nueva Plantilla
+                    </button>
+<div class="h-8 w-8 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center">
+<span class="material-icons text-slate-500 text-sm">person</span>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
+<div class="mb-6">
+<h2 class="text-2xl font-bold text-slate-800 dark:text-white">Plantillas de Métodos de Pago</h2>
+<p class="text-slate-500 dark:text-slate-400">Administra las instrucciones de pago que verán tus clientes en sus facturas.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Side: List of Methods -->
+<div class="lg:col-span-4 flex flex-col gap-4">
+<div class="relative">
+<span class="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
+<input class="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm transition-all" placeholder="Buscar método..." type="text"/>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Active Item -->
+<div class="group relative bg-white dark:bg-slate-900 p-4 rounded-xl border-2 border-primary shadow-sm cursor-pointer transition-all">
+<div class="flex justify-between items-start mb-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary">Predeterminado</span>
+<div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-slate-400 hover:text-red-500 transition-colors">
+<span class="material-icons text-sm">delete</span>
+</button>
+</div>
+</div>
+<h3 class="font-bold text-slate-800 dark:text-white">Transferencia Bancaria (USD)</h3>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-1">Banco América, Cuenta Corriente...</p>
+</div>
+<!-- Item 2 -->
+<div class="group relative bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary/50 shadow-sm cursor-pointer transition-all">
+<div class="flex justify-between items-start mb-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400">Activo</span>
+<div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-slate-400 hover:text-red-500 transition-colors">
+<span class="material-icons text-sm">delete</span>
+</button>
+</div>
+</div>
+<h3 class="font-bold text-slate-800 dark:text-white">Zelle Business</h3>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-1">pagos@skalamarketing.com</p>
+</div>
+<!-- Item 3 -->
+<div class="group relative bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary/50 shadow-sm cursor-pointer transition-all">
+<div class="flex justify-between items-start mb-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-500">Inactivo</span>
+<div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-slate-400 hover:text-red-500 transition-colors">
+<span class="material-icons text-sm">delete</span>
+</button>
+</div>
+</div>
+<h3 class="font-bold text-slate-800 dark:text-white">Cheque Corporativo</h3>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-1">Dirección: 123 Business St, Miami...</p>
+</div>
+</div>
+</div>
+<!-- Right Side: Edit Form -->
+<div class="lg:col-span-8">
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="p-6 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+<h3 class="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
+<span class="material-icons text-primary">edit</span>
+                            Editar Detalles de Plantilla
+                        </h3>
+<div class="flex items-center gap-2">
+<span class="text-sm font-medium text-slate-600 dark:text-slate-400">Activo por Defecto</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-slate-200 dark:bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<div class="p-6 space-y-6">
+<!-- Method Name -->
+<div>
+<label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Nombre del Método</label>
+<input class="w-full px-4 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" type="text" value="Transferencia Bancaria (USD)"/>
+</div>
+<!-- Rich Text Editor Simulation -->
+<div>
+<label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Instrucciones de Pago</label>
+<div class="border border-slate-200 dark:border-slate-800 rounded-lg overflow-hidden">
+<div class="bg-slate-50 dark:bg-slate-800/50 p-2 border-b border-slate-200 dark:border-slate-800 flex flex-wrap gap-1">
+<button class="p-1.5 hover:bg-white dark:hover:bg-slate-700 rounded transition-colors" title="Negrita">
+<span class="material-icons text-lg">format_bold</span>
+</button>
+<button class="p-1.5 hover:bg-white dark:hover:bg-slate-700 rounded transition-colors" title="Cursiva">
+<span class="material-icons text-lg">format_italic</span>
+</button>
+<button class="p-1.5 hover:bg-white dark:hover:bg-slate-700 rounded transition-colors" title="Lista">
+<span class="material-icons text-lg">format_list_bulleted</span>
+</button>
+<div class="w-px h-6 bg-slate-200 dark:bg-slate-700 mx-1 self-center"></div>
+<button class="p-1.5 hover:bg-white dark:hover:bg-slate-700 rounded transition-colors" title="Enlace">
+<span class="material-icons text-lg">link</span>
+</button>
+</div>
+<div class="bg-white dark:bg-slate-900 p-4 min-h-[250px] outline-none text-slate-700 dark:text-slate-300 leading-relaxed text-sm">
+<p class="font-bold mb-2">Favor realizar el pago bajo los siguientes datos:</p>
+<ul class="list-none space-y-1 mb-4">
+<li><strong>Beneficiario:</strong> Skalamarketing LLC</li>
+<li><strong>Banco:</strong> Banco de América N.A.</li>
+<li><strong>Número de Cuenta:</strong> 987654321012</li>
+<li><strong>Número de Ruta (Routing):</strong> 063112345</li>
+<li><strong>Tipo de Cuenta:</strong> Business Checking</li>
+<li><strong>Dirección del Banco:</strong> 100 SE 2nd St, Miami, FL 33131</li>
+</ul>
+<p class="text-slate-500 italic">Nota: Favor enviar comprobante de transferencia a admin@skalamarketing.com incluyendo el número de factura como referencia.</p>
+</div>
+</div>
+<p class="mt-2 text-xs text-slate-500">Estas instrucciones aparecerán automáticamente en el pie de página de sus facturas.</p>
+</div>
+</div>
+<div class="p-6 bg-slate-50 dark:bg-slate-800/30 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4">
+<button class="w-full sm:w-auto text-sm font-medium text-red-500 hover:text-red-600 transition-colors flex items-center gap-1">
+<span class="material-icons text-sm">delete_outline</span>
+                            Eliminar esta plantilla
+                        </button>
+<div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+<button class="px-6 py-2.5 border border-slate-200 dark:border-slate-800 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-sm font-medium">
+                                Cancelar
+                            </button>
+<button class="px-6 py-2.5 bg-primary text-white rounded-lg hover:bg-primary/90 shadow-md shadow-primary/20 transition-all text-sm font-medium">
+                                Guardar Cambios
+                            </button>
+</div>
+</div>
+</div>
+<!-- Preview Card -->
+<div class="mt-8 bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-900/30 rounded-xl p-6">
+<div class="flex gap-4">
+<div class="bg-blue-100 dark:bg-blue-800/40 p-3 rounded-full h-fit">
+<span class="material-icons text-blue-600 dark:text-blue-400">visibility</span>
+</div>
+<div>
+<h4 class="text-blue-800 dark:text-blue-300 font-bold mb-1">Vista Previa</h4>
+<p class="text-blue-700 dark:text-blue-400/80 text-sm leading-relaxed">
+                                Así se visualizará la información en tus facturas PDF. El formato es limpio y legible para facilitar el proceso de pago a tus clientes.
+                            </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="mt-auto py-8 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+<div class="max-w-7xl mx-auto px-4 text-center">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">
+                Desarrollado y Distribuido por <span class="text-slate-800 dark:text-white font-bold">Skalamarketing LLC</span>
+</p>
+<div class="mt-4 flex justify-center gap-6 text-xs text-slate-400">
+<a class="hover:text-primary transition-colors" href="#">Términos de Servicio</a>
+<a class="hover:text-primary transition-colors" href="#">Política de Privacidad</a>
+<a class="hover:text-primary transition-colors" href="#">Soporte Técnico</a>
+</div>
+</div>
+</footer>
+</body></html>

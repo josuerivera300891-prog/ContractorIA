@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html class="light" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<title>ContractorIA - Constructor de Presupuestos</title>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+        .custom-scrollbar:hover::-webkit-scrollbar-thumb { background: #cbd5e1; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-200 min-h-screen flex flex-col font-display">
+<header class="h-16 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex items-center justify-between px-6 sticky top-0 z-30">
+<div class="flex items-center gap-4">
+<div class="bg-primary p-2 rounded-lg flex items-center justify-center">
+<span class="material-icons text-white">architecture</span>
+</div>
+<div>
+<h1 class="font-bold text-lg leading-tight">ContractorIA</h1>
+<p class="text-xs text-slate-500 font-medium uppercase tracking-wider">Proyecto: Remodelación Oficinas Centrales</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="px-4 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors border border-slate-200 dark:border-slate-700">
+                Guardar Borrador
+            </button>
+<button class="px-4 py-2 text-sm font-semibold text-white bg-primary hover:bg-primary/90 rounded-lg transition-shadow shadow-sm flex items-center gap-2">
+<span class="material-icons text-sm">send</span>
+                Enviar a Cliente
+            </button>
+<div class="ml-4 pl-4 border-l border-slate-200 dark:border-slate-700">
+<div class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+<span class="material-icons text-slate-400">person</span>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-1 flex overflow-hidden">
+<section class="w-[40%] flex flex-col border-r border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50">
+<div class="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-green-500"></span>
+<span class="text-sm font-semibold">Asistente Inteligente</span>
+</div>
+<button class="text-slate-400 hover:text-primary">
+<span class="material-icons text-base">settings</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar">
+<div class="flex items-start gap-3">
+<div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+<span class="material-icons text-primary text-sm">smart_toy</span>
+</div>
+<div class="bg-white dark:bg-slate-800 p-4 rounded-xl rounded-tl-none shadow-sm border border-slate-100 dark:border-slate-700 max-w-[85%]">
+<p class="text-sm leading-relaxed">¡Hola! Vamos a configurar los precios de tu presupuesto. ¿Qué método de precio prefieres aplicar para el ítem "Demolición de Tabiquería"?</p>
+<div class="mt-3 flex flex-wrap gap-2">
+<button class="px-3 py-1.5 bg-primary/5 hover:bg-primary/10 text-primary text-xs font-semibold rounded-full border border-primary/20 transition-colors">m²</button>
+<button class="px-3 py-1.5 bg-primary/5 hover:bg-primary/10 text-primary text-xs font-semibold rounded-full border border-primary/20 transition-colors">Hora</button>
+<button class="px-3 py-1.5 bg-primary/5 hover:bg-primary/10 text-primary text-xs font-semibold rounded-full border border-primary/20 transition-colors">Día</button>
+<button class="px-3 py-1.5 bg-primary/5 hover:bg-primary/10 text-primary text-xs font-semibold rounded-full border border-primary/20 transition-colors">Unidad</button>
+<button class="px-3 py-1.5 bg-primary/5 hover:bg-primary/10 text-primary text-xs font-semibold rounded-full border border-primary/20 transition-colors">Precio Fijo</button>
+</div>
+</div>
+</div>
+<div class="flex items-start gap-3 flex-row-reverse">
+<div class="w-8 h-8 rounded-lg bg-slate-200 dark:bg-slate-700 flex items-center justify-center flex-shrink-0">
+<span class="material-icons text-slate-500 text-sm">person</span>
+</div>
+<div class="bg-primary text-white p-4 rounded-xl rounded-tr-none shadow-sm max-w-[85%]">
+<p class="text-sm leading-relaxed">Usa m2. El área total son 45 metros cuadrados y el precio por metro es de 12€.</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+<span class="material-icons text-primary text-sm">smart_toy</span>
+</div>
+<div class="bg-white dark:bg-slate-800 p-4 rounded-xl rounded-tl-none shadow-sm border border-slate-100 dark:border-slate-700 max-w-[85%]">
+<p class="text-sm leading-relaxed">Perfecto. He actualizado el presupuesto con 45m² a 12€/m². ¿Deseas añadir algún otro cargo como transporte de escombros o mano de obra adicional?</p>
+</div>
+</div>
+</div>
+<div class="p-4 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800">
+<div class="relative">
+<textarea class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-xl p-4 pr-12 text-sm focus:ring-2 focus:ring-primary/50 resize-none" placeholder="Escribe aquí tu respuesta..." rows="3"></textarea>
+<button class="absolute bottom-3 right-3 w-8 h-8 bg-primary text-white rounded-lg flex items-center justify-center hover:bg-primary/90 transition-all">
+<span class="material-icons text-base">arrow_upward</span>
+</button>
+</div>
+<div class="flex items-center gap-3 mt-3 px-1">
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+<span class="material-icons text-lg">attach_file</span>
+</button>
+<button class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+<span class="material-icons text-lg">mic</span>
+</button>
+<div class="ml-auto text-[10px] text-slate-400 font-medium">Pulsa Enter para enviar</div>
+</div>
+</div>
+</section>
+<section class="flex-1 bg-white dark:bg-slate-900 flex flex-col overflow-hidden">
+<div class="p-8 pb-4">
+<div class="flex justify-between items-start">
+<div>
+<div class="flex items-center gap-2 mb-6">
+<img alt="Corporate minimalist professional company logo design" class="w-12 h-12 rounded-lg object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOWiArML1XvQ3SDWaGhvmQlCBBThLfaSUduz42FxeajqtAoq4oA8BdbD-f7sTxkUvnO2TPddIa7_3mpQAnXJDVi7x2n5f3USpXp16BPPeQDTNU62GFGJxIuux7NfIEqOPbQSDd8VY7Pv0UzZff_xzq1QnvKXHqDSwiyHYq-Z6Q_pTahZM61xiKIaJ1GRVIY9Nx-eUYsuZ4aVbWFg1PfvBq5ONdmVw59Ahc-wcBCTgE7noYILrBUHCcloQPruVoB0faUedxuS3hjDlb"/>
+<div>
+<h2 class="font-bold text-slate-900 dark:text-white">Construcciones Élite S.L.</h2>
+<p class="text-xs text-slate-500">Calle Innovación 45, Madrid</p>
+</div>
+</div>
+<div class="space-y-1">
+<p class="text-[10px] text-primary font-bold uppercase tracking-widest">Cliente</p>
+<h3 class="text-lg font-bold">TecnoCorp Solutions</h3>
+<p class="text-sm text-slate-500">Calle Principal 12, Planta 4</p>
+<p class="text-sm text-slate-500">Att: Marina García</p>
+</div>
+</div>
+<div class="text-right">
+<div class="inline-block bg-slate-50 dark:bg-slate-800 p-4 rounded-xl border border-slate-100 dark:border-slate-700">
+<div class="grid grid-cols-2 gap-4 text-left">
+<div>
+<p class="text-[10px] text-slate-400 font-bold uppercase">Presupuesto</p>
+<p class="text-sm font-semibold">#PRE-2024-001</p>
+</div>
+<div>
+<p class="text-[10px] text-slate-400 font-bold uppercase">Fecha</p>
+<p class="text-sm font-semibold">24 May 2024</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex-1 px-8 py-4 overflow-y-auto custom-scrollbar">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-slate-200 dark:border-slate-800">
+<th class="py-3 text-xs font-bold text-slate-400 uppercase tracking-wider">Ítem / Descripción</th>
+<th class="py-3 text-xs font-bold text-slate-400 uppercase tracking-wider text-center">Unidad</th>
+<th class="py-3 text-xs font-bold text-slate-400 uppercase tracking-wider text-center">Cant.</th>
+<th class="py-3 text-xs font-bold text-slate-400 uppercase tracking-wider text-right">Tarifa</th>
+<th class="py-3 text-xs font-bold text-slate-400 uppercase tracking-wider text-right">Total</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<tr class="bg-primary/5 transition-colors group">
+<td class="py-4">
+<p class="text-sm font-semibold text-slate-800 dark:text-slate-200">Demolición de Tabiquería</p>
+<p class="text-xs text-slate-500">Retirada y limpieza de tabiques de yeso</p>
+</td>
+<td class="py-4 text-center text-sm font-medium">m²</td>
+<td class="py-4 text-center text-sm font-medium">45</td>
+<td class="py-4 text-right text-sm font-medium">12.00 €</td>
+<td class="py-4 text-right text-sm font-bold text-primary">540.00 €</td>
+</tr>
+<tr>
+<td class="py-4">
+<p class="text-sm font-semibold text-slate-800 dark:text-slate-200">Pintura Plástica Lisa</p>
+<p class="text-xs text-slate-500">Color blanco, dos capas con imprimación</p>
+</td>
+<td class="py-4 text-center text-sm font-medium">m²</td>
+<td class="py-4 text-center text-sm font-medium">120</td>
+<td class="py-4 text-right text-sm font-medium">8.50 €</td>
+<td class="py-4 text-right text-sm font-bold">1,020.00 €</td>
+</tr>
+<tr>
+<td class="py-4">
+<p class="text-sm font-semibold text-slate-800 dark:text-slate-200">Instalación Puntos Eléctricos</p>
+<p class="text-xs text-slate-500">Mecanismos Simon 27 incluidos</p>
+</td>
+<td class="py-4 text-center text-sm font-medium">un</td>
+<td class="py-4 text-center text-sm font-medium">12</td>
+<td class="py-4 text-right text-sm font-medium">45.00 €</td>
+<td class="py-4 text-right text-sm font-bold">540.00 €</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-8 pt-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900">
+<div class="flex justify-end">
+<div class="w-full max-w-xs space-y-2">
+<div class="flex justify-between text-sm">
+<span class="text-slate-500">Subtotal</span>
+<span class="font-medium">2,100.00 €</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-slate-500">IVA (21%)</span>
+<span class="font-medium">441.00 €</span>
+</div>
+<div class="flex justify-between items-center pt-2 border-t border-slate-200 dark:border-slate-700">
+<span class="text-base font-bold text-slate-900 dark:text-white">Total Presupuesto</span>
+<span class="text-xl font-bold text-primary">2,541.00 €</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="bg-slate-100 dark:bg-slate-950 px-6 py-2 border-t border-slate-200 dark:border-slate-800 flex justify-between items-center">
+<div class="flex gap-4 items-center">
+<span class="text-[10px] text-slate-400 flex items-center gap-1">
+<span class="material-icons text-[12px]">cloud_done</span> 
+                Sincronizado en tiempo real
+            </span>
+<span class="text-[10px] text-slate-400 flex items-center gap-1">
+<span class="material-icons text-[12px]">security</span>
+                Encriptación SSL activada
+            </span>
+<div class="h-3 w-px bg-slate-200 dark:bg-slate-800 mx-2"></div>
+<span class="text-[10px] text-slate-500 font-medium tracking-wide">
+                ContractorIA - Propiedad de <span class="text-slate-700 dark:text-slate-300 font-bold">Skalamarketing LLC</span>
+</span>
+<div class="h-3 w-px bg-slate-200 dark:bg-slate-800 mx-2"></div>
+<span class="text-[10px] text-slate-400 italic">
+                Desarrollado y Distribuido por Skalamarketing LLC
+            </span>
+</div>
+<div class="flex gap-3">
+<button class="text-[10px] font-bold text-slate-400 hover:text-primary transition-colors">CENTRO DE AYUDA</button>
+<button class="text-[10px] font-bold text-slate-400 hover:text-primary transition-colors">TÉRMINOS</button>
+</div>
+</footer>
+
+</body></html>

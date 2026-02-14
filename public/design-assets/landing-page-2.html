@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>QuoteAI - Presupuestos Profesionales con IA</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary": "#137fec",
+                "background-light": "#f6f7f8",
+                "background-dark": "#101922",
+              },
+              fontFamily: {
+                "display": ["Inter", "sans-serif"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-800 dark:text-slate-100 font-display transition-colors duration-300">
+<!-- Navigation -->
+<nav class="sticky top-0 z-50 w-full bg-white/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between h-16 items-center">
+<div class="flex items-center gap-2">
+<div class="bg-primary p-1.5 rounded-lg">
+<span class="material-icons text-white text-2xl">auto_awesome</span>
+</div>
+<span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">QuoteAI</span>
+</div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary transition-colors" href="#features">Características</a>
+<a class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary transition-colors" href="#testimonials">Testimonios</a>
+<a class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary transition-colors" href="#pricing">Precios</a>
+<a class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary transition-colors" href="#">Iniciar Sesión</a>
+<button class="bg-primary hover:bg-primary/90 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-all shadow-lg shadow-primary/20">
+                        Probar Gratis
+                    </button>
+</div>
+<div class="md:hidden">
+<span class="material-icons text-slate-600">menu</span>
+</div>
+</div>
+</div>
+</nav>
+<!-- Hero Section -->
+<section class="relative pt-16 pb-24 overflow-hidden">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid lg:grid-cols-2 gap-12 items-center">
+<div>
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-wider mb-6">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+                        Nueva Generación de Presupuestos
+                    </div>
+<h1 class="text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white leading-[1.1] mb-6">
+                        Crea presupuestos <span class="text-primary">profesionales</span> en segundos con IA.
+                    </h1>
+<p class="text-xl text-slate-600 dark:text-slate-400 mb-10 leading-relaxed max-w-xl">
+                        La primera IA para contratistas que conoce tus precios reales. Deja de perder horas en la oficina y empieza a ganar más proyectos hoy mismo.
+                    </p>
+<div class="flex flex-col sm:flex-row gap-4">
+<button class="bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-xl text-lg font-bold transition-all shadow-xl shadow-primary/25 flex items-center justify-center gap-2">
+                            Probar Gratis <span class="material-icons">arrow_forward</span>
+</button>
+<button class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 px-8 py-4 rounded-xl text-lg font-bold transition-all flex items-center justify-center gap-2">
+<span class="material-icons">play_circle_outline</span> Ver Demo
+                        </button>
+</div>
+<div class="mt-8 flex items-center gap-4 text-sm text-slate-500">
+<div class="flex -space-x-2">
+<img alt="User 1" class="h-8 w-8 rounded-full border-2 border-white dark:border-slate-900" data-alt="Profile picture of a professional contractor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqUSrPPXI0adC-M7PaPmv_UetSHSX77j_vmOt6cjiAr3TIh_RAsHK4LaYrgEgnFGR9OI0lXy_tg7yeO-GFi5vzLAto0T9wXIguw-fP5YTkHj5N7C4UGDzDq4K3BaN3_pFHf5lPBhAvklD3AzDNqj9wzIuiIr40HJrUmG9WBlF03dSv5e9iZAYR_XhzvQsf5j85eeHAKUasLcZwKvHmS3KWascCY9ifGQ8mpUNgVGyauOYQ9uFkIs9R9V-PsbQXk6ZvspnRFhplLW0t"/>
+<img alt="User 2" class="h-8 w-8 rounded-full border-2 border-white dark:border-slate-900" data-alt="Profile picture of a female business owner" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwlbtU7H4Gq-hXq8cjj9hh_TmfpUWfQaGU_4FVBaDiaGUVGOVYoWduIk4jjrBUnXOi3dzI5TIj8OhSgHB73bRRTPHucL4XdZP4qYchxE7rd9G3z90sRZRY-SC1Os968CF78KjdfWK5AL5weIyeKptrjxVLbZFvzP9sFZ2EoZcZHuJmzLXif9e8QNmD31AtJgtgOkNsGVaHMJscRXFstm5NPqf_LY1lJfee6xcDjJbWrde7mVkEemb3EAzhQJPWrV3GUVgBpsIT2nFt"/>
+<img alt="User 3" class="h-8 w-8 rounded-full border-2 border-white dark:border-slate-900" data-alt="Profile picture of a specialist worker" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwcg8j6v29SFtqN632V40_dGQW5dgyFpW5CrRIfTIE_sMScSXkR5MxVvIMj03PyyQ3IIxuGAHhfA3QFthMyXhHZY2hOU_IcxzQLwJMxvTmIaTJILKMxdutlncP6mNM7xQ_1B5XxdzmXZ0ucUM3698vM-0TPSJdTKu9Ae4ZzSGaqg6dklmhFtKGPn9Bnum_KPUOpt24djr-fJ6uH1ikgoL2RyYeyfO9ttiMiYpKFsAFpOh4C6FXotUVnARxmqw65B3QSpxQFPaffe4m"/>
+</div>
+<span>+500 contratistas ya lo usan</span>
+</div>
+</div>
+<div class="relative">
+<!-- Dashboard Mockup -->
+<div class="relative bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+<div class="flex border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/50 px-4 py-3 items-center gap-2">
+<div class="flex gap-1.5">
+<div class="w-3 h-3 rounded-full bg-red-400"></div>
+<div class="w-3 h-3 rounded-full bg-amber-400"></div>
+<div class="w-3 h-3 rounded-full bg-green-400"></div>
+</div>
+<div class="mx-auto bg-white dark:bg-slate-700 px-3 py-1 rounded text-[10px] text-slate-400 font-mono">app.quoteai.io/nuevo-proyecto</div>
+</div>
+<div class="grid grid-cols-2 h-[450px]">
+<!-- Left: AI Chat -->
+<div class="border-r border-slate-200 dark:border-slate-800 p-4 flex flex-col gap-4">
+<div class="flex items-center gap-2 mb-2">
+<div class="bg-primary/10 p-1 rounded-md text-primary">
+<span class="material-icons text-sm">chat</span>
+</div>
+<span class="text-xs font-bold uppercase tracking-tight opacity-70">Asistente IA</span>
+</div>
+<div class="bg-slate-100 dark:bg-slate-800 p-3 rounded-lg rounded-tl-none text-xs">
+                                    Hola, ¿qué proyecto vamos a presupuestar hoy?
+                                </div>
+<div class="bg-primary text-white p-3 rounded-lg rounded-tr-none text-xs ml-auto max-w-[80%]">
+                                    Reforma de baño de 5m2, azulejos metro, cambio de bañera por plato de ducha de carga mineral.
+                                </div>
+<div class="bg-slate-100 dark:bg-slate-800 p-3 rounded-lg rounded-tl-none text-xs flex items-center gap-2">
+<span class="material-icons animate-pulse text-xs">more_horiz</span> Generando presupuesto...
+                                </div>
+</div>
+<!-- Right: Quote Preview -->
+<div class="bg-slate-50 dark:bg-slate-950 p-6">
+<div class="bg-white dark:bg-slate-900 w-full h-full shadow-sm rounded border border-slate-200 dark:border-slate-800 p-4 flex flex-col">
+<div class="flex justify-between items-start mb-6">
+<div class="w-12 h-4 bg-slate-200 dark:bg-slate-700 rounded"></div>
+<div class="text-[10px] text-right">
+<p class="font-bold">PRESUPUESTO #2024-01</p>
+<p class="text-slate-400">Fecha: 24 Oct 2023</p>
+</div>
+</div>
+<div class="space-y-3 mb-6">
+<div class="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-2">
+<div class="space-y-1">
+<div class="w-24 h-2 bg-slate-200 dark:bg-slate-700 rounded"></div>
+<div class="w-16 h-1.5 bg-slate-100 dark:bg-slate-800 rounded"></div>
+</div>
+<div class="w-12 h-2 bg-slate-200 dark:bg-slate-700 rounded"></div>
+</div>
+<div class="flex justify-between items-center border-b border-slate-100 dark:border-slate-800 pb-2">
+<div class="space-y-1">
+<div class="w-32 h-2 bg-slate-200 dark:bg-slate-700 rounded"></div>
+<div class="w-20 h-1.5 bg-slate-100 dark:bg-slate-800 rounded"></div>
+</div>
+<div class="w-12 h-2 bg-slate-200 dark:bg-slate-700 rounded"></div>
+</div>
+</div>
+<div class="mt-auto pt-4 border-t-2 border-primary/20 flex justify-between">
+<div class="w-16 h-4 bg-primary/10 rounded"></div>
+<div class="w-24 h-4 bg-primary rounded"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Decorative elements -->
+<div class="absolute -z-10 -bottom-6 -right-6 w-full h-full bg-primary/5 rounded-2xl blur-3xl"></div>
+<div class="absolute -z-10 -top-6 -left-6 w-32 h-32 bg-primary/20 rounded-full blur-2xl"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Partners -->
+<section class="py-12 border-y border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50">
+<div class="max-w-7xl mx-auto px-4 text-center">
+<p class="text-sm font-semibold text-slate-400 uppercase tracking-widest mb-8">Utilizado por empresas líderes</p>
+<div class="flex flex-wrap justify-center items-center gap-12 opacity-50 grayscale hover:grayscale-0 transition-all">
+<div class="flex items-center gap-2 text-xl font-bold"><span class="material-icons">architecture</span> BUILDER</div>
+<div class="flex items-center gap-2 text-xl font-bold"><span class="material-icons">home_repair_service</span> FIXIT</div>
+<div class="flex items-center gap-2 text-xl font-bold"><span class="material-icons">foundation</span> CORE</div>
+<div class="flex items-center gap-2 text-xl font-bold"><span class="material-icons">brush</span> DECOR</div>
+<div class="flex items-center gap-2 text-xl font-bold"><span class="material-icons">plumbing</span> FLOW</div>
+</div>
+</div>
+</section>
+<!-- Features Section -->
+<section class="py-24" id="features">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center mb-16">
+<h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">Todo lo que necesitas para ganar proyectos</h2>
+<p class="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto text-lg">Nuestra tecnología está diseñada específicamente para las necesidades reales de los contratistas modernos.</p>
+</div>
+<div class="grid md:grid-cols-3 gap-8">
+<!-- Feature 1 -->
+<div class="bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-200 dark:border-slate-800 hover:shadow-xl transition-all hover:-translate-y-1">
+<div class="w-12 h-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center mb-6">
+<span class="material-icons">verified</span>
+</div>
+<h3 class="text-xl font-bold mb-3 text-slate-900 dark:text-white">IA que no inventa precios</h3>
+<p class="text-slate-600 dark:text-slate-400">Nuestra IA se sincroniza con tus listas de materiales y proveedores locales para darte costes precisos en cada partida.</p>
+</div>
+<!-- Feature 2 -->
+<div class="bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-200 dark:border-slate-800 hover:shadow-xl transition-all hover:-translate-y-1">
+<div class="w-12 h-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center mb-6">
+<span class="material-icons">palette</span>
+</div>
+<h3 class="text-xl font-bold mb-3 text-slate-900 dark:text-white">Personalización de marca</h3>
+<p class="text-slate-600 dark:text-slate-400">Tus presupuestos tendrán tu logo, colores y estilo. Crea una imagen profesional que transmita confianza total a tus clientes.</p>
+</div>
+<!-- Feature 3 -->
+<div class="bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-200 dark:border-slate-800 hover:shadow-xl transition-all hover:-translate-y-1">
+<div class="w-12 h-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center mb-6">
+<span class="material-icons">draw</span>
+</div>
+<h3 class="text-xl font-bold mb-3 text-slate-900 dark:text-white">Firma y depósitos al instante</h3>
+<p class="text-slate-600 dark:text-slate-400">Envía el presupuesto y permite que firmen digitalmente y paguen la reserva del proyecto en el mismo momento desde el móvil.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Split Visual Section -->
+<section class="py-24 bg-primary/5">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex flex-col lg:flex-row items-center gap-16">
+<div class="flex-1 space-y-8">
+<h2 class="text-4xl font-bold text-slate-900 dark:text-white">Cierra tratos mientras tomas un café</h2>
+<div class="space-y-6">
+<div class="flex gap-4">
+<div class="shrink-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm">1</div>
+<div>
+<h4 class="font-bold text-lg mb-1">Díctaselo a la IA</h4>
+<p class="text-slate-600 dark:text-slate-400">Usa voz o texto para describir el trabajo. "Presupuesta una instalación eléctrica completa para una nave de 200m2".</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="shrink-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm">2</div>
+<div>
+<h4 class="font-bold text-lg mb-1">Revisa y Ajusta</h4>
+<p class="text-slate-600 dark:text-slate-400">La IA genera el desglose automáticamente. Puedes cambiar cantidades o añadir extras en un clic.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="shrink-0 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm">3</div>
+<div>
+<h4 class="font-bold text-lg mb-1">Envío Instantáneo</h4>
+<p class="text-slate-600 dark:text-slate-400">Envía por WhatsApp o Email. Recibe notificaciones cuando el cliente abra el presupuesto.</p>
+</div>
+</div>
+</div>
+<button class="bg-primary text-white px-8 py-3 rounded-lg font-bold shadow-lg shadow-primary/20">Empezar ahora</button>
+</div>
+<div class="flex-1">
+<div class="relative rounded-2xl overflow-hidden shadow-2xl border-8 border-white dark:border-slate-800">
+<img alt="SaaS Interface" class="w-full h-auto object-cover" data-alt="Modern tablet showing professional construction management software" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9f_sVxaEJ5qqKrO-hC_yL57tbqRVnIvSGKYKdY7SgWaw-d9XlZ1fTIMh43xH7Jyjsja8acWqlSvDmukBPLhj0al4cfPncNQSPI-5LSGWg4MJIKvVXv8e_9C-f-PuVZ8KJ8O1uDlYvUTQoWMx0y2tnM6VGIwSU18WHbLpNMPk2yhf33-RoP31GFCMATApA2QaRySkJGeQFrMQgmurDaoQx1u1qg8kaeFtoMs1RQ9q0OEhG36MzPbWzllwkLJMWKcR8NQIMLwmmhS5f"/>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Testimonials -->
+<section class="py-24 bg-white dark:bg-background-dark" id="testimonials">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center mb-16">
+<h2 class="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">Lo que dicen otros profesionales</h2>
+<div class="flex justify-center gap-1 text-amber-400">
+<span class="material-icons">star</span>
+<span class="material-icons">star</span>
+<span class="material-icons">star</span>
+<span class="material-icons">star</span>
+<span class="material-icons">star</span>
+</div>
+</div>
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Testimonial 1 -->
+<div class="p-8 rounded-2xl border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
+<p class="text-slate-600 dark:text-slate-400 italic mb-6">"Antes tardaba 3 horas en llegar a casa y redactar los presupuestos. Ahora los envío desde la furgoneta antes de arrancar. He duplicado mis ventas."</p>
+<div class="flex items-center gap-4">
+<img alt="Carlos" class="w-12 h-12 rounded-full object-cover" data-alt="Headshot of Carlos, a professional painter" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1voFZAzBV-27DOeWcvS2252T68ibC8fYSJ09-tUgp107CW4iRGCrEb6J4TuGpmhfLWTLC4A9FlZ5h0w0jPFgdu876RZZq6Ww-MzbGw5lVprH5hDcZR-8FVujmI3HFK_3FRkeeRZOBLecnCIAFdFQ4af9f9MQlU7qF9bhlKPSeCKOih00PfBe2vwxxIxQeywuMcQIhaS2WXIBBsDICYIhsHAZWjTHHL9Y1O8OE36QjZXOS0qV0dAxJcjJ79ciyqQ3nUEbj5aaJ6IVT"/>
+<div>
+<h5 class="font-bold text-slate-900 dark:text-white">Carlos Méndez</h5>
+<p class="text-xs text-slate-500">Pinturas Modernas SL</p>
+</div>
+</div>
+</div>
+<!-- Testimonial 2 -->
+<div class="p-8 rounded-2xl border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
+<p class="text-slate-600 dark:text-slate-400 italic mb-6">"La precisión de los precios es asombrosa. Sabe exactamente cuánto cuesta el metro cuadrado de pladur en mi zona. Mis clientes están impresionados por la rapidez."</p>
+<div class="flex items-center gap-4">
+<img alt="Javier" class="w-12 h-12 rounded-full object-cover" data-alt="Headshot of Javier, a specialist reform contractor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtd5Cn2BcOg2LJBHddZppFJ9fXbCXx7bNhua3-DrRuThuLHLxaJLD1uuPb0q68b0M3xhqOY1vylC_GOGpjJmvt35UxiVaKu5g1bRp0E80Y4yhy-oHgVphLmOwm4Yuey4TQMMfGtY_yaW1E7yT57NCj0v8aZZwT5-FqrmaGlbYwDIfEBwjBIEbZIuJqNtnEyql0hqkFCAKdSHCyBLoY5TwUyW61tMmHDBuEB4kWRmYjGP2ycJnkgFHfdkzdn9jJcpfHe88ZVR3MLOaY"/>
+<div>
+<h5 class="font-bold text-slate-900 dark:text-white">Javier Ruiz</h5>
+<p class="text-xs text-slate-500">Reformas Express</p>
+</div>
+</div>
+</div>
+<!-- Testimonial 3 -->
+<div class="p-8 rounded-2xl border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
+<p class="text-slate-600 dark:text-slate-400 italic mb-6">"Poder cobrar el depósito con tarjeta nada más firmar el presupuesto ha cambiado mi flujo de caja por completo. Sin duda la mejor inversión este año."</p>
+<div class="flex items-center gap-4">
+<img alt="Elena" class="w-12 h-12 rounded-full object-cover" data-alt="Headshot of Elena, a manager in a construction company" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBd91id6EbVUPJXDpzmVQlQ8lHEZ8tttt3c07wm-6Wyzd9JkoMa6pcVyC3bq-njUDtKR4Sor1MNaQcAwTMH19Q4dx4EYZ47yiKNZQ_fXrHmX1J4PhjW5gz7mYNSA02BqnG2bbt1_3f0urNpRohZlDTNdhGqUlU5hkvYK7hEz7hY95guIZebhSrCkSfdQSPaY84U6GpTG5jZ3McwnRfU4jZkEYCqptko1zdrm3qAeoJW94Dqxi1BhEnm6DGxPji-JuJHmGmvGRzKQ3j"/>
+<div>
+<h5 class="font-bold text-slate-900 dark:text-white">Elena García</h5>
+<p class="text-xs text-slate-500">Instalaciones G3</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Final CTA -->
+<section class="py-24">
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="bg-primary rounded-3xl p-12 text-center text-white relative overflow-hidden">
+<div class="relative z-10">
+<h2 class="text-4xl font-bold mb-6">¿Listo para modernizar tu negocio?</h2>
+<p class="text-primary-100 text-xl mb-10 max-w-2xl mx-auto opacity-90">Únete a cientos de contratistas que ya están ganando más tiempo y dinero con QuoteAI. Prueba gratuita de 14 días.</p>
+<div class="flex flex-col sm:flex-row justify-center gap-4">
+<button class="bg-white text-primary hover:bg-slate-50 px-8 py-4 rounded-xl text-lg font-bold transition-all shadow-xl">Comenzar Gratis</button>
+<button class="bg-primary-600 hover:bg-primary-700 border border-white/30 px-8 py-4 rounded-xl text-lg font-bold transition-all">Hablar con Ventas</button>
+</div>
+<p class="mt-6 text-sm opacity-70">Sin tarjeta de crédito. Cancela cuando quieras.</p>
+</div>
+<!-- Abstract background shapes -->
+<div class="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+<div class="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-96 h-96 bg-black/10 rounded-full blur-3xl"></div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 pt-16 pb-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid md:grid-cols-4 gap-12 mb-16">
+<div class="space-y-4">
+<div class="flex items-center gap-2">
+<div class="bg-primary p-1 rounded-lg">
+<span class="material-icons text-white text-lg">auto_awesome</span>
+</div>
+<span class="text-lg font-bold text-slate-900 dark:text-white">QuoteAI</span>
+</div>
+<p class="text-sm text-slate-500 leading-relaxed">Transformando la administración de proyectos de construcción mediante inteligencia artificial avanzada.</p>
+<div class="flex gap-4">
+<a class="text-slate-400 hover:text-primary transition-colors" href="#"><span class="material-icons">facebook</span></a>
+<a class="text-slate-400 hover:text-primary transition-colors" href="#"><span class="material-icons">camera_alt</span></a>
+<a class="text-slate-400 hover:text-primary transition-colors" href="#"><span class="material-icons">alternate_email</span></a>
+</div>
+</div>
+<div>
+<h5 class="font-bold text-slate-900 dark:text-white mb-6 uppercase text-xs tracking-widest">Producto</h5>
+<ul class="space-y-4 text-sm text-slate-500">
+<li><a class="hover:text-primary transition-colors" href="#">Características</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Integraciones</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Precios</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Actualizaciones</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-bold text-slate-900 dark:text-white mb-6 uppercase text-xs tracking-widest">Recursos</h5>
+<ul class="space-y-4 text-sm text-slate-500">
+<li><a class="hover:text-primary transition-colors" href="#">Blog</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Guías Gratuitas</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Webinars</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Soporte</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-bold text-slate-900 dark:text-white mb-6 uppercase text-xs tracking-widest">Legal</h5>
+<ul class="space-y-4 text-sm text-slate-500">
+<li><a class="hover:text-primary transition-colors" href="#">Privacidad</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Términos de Uso</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Cookies</a></li>
+</ul>
+</div>
+</div>
+<div class="border-t border-slate-100 dark:border-slate-900 pt-8 flex flex-col md:row-reverse md:flex-row justify-between items-center gap-4">
+<p class="text-sm text-slate-400">© 2024 QuoteAI Inc. Todos los derechos reservados.</p>
+<div class="flex items-center gap-2 text-sm text-slate-400">
+<span class="material-icons text-xs text-green-500">fiber_manual_record</span> Todos los sistemas operativos
+                </div>
+</div>
+</div>
+</footer>
+</body></html>
