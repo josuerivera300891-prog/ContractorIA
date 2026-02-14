@@ -61,7 +61,15 @@ export async function processEstimateAICommand(message: string, currentContext: 
 
         const result = await model.generateContent([systemPrompt, message]);
         const responseText = result.response.text();
-        const parsedResponse = JSON.parse(responseText);
+
+        // Robust JSON extraction (handle markdown backticks if model includes them)
+        let jsonContent = responseText;
+        const jsonMatch = responseText.match(/```json\n([\s\S]*?)\n```/) || responseText.match(/```([\s\S]*?)```/);
+        if (jsonMatch) {
+            jsonContent = jsonMatch[1];
+        }
+
+        const parsedResponse = JSON.parse(jsonContent.trim());
 
         return {
             role: 'assistant',
@@ -73,7 +81,7 @@ export async function processEstimateAICommand(message: string, currentContext: 
         console.error("Gemini Error:", error);
         return {
             role: 'assistant',
-            content: "Lo siento, tuve un problema conectando con mi cerebro neural. ¿Podrías repetir eso?"
+            content: "Lo siento, tuve un problema conectando con mi cerebro neural. Por favor intenta de nuevo en unos segundos."
         };
     }
 }

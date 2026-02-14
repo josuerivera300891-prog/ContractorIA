@@ -1,9 +1,9 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
-import { Estimate, LineItem } from "@/types/domain";
+import { Company, Estimate, LineItem } from "@/types/domain";
 
 interface EstimateContextType {
+    company?: Company;
     estimate: Partial<Estimate>;
     messages: ChatMessage[];
     addMessage: (msg: ChatMessage) => void;
@@ -22,7 +22,8 @@ export interface ChatMessage {
 
 const EstimateContext = createContext<EstimateContextType | undefined>(undefined);
 
-export function EstimateProvider({ children }: { children: ReactNode }) {
+export function EstimateProvider({ children, initialCompany }: { children: ReactNode, initialCompany?: Company }) {
+    const [company] = useState<Company | undefined>(initialCompany);
     const [estimate, setEstimate] = useState<Partial<Estimate>>({
         items: [],
         subtotal: 0,
@@ -37,7 +38,7 @@ export function EstimateProvider({ children }: { children: ReactNode }) {
         {
             id: '1',
             role: 'assistant',
-            content: "¡Hola! Estoy listo para ayudarte a crear tu presupuesto. Cuéntame sobre el proyecto o lista los ítems que ya discutiste con el cliente.",
+            content: `¡Hola! Soy el asistente de ${company?.name || 'ContractorIA'}. Estoy listo para ayudarte a crear tu presupuesto. Cuéntame sobre el proyecto o lista los ítems que ya discutiste con el cliente.`,
             timestamp: new Date()
         }
     ]);
@@ -53,7 +54,7 @@ export function EstimateProvider({ children }: { children: ReactNode }) {
     };
 
     return (
-        <EstimateContext.Provider value={{ estimate, messages, addMessage, updateEstimate, isLoadingAI, setLoadingAI }}>
+        <EstimateContext.Provider value={{ company, estimate, messages, addMessage, updateEstimate, isLoadingAI, setLoadingAI }}>
             {children}
         </EstimateContext.Provider>
     );

@@ -59,8 +59,8 @@ export function EstimateChatBuilder() {
                     // Add items with calculated totals
                     const newItems = response.suggestedItems.map((item: any) => ({
                         ...item,
-                        id: Math.random().toString(36).substr(2, 9),
-                        total: (item.quantity || 1) * (item.rate || 0)
+                        id: crypto.randomUUID(),
+                        total: (Number(item.quantity) || 1) * (Number(item.rate) || 0)
                     }));
 
                     const updatedItems = [...currentItems, ...newItems];

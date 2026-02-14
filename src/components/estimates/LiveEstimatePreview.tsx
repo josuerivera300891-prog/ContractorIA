@@ -5,7 +5,7 @@ import { Estimate, LineItem } from "@/types/domain";
 import { MoreHorizontal, ZoomIn, ZoomOut, Printer, Download, Eye } from "lucide-react";
 
 export function LiveEstimatePreview() {
-    const { estimate } = useEstimate();
+    const { estimate, company } = useEstimate();
 
     return (
         <section className="flex-1 bg-slate-100 overflow-y-auto p-12 custom-scrollbar font-inter flex flex-col items-center">
@@ -33,12 +33,21 @@ export function LiveEstimatePreview() {
                 {/* Header */}
                 <div className="flex justify-between items-start mb-16">
                     <div className="flex gap-6">
-                        <div className="w-20 h-20 bg-deep-blue text-white rounded-2xl flex items-center justify-center text-3xl font-black">
-                            C
-                        </div>
+                        {company?.logo_url ? (
+                            <img src={company.logo_url} alt={company.name} className="w-20 h-20 object-contain rounded-xl" />
+                        ) : (
+                            <div className="w-20 h-20 bg-deep-blue text-white rounded-2xl flex items-center justify-center text-3xl font-black">
+                                {company?.name?.charAt(0) || 'C'}
+                            </div>
+                        )}
                         <div>
-                            <h3 className="font-[900] text-xl text-deep-blue uppercase tracking-tight">Contractor IA</h3>
-                            <p className="text-xs text-slate-500 font-medium mt-1">123 Builder St, Suite 400<br />Monterrey, NL 64000</p>
+                            <h3 className="font-[900] text-xl text-deep-blue uppercase tracking-tight">
+                                {company?.name || 'Contractor IA'}
+                            </h3>
+                            <p className="text-xs text-slate-500 font-medium mt-1">
+                                {company?.settings?.address || 'Dirección de la empresa'}<br />
+                                {company?.settings?.address?.includes('Monterrey') ? '' : ''}
+                            </p>
                         </div>
                     </div>
                     <div className="text-right space-y-1">
