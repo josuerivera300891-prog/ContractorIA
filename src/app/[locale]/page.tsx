@@ -165,7 +165,7 @@ export default function LandingPage() {
                             <span className="text-6xl text-turq-primary/20 absolute top-8 left-8 font-serif">“</span>
                             <div className="relative z-10">
                                 <p className="text-xl text-deep-blue font-bold leading-relaxed mb-10">
-                                    "ContractorIA ha reducido nuestro tiempo de respuesta de 3 días a 5 minutos. La precisión de los costos es simplemente asombrosa."
+                                    &quot;ContractorIA ha reducido nuestro tiempo de respuesta de 3 días a 5 minutos. La precisión de los costos es simplemente asombrosa.&quot;
                                 </p>
                                 <div className="flex items-center gap-4">
                                     <div className="w-12 h-12 bg-turq-primary/20 rounded-full flex items-center justify-center text-turq-primary font-black">MP</div>
@@ -181,7 +181,7 @@ export default function LandingPage() {
                             <span className="text-6xl text-turq-secondary/20 absolute top-8 left-8 font-serif">“</span>
                             <div className="relative z-10">
                                 <p className="text-xl text-deep-blue font-bold leading-relaxed mb-10">
-                                    "La mejor inversión tecnológica que hemos hecho este año. Cerramos un 40% más de tratos gracias a la rapidez de la plataforma."
+                                    &quot;La mejor inversión tecnológica que hemos hecho este año. Cerramos un 40% más de tratos gracias a la rapidez de la plataforma.&quot;
                                 </p>
                                 <div className="flex items-center gap-4">
                                     <div className="w-12 h-12 bg-turq-secondary/20 rounded-full flex items-center justify-center text-turq-secondary font-black">EG</div>

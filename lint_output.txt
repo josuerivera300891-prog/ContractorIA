@@ -1,0 +1,177 @@
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/app/[locale]/[tenant]/audit/page.tsx
+  1:10  warning  'Clock' is defined but never used         @typescript-eslint/no-unused-vars
+  1:25  warning  'User' is defined but never used          @typescript-eslint/no-unused-vars
+  1:31  warning  'Info' is defined but never used          @typescript-eslint/no-unused-vars
+  1:37  warning  'Calendar' is defined but never used      @typescript-eslint/no-unused-vars
+  4:10  warning  'createClient' is defined but never used  @typescript-eslint/no-unused-vars
+  7:15  warning  'locale' is defined but never used        @typescript-eslint/no-unused-vars
+  7:23  warning  'tenant' is defined but never used        @typescript-eslint/no-unused-vars
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/app/[locale]/[tenant]/clients/page.tsx
+  1:33  warning  'Mail' is defined but never used   @typescript-eslint/no-unused-vars
+  1:39  warning  'Phone' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/app/[locale]/[tenant]/dashboard/page.tsx
+  2:16  warning  'TrendingUp' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/app/[locale]/[tenant]/estimates/new/page.tsx
+  3:10  warning  'useState' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/app/[locale]/[tenant]/estimates/page.tsx
+   4:34  warning  'Filter' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     @typescript-eslint/no-unused-vars
+   4:71  warning  'MoreVertical' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @typescript-eslint/no-unused-vars
+   4:94  warning  'CheckCircle2' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @typescript-eslint/no-unused-vars
+  15:48  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @typescript-eslint/no-explicit-any
+  18:58  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @typescript-eslint/no-explicit-any
+  19:44  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               @typescript-eslint/no-explicit-any
+  42:23  error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/app/[locale]/[tenant]/estimates/page.tsx:42:23
+  40 |     };
+  41 |
+> 42 |     useEffect(() => { fetchEstimates(); }, [tenant]);
+     |                       ^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  43 |
+  44 |     const handleSendEmail = async (id: string) => {
+  45 |         const email = window.prompt("Ingrese el correo del cliente:");  react-hooks/set-state-in-effect
+  42:44  warning  React Hook useEffect has a missing dependency: 'fetchEstimates'. Either include it or remove the dependency array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      react-hooks/exhaustive-deps
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/app/[locale]/[tenant]/expenses/page.tsx
+  13:11  warning  't' is assigned a value but never used    @typescript-eslint/no-unused-vars
+  50:20  warning  'handleDelete' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/app/[locale]/[tenant]/invoices/page.tsx
+   4:27  warning  'Filter' is defined but never used                                                                           @typescript-eslint/no-unused-vars
+   4:35  warning  'Download' is defined but never used                                                                         @typescript-eslint/no-unused-vars
+   4:45  warning  'MoreVertical' is defined but never used                                                                     @typescript-eslint/no-unused-vars
+  10:46  error    Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
+  39:8   warning  React Hook useEffect has a missing dependency: 'supabase'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/app/[locale]/[tenant]/layout.tsx
+  35:47  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/app/[locale]/[tenant]/projects/[id]/page.tsx
+   2:10  warning  'createClient' is defined but never used        @typescript-eslint/no-unused-vars
+   9:10  warning  'revalidatePath' is defined but never used      @typescript-eslint/no-unused-vars
+  31:20  warning  'handleUpdateStatus' is defined but never used  @typescript-eslint/no-unused-vars
+  33:59  error    Unexpected any. Specify a different type        @typescript-eslint/no-explicit-any
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/app/[locale]/[tenant]/projects/new/page.tsx
+    4:52   warning  'FileText' is defined but never used                                                                         @typescript-eslint/no-unused-vars
+   13:44   error    Unexpected any. Specify a different type                                                                     @typescript-eslint/no-explicit-any
+   29:8    warning  React Hook useEffect has a missing dependency: 'supabase'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+  181:29   error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                              react/no-unescaped-entities
+  181:157  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                              react/no-unescaped-entities
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/app/[locale]/[tenant]/projects/page.tsx
+  1:61  warning  'PlusCircle' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/app/[locale]/layout.tsx
+  29:17  warning  Custom fonts not added in `pages/_document.js` will only load for a single page. This is discouraged. See: https://nextjs.org/docs/messages/no-page-custom-font  @next/next/no-page-custom-font
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/app/[locale]/page.tsx
+  168:37   error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  168:166  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  184:37   error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  184:163  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/app/[locale]/register/page.tsx
+  9:34  warning  'UserPlus' is defined but never used      @typescript-eslint/no-unused-vars
+  9:44  warning  'CheckCircle2' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/app/[locale]/sign/[id]/page.tsx
+   5:20  warning  'MapPin' is defined but never used                                                                                                                                                                                                                                                       @typescript-eslint/no-unused-vars
+   5:38  warning  'Building2' is defined but never used                                                                                                                                                                                                                                                    @typescript-eslint/no-unused-vars
+   5:62  warning  'Download' is defined but never used                                                                                                                                                                                                                                                     @typescript-eslint/no-unused-vars
+   9:17  warning  'locale' is assigned a value but never used                                                                                                                                                                                                                                              @typescript-eslint/no-unused-vars
+  49:29  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+  92:64  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/app/actions/ai.ts
+  4:10  warning  'createEstimateAction' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/app/actions/auth.ts
+  145:45  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/app/actions/email-actions.ts
+  24:43  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/app/actions/estimate-ai.ts
+   8:22  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   9:23  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  12:81  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  81:46  warning  'context' is defined but never used       @typescript-eslint/no-unused-vars
+  81:55  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/app/actions/estimates.ts
+   7:10  warning  'EstimateStatus' is defined but never used  @typescript-eslint/no-unused-vars
+  28:12  error    Unexpected any. Specify a different type    @typescript-eslint/no-explicit-any
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/app/actions/ocr.ts
+  50:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/app/actions/payments.ts
+  6:10  warning  'redirect' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/app/actions/storage.ts
+  19:17  warning  'data' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  49:21  error    Unexpected any. Specify a different type   @typescript-eslint/no-explicit-any
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/app/api/webhooks/stripe/route.ts
+  17:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  24:46  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/app/layout.tsx
+   5:7  warning  'geistSans' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  10:7  warning  'geistMono' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/components/AIChat.tsx
+   12:5    warning  'Trash2' is defined but never used                               @typescript-eslint/no-unused-vars
+   66:18   warning  'error' is defined but never used                                @typescript-eslint/no-unused-vars
+  180:173  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  180:194  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  181:163  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+  181:179  error    `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`  react/no-unescaped-entities
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/components/DashboardHeader.tsx
+  50:29  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/components/OCRUpload.tsx
+   4:18  warning  'Upload' is defined but never used                                                                                                                                                                                                                                                       @typescript-eslint/no-unused-vars
+   4:45  warning  'Check' is defined but never used                                                                                                                                                                                                                                                        @typescript-eslint/no-unused-vars
+   4:52  warning  'X' is defined but never used                                                                                                                                                                                                                                                            @typescript-eslint/no-unused-vars
+   9:31  error    Unexpected any. Specify a different type                                                                                                                                                                                                                                                 @typescript-eslint/no-explicit-any
+  96:25  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/components/SigningForm.tsx
+  8:19  warning  'CheckCircle2' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/components/estimates/EstimateBuilderHeader.tsx
+  4:32  warning  'CheckCircle2' is defined but never used       @typescript-eslint/no-unused-vars
+  8:13  warning  'estimate' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/components/estimates/EstimateChatBuilder.tsx
+  60:73  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/components/estimates/EstimateContext.tsx
+  4:20  warning  'LineItem' is defined but never used  @typescript-eslint/no-unused-vars
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/components/estimates/LiveEstimatePreview.tsx
+  4:10  warning  'Estimate' is defined but never used        @typescript-eslint/no-unused-vars
+  4:20  warning  'LineItem' is defined but never used        @typescript-eslint/no-unused-vars
+  5:10  warning  'MoreHorizontal' is defined but never used  @typescript-eslint/no-unused-vars
+  5:43  warning  'Printer' is defined but never used         @typescript-eslint/no-unused-vars
+  5:52  warning  'Download' is defined but never used        @typescript-eslint/no-unused-vars
+
+/Users/josuerivera/Desktop/antogravity proyectos /ContractorIA/src/lib/stripe.ts
+  8:33  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+✖ 91 problems (33 errors, 58 warnings)
+

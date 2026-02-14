@@ -47,6 +47,7 @@ export interface Estimate {
     date_expires?: string;
     items: LineItem[];
     subtotal: number;
+    tax_rate?: number;
     tax_amount: number;
     total: number;
     deposit_amount: number;

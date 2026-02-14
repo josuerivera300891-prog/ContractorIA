@@ -1,9 +1,10 @@
 import { Users, Search, Filter, Mail, Phone, MoreVertical, UserPlus, MailQuestion } from "lucide-react";
+import Link from "next/link";
 import { getUserProfile } from "@/app/actions/auth";
 import { getClients } from "@/app/actions/clients";
 
-export default async function ClientsPage({ params }: { params: Promise<{ tenant: string }> }) {
-    const { tenant } = await params;
+export default async function ClientsPage({ params }: { params: Promise<{ locale: string; tenant: string }> }) {
+    const { locale, tenant } = await params;
     const profile = await getUserProfile();
     const companyId = profile?.companyId;
 
@@ -21,10 +22,12 @@ export default async function ClientsPage({ params }: { params: Promise<{ tenant
                         Base de relaciones para <span className="text-deep-blue font-bold">{tenant}</span>
                     </p>
                 </div>
-                <button className="pro-button shadow-xl shadow-turq-primary/20 group !py-3 !px-6 text-sm">
-                    <UserPlus size={18} />
-                    Añadir Cliente
-                </button>
+                <Link href={`/${locale}/${tenant}/clients/new`}>
+                    <button className="pro-button shadow-xl shadow-turq-primary/20 group !py-3 !px-6 text-sm">
+                        <UserPlus size={18} />
+                        Añadir Cliente
+                    </button>
+                </Link>
             </div>
 
             {/* Content Card */}

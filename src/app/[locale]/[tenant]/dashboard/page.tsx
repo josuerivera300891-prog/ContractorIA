@@ -5,8 +5,8 @@ import { getUserProfile } from "@/app/actions/auth";
 import { getTranslations } from "next-intl/server";
 import { ProfitabilityCard } from "@/components/ProfitabilityCard";
 
-export default async function TenantDashboard({ params }: { params: Promise<{ tenant: string }> }) {
-    const { tenant } = await params;
+export default async function TenantDashboard({ params }: { params: Promise<{ tenant: string; locale: string }> }) {
+    const { tenant, locale } = await params;
     const supabase = await createClient();
     const profile = await getUserProfile();
     const companyId = profile?.companyId;
@@ -88,7 +88,7 @@ export default async function TenantDashboard({ params }: { params: Promise<{ te
                         {t("infrastructure")} • <span className="text-deep-blue font-bold opacity-80">{tenant}</span>
                     </p>
                 </div>
-                <Link href={`/${tenant}/estimates`} className="block">
+                <Link href={`/${locale}/${tenant}/estimates/new`} className="block">
                     <button className="pro-button shadow-xl shadow-turq-primary/20 group animate-in fade-in slide-in-from-right duration-500 w-full md:w-auto">
                         <Plus size={18} className="group-hover:rotate-90 transition-transform duration-500" />
                         Nuevo Presupuesto

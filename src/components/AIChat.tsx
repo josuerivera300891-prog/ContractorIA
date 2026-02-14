@@ -132,8 +132,8 @@ export function AIChat({ tenant }: { tenant: string }) {
                                         {msg.role === 'ai' ? <Bot size={16} /> : <User size={16} />}
                                     </div>
                                     <div className={`p-4 rounded-2xl text-sm font-medium leading-relaxed shadow-sm ${msg.role === 'ai'
-                                            ? 'bg-white text-deep-blue border border-turq-primary/5'
-                                            : 'bg-turq-primary text-white shadow-turq-primary/10'
+                                        ? 'bg-white text-deep-blue border border-turq-primary/5'
+                                        : 'bg-turq-primary text-white shadow-turq-primary/10'
                                         }`}>
                                         {msg.content}
                                         <div className={`text-[9px] mt-2 font-bold opacity-50 ${msg.role === 'user' ? 'text-right' : 'text-left'}`}>
@@ -168,8 +168,8 @@ export function AIChat({ tenant }: { tenant: string }) {
                                 onClick={handleSend}
                                 disabled={!input.trim()}
                                 className={`absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-xl flex items-center justify-center transition-all ${input.trim()
-                                        ? 'bg-turq-primary text-white shadow-lg shadow-turq-primary/20 hover:scale-105 active:scale-95'
-                                        : 'text-slate-300 pointer-events-none'
+                                    ? 'bg-turq-primary text-white shadow-lg shadow-turq-primary/20 hover:scale-105 active:scale-95'
+                                    : 'text-slate-300 pointer-events-none'
                                     }`}
                             >
                                 <Send size={18} />
@@ -177,8 +177,8 @@ export function AIChat({ tenant }: { tenant: string }) {
                         </div>
                         <div className="mt-3 flex gap-2">
                             <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-2">Sugerencias:</span>
-                            <button onClick={() => setInput("Crear presupuesto para...")} className="text-[9px] font-bold text-turq-primary hover:underline transition-all">"Crear presupuesto..."</button>
-                            <button onClick={() => setInput("Listar clientes")} className="text-[9px] font-bold text-turq-primary hover:underline transition-all">"Listar clientes"</button>
+                            <button onClick={() => setInput("Crear presupuesto para...")} className="text-[9px] font-bold text-turq-primary hover:underline transition-all">&quot;Crear presupuesto...&quot;</button>
+                            <button onClick={() => setInput("Listar clientes")} className="text-[9px] font-bold text-turq-primary hover:underline transition-all">&quot;Listar clientes&quot;</button>
                         </div>
                     </div>
                 </>

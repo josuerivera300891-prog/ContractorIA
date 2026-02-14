@@ -9,19 +9,41 @@ import { createEstimateAction } from "@/app/actions/estimates";
 import { OCRUpload } from "@/components/OCRUpload";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { useCallback } from "react";
+
+interface Estimate {
+    id: string;
+    company_id: string;
+    client_id: string;
+    project_id?: string;
+    total_amount: number;
+    status: string;
+    created_at: string;
+    client_name?: string;
+    estimate_number?: string;
+    version?: number;
+    total?: number;
+}
+
+interface Client {
+    id: string;
+    first_name: string;
+    last_name: string;
+    company_name?: string;
+}
 
 export default function EstimatesPage({ params }: { params: Promise<{ tenant: string; locale: string }> }) {
     const { tenant, locale } = use(params);
-    const [estimates, setEstimates] = useState<any[]>([]);
+    const [estimates, setEstimates] = useState<Estimate[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [processingId, setProcessingId] = useState<string | null>(null);
     const [extractedItems, setExtractedItems] = useState<any[] | null>(null);
-    const [clients, setClients] = useState<any[]>([]);
+    const [clients, setClients] = useState<Client[]>([]);
     const [selectedClientId, setSelectedClientId] = useState<string>("");
     const [companyId, setCompanyId] = useState<string>("");
     const supabase = createClient();
 
-    const fetchEstimates = async () => {
+    const fetchEstimates = useCallback(async () => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return;
         const { data: profile } = await supabase.from('profiles').select('company_id').eq('id', user.id).single();
@@ -33,13 +55,21 @@ export default function EstimatesPage({ params }: { params: Promise<{ tenant: st
         setEstimates(estData || []);
 
         const { data: clientData } = await supabase.from('clients').select('id, first_name, last_name, company_name').eq('company_id', profile.company_id);
-        setClients(clientData || []);
-        if (clientData && clientData.length > 0) setSelectedClientId(clientData[0].id);
+        const mappedClients: Client[] = (clientData || []).map((c: any) => ({
+            id: c.id,
+            first_name: c.first_name,
+            last_name: c.last_name,
+            company_name: c.company_name
+        }));
+        setClients(mappedClients);
+        if (mappedClients.length > 0) setSelectedClientId(mappedClients[0].id);
 
         setIsLoading(false);
-    };
+    }, [supabase, tenant]);
 
-    useEffect(() => { fetchEstimates(); }, [tenant]);
+    useEffect(() => {
+        fetchEstimates();
+    }, [fetchEstimates]);
 
     const handleSendEmail = async (id: string) => {
         const email = window.prompt("Ingrese el correo del cliente:");
@@ -98,9 +128,11 @@ export default function EstimatesPage({ params }: { params: Promise<{ tenant: st
                 </div>
                 <div className="flex gap-4 items-center">
                     <OCRUpload onItemsExtracted={(items) => setExtractedItems(items)} />
-                    <button className="pro-button shadow-xl shadow-turq-primary/20 group !py-3 !px-6 text-sm">
-                        <Plus size={18} className="group-hover:rotate-90 transition-transform" /> Crear Presupuesto
-                    </button>
+                    <Link href={`/${locale}/${tenant}/estimates/new`}>
+                        <button className="pro-button shadow-xl shadow-turq-primary/20 group !py-3 !px-6 text-sm">
+                            <Plus size={18} className="group-hover:rotate-90 transition-transform" /> Crear Presupuesto
+                        </button>
+                    </Link>
                 </div>
             </div>
 

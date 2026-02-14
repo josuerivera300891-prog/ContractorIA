@@ -28,10 +28,12 @@ export default async function ProjectsPage({ params }: { params: Promise<{ local
                         Infraestructura activa para <span className="text-deep-blue font-bold">{tenant}</span>
                     </p>
                 </div>
-                <button className="pro-button shadow-xl shadow-turq-primary/20 group !py-3 !px-6 text-sm">
-                    <Plus size={18} className="group-hover:rotate-90 transition-transform duration-500" />
-                    Nuevo Proyecto
-                </button>
+                <Link href={`/${locale}/${tenant}/projects/new`}>
+                    <button className="pro-button shadow-xl shadow-turq-primary/20 group !py-3 !px-6 text-sm">
+                        <Plus size={18} className="group-hover:rotate-90 transition-transform duration-500" />
+                        Nuevo Proyecto
+                    </button>
+                </Link>
             </div>
 
             {/* Stats Summary */}
