@@ -1,7 +1,28 @@
 {
+  "Common": {
+    "save": "Save",
+    "saving": "Saving...",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "actions": "Actions",
+    "status": "Status",
+    "created": "Created",
+    "total": "Total",
+    "search": "Search...",
+    "filter": "Filter",
+    "placeholder": "Type here...",
+    "success": "Success",
+    "error": "Error",
+    "no_data": "No data available",
+    "add": "Add",
+    "create": "Create",
+    "update": "Update"
+  },
   "Landing": {
     "evolution": "10-Day Free Trial • The evolution of the commercial budget",
-    "title": "Escala tu negocio con presupuestos <italic>inteligentes</italic>.",
+    "title": "Scale your business with <italic>intelligent</italic> estimates.",
     "description": "<bold>ContractorIA</bold> presents the first corporate AI platform designed for contractors to close deals in record time.",
     "ctaRequest": "Request Free Demo",
     "ctaWebinar": "Watch Webinar",
@@ -19,7 +40,7 @@
     "register": "start your 14-day free trial"
   },
   "Register": {
-    "title": "Start your 14-day free trial",
+    "title": "Start your free trial",
     "firstName": "First name",
     "lastName": "Last name",
     "companyName": "Company Name",
@@ -56,7 +77,153 @@
     "infrastructure": "SaaS Infrastructure",
     "projects": "Active Projects",
     "estimates": "Pending Quotes",
-    "clients": "Portfolio",
+    "clients": "Client Portfolio",
     "revenue": "Projected Income"
+  },
+  "Clients": {
+    "title": "Client Directory",
+    "description": "Relationship base for {tenant}",
+    "add_button": "Add Client",
+    "portfolio": "Client Portfolio",
+    "search_placeholder": "Name, email or company...",
+    "no_clients": "No registered clients",
+    "empty_desc": "Start building your client database to manage estimates and projects.",
+    "table": {
+      "client_contact": "Client / Contact",
+      "company": "Company",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "company_type": {
+      "individual": "Individual"
+    },
+    "import": {
+      "title": "Import Contacts",
+      "description": "Sync your list from CSV or Google Contacts.",
+      "button": "Configure Import"
+    }
+  },
+  "Projects": {
+    "title": "Project Management",
+    "description": "Active infrastructure for {tenant}",
+    "add_button": "New Project",
+    "stats": {
+      "in_progress": "In Progress",
+      "completed": "Completed",
+      "pending": "Pending"
+    },
+    "list_title": "All Projects",
+    "search_placeholder": "Search project...",
+    "no_projects": "No active projects",
+    "empty_desc": "Start using ContractorIA's infrastructure by creating your first intelligent project.",
+    "empty_cta": "Start Now",
+    "status": {
+      "planning": "Planning",
+      "in_progress": "Ongoing",
+      "completed": "Finished"
+    },
+    "view_details": "View Details"
+  },
+  "Estimates": {
+    "title": "Neural Estimates",
+    "description": "Intelligent management for {tenant}",
+    "add_button": "Create Estimate",
+    "history": "Business History",
+    "search_placeholder": "Search folio...",
+    "no_estimates": "No estimates available.",
+    "ocr": {
+      "title": "Material Review (AI)",
+      "description": "Gemini has extracted {count} materials. Validate and assign them to a client.",
+      "assign": "Assign to Client",
+      "select_placeholder": "Select client...",
+      "table_desc": "Description",
+      "table_qty": "Quantity",
+      "discard": "Discard",
+      "save_draft": "Create Draft"
+    },
+    "table": {
+      "folio": "Folio",
+      "status": "Status",
+      "total": "Total",
+      "actions": "Actions"
+    },
+    "actions": {
+      "convert": "Convert to Invoice",
+      "send": "Send by Email",
+      "view": "View Detail"
+    }
+  },
+  "Invoices": {
+    "title": "Billing Center",
+    "description": "Income and collections for {tenant}",
+    "stats": {
+      "paid": "Collected",
+      "pending": "Pending",
+      "overdue": "Overdue"
+    },
+    "no_invoices": "No invoices issued",
+    "table": {
+      "number": "Invoice #",
+      "due": "Due Date",
+      "amount": "Amount"
+    }
+  },
+  "Settings": {
+    "title": "Configuration",
+    "description": "Customize your experience and manage your company.",
+    "tabs": {
+      "profile": "Profile",
+      "organization": "Organization",
+      "team": "Team",
+      "billing": "Billing",
+      "security": "Security"
+    },
+    "profile": {
+      "title": "User Profile",
+      "subtitle": "Personal information and preferences",
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "phone": "Phone",
+      "save": "Save Profile"
+    },
+    "organization": {
+      "title": "Corporation",
+      "subtitle": "Legal and tax data of the company",
+      "name": "Legal Name",
+      "email": "Corporate Email",
+      "phone": "Business Phone",
+      "tax_id": "Tax ID",
+      "tax_rate": "Tax Rate (%)",
+      "address": "Physical Address",
+      "branding": "Visual Identity",
+      "primary_color": "Primary Color",
+      "secondary_color": "Secondary Color",
+      "sync": "Sync Data"
+    }
+  },
+  "Audit": {
+    "title": "Audit Log",
+    "description": "Security log for {tenant}",
+    "table": {
+      "user": "User",
+      "action": "Action",
+      "resource": "Resource",
+      "date": "Date"
+    }
+  },
+  "Expenses": {
+    "title": "Expense Control",
+    "description": "Cost management for {tenant}",
+    "add_button": "Register Expense",
+    "no_expenses": "No expenses registered",
+    "table": {
+      "category": "Category",
+      "amount": "Amount",
+      "date": "Date"
+    }
   }
 }

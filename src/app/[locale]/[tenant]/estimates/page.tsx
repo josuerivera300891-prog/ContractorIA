@@ -10,6 +10,7 @@ import { OCRUpload } from "@/components/OCRUpload";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useCallback } from "react";
+import { useTranslations } from "next-intl";
 
 interface Estimate {
     id: string;
@@ -42,6 +43,8 @@ export default function EstimatesPage({ params }: { params: Promise<{ tenant: st
     const [selectedClientId, setSelectedClientId] = useState<string>("");
     const [companyId, setCompanyId] = useState<string>("");
     const supabase = createClient();
+    const t = useTranslations("Estimates");
+    const tc = useTranslations("Common");
 
     const fetchEstimates = useCallback(async () => {
         const { data: { user } } = await supabase.auth.getUser();
@@ -72,29 +75,29 @@ export default function EstimatesPage({ params }: { params: Promise<{ tenant: st
     }, [fetchEstimates]);
 
     const handleSendEmail = async (id: string) => {
-        const email = window.prompt("Ingrese el correo del cliente:");
+        const email = window.prompt(t("actions.send_prompt") || "Email:");
         if (!email) return;
         setProcessingId(id);
         const result = await sendEstimateEmailAction(id, email);
         setProcessingId(null);
-        if (result.success) alert("¡Correo enviado con éxito!");
-        else alert("Error: " + result.error);
+        if (result.success) alert(tc("success"));
+        else alert(tc("error") + ": " + result.error);
     };
 
     const handleConvertToInvoice = async (id: string) => {
-        if (!window.confirm("¿Desea generar una factura a partir de este presupuesto firmado?")) return;
+        if (!window.confirm(t("actions.convert_confirm"))) return;
         setProcessingId(id);
         const result = await convertEstimateToInvoiceAction(id);
         setProcessingId(null);
         if (result.success) {
-            alert("¡Factura generada con éxito!");
+            alert(tc("success"));
             fetchEstimates();
-        } else alert("Error: " + result.error);
+        } else alert(tc("error") + ": " + result.error);
     };
 
     const handleSaveOCRDraft = async () => {
         if (!selectedClientId) {
-            alert("Por favor, seleccione un cliente para el presupuesto.");
+            alert(t("ocr.select_error"));
             return;
         }
         if (!extractedItems || extractedItems.length === 0) return;
@@ -104,7 +107,7 @@ export default function EstimatesPage({ params }: { params: Promise<{ tenant: st
         formData.append('client_id', selectedClientId);
         formData.append('items', JSON.stringify(extractedItems));
         formData.append('tax_rate', '0');
-        formData.append('notes', 'Generado automáticamente vía OCR AI.');
+        formData.append('notes', t("ocr.automatic_note"));
 
         const result = await createEstimateAction(formData, companyId);
         setIsLoading(false);
@@ -113,7 +116,7 @@ export default function EstimatesPage({ params }: { params: Promise<{ tenant: st
             setExtractedItems(null);
             fetchEstimates();
         } else {
-            alert("Error al guardar: " + result.error);
+            alert(tc("error") + ": " + result.error);
         }
     };
 
@@ -122,15 +125,17 @@ export default function EstimatesPage({ params }: { params: Promise<{ tenant: st
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <div>
                     <h1 className="text-4xl font-[900] text-deep-blue tracking-tight mb-2 font-outfit">
-                        Neural <span className="text-turq-primary">Estimates</span>
+                        {t.rich("title", {
+                            span: (chunks) => <span className="text-turq-primary">{chunks}</span>
+                        })}
                     </h1>
-                    <p className="text-slate-500 font-medium font-inter">Gestión inteligente para <span className="text-deep-blue font-bold">{tenant}</span></p>
+                    <p className="text-slate-500 font-medium font-inter">{t("description", { tenant })}</p>
                 </div>
                 <div className="flex gap-4 items-center">
                     <OCRUpload onItemsExtracted={(items) => setExtractedItems(items)} />
                     <Link href={`/${locale}/${tenant}/estimates/new`}>
                         <button className="pro-button shadow-xl shadow-turq-primary/20 group !py-3 !px-6 text-sm">
-                            <Plus size={18} className="group-hover:rotate-90 transition-transform" /> Crear Presupuesto
+                            <Plus size={18} className="group-hover:rotate-90 transition-transform" /> {t("add_button")}
                         </button>
                     </Link>
                 </div>
@@ -153,18 +158,18 @@ export default function EstimatesPage({ params }: { params: Promise<{ tenant: st
                                 <div>
                                     <h3 className="text-2xl font-[900] mb-2 flex items-center gap-3">
                                         <Sparkles className="text-turq-primary" size={24} />
-                                        Revisión de Materiales (IA)
+                                        {t("ocr.title")}
                                     </h3>
-                                    <p className="text-white/60 text-sm font-medium">Gemini ha extraído {extractedItems.length} materiales. Valídalos y asígnalos a un cliente.</p>
+                                    <p className="text-white/60 text-sm font-medium">{t("ocr.description", { count: extractedItems.length })}</p>
                                 </div>
                                 <div className="flex flex-col gap-2 w-full md:w-auto">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-white/40">Asignar a Cliente</label>
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-white/40">{t("ocr.assign")}</label>
                                     <select
                                         className="bg-white/10 border border-white/20 rounded-xl px-4 py-2 text-sm font-bold focus:outline-none focus:ring-2 focus:ring-turq-primary"
                                         value={selectedClientId}
                                         onChange={(e) => setSelectedClientId(e.target.value)}
                                     >
-                                        <option value="" className="text-black">Seleccionar cliente...</option>
+                                        <option value="" className="text-black">{t("ocr.select_placeholder")}</option>
                                         {clients.map(c => (
                                             <option key={c.id} value={c.id} className="text-black">
                                                 {c.first_name} {c.last_name} {c.company_name ? `(${c.company_name})` : ''}
@@ -178,9 +183,9 @@ export default function EstimatesPage({ params }: { params: Promise<{ tenant: st
                                 <table className="w-full">
                                     <thead>
                                         <tr className="text-left border-b border-white/10">
-                                            <th className="pb-4 text-[10px] font-black uppercase tracking-widest text-white/40">Descripción</th>
-                                            <th className="pb-4 text-[10px] font-black uppercase tracking-widest text-white/40 text-center">Cantidad</th>
-                                            <th className="pb-4 text-[10px] font-black uppercase tracking-widest text-white/40 text-right pr-4">Acciones</th>
+                                            <th className="pb-4 text-[10px] font-black uppercase tracking-widest text-white/40">{t("ocr.table_desc")}</th>
+                                            <th className="pb-4 text-[10px] font-black uppercase tracking-widest text-white/40 text-center">{t("ocr.table_qty")}</th>
+                                            <th className="pb-4 text-[10px] font-black uppercase tracking-widest text-white/40 text-right pr-4">{tc("actions")}</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-white/5">
@@ -207,13 +212,13 @@ export default function EstimatesPage({ params }: { params: Promise<{ tenant: st
                                     onClick={() => setExtractedItems(null)}
                                     className="px-6 py-3 rounded-2xl bg-white/5 text-white font-black uppercase tracking-widest text-[10px] hover:bg-white/10 transition-all"
                                 >
-                                    Descartar
+                                    {t("ocr.discard")}
                                 </button>
                                 <button
                                     onClick={handleSaveOCRDraft}
                                     className="px-6 py-3 rounded-2xl bg-turq-primary text-deep-blue font-black uppercase tracking-widest text-[10px] hover:scale-105 transition-all flex items-center gap-2"
                                 >
-                                    <Save size={14} /> Crear Borrador (Draft)
+                                    <Save size={14} /> {t("ocr.save_draft")}
                                 </button>
                             </div>
                         </div>
@@ -226,12 +231,12 @@ export default function EstimatesPage({ params }: { params: Promise<{ tenant: st
 
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10 relative z-10 font-outfit">
                     <h2 className="text-xl font-[900] text-deep-blue flex items-center gap-3">
-                        <FileText className="text-turq-primary" size={24} /> Historial de Negocios
+                        <FileText className="text-turq-primary" size={24} /> {t("history")}
                     </h2>
                     <div className="flex gap-3 w-full md:w-auto font-inter">
                         <div className="relative flex-1 md:w-64">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
-                            <input type="text" placeholder="Buscar folio..." className="w-full pl-10 pr-4 py-2 rounded-xl border border-turq-primary/10 bg-white/5 text-sm font-medium" />
+                            <input type="text" placeholder={t("search_placeholder")} className="w-full pl-10 pr-4 py-2 rounded-xl border border-turq-primary/10 bg-white/5 text-sm font-medium" />
                         </div>
                     </div>
                 </div>
@@ -243,10 +248,10 @@ export default function EstimatesPage({ params }: { params: Promise<{ tenant: st
                         <table className="w-full">
                             <thead>
                                 <tr className="text-left border-b border-slate-50">
-                                    <th className="pb-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Folio</th>
-                                    <th className="pb-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Estado</th>
-                                    <th className="pb-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Total</th>
-                                    <th className="pb-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Acciones</th>
+                                    <th className="pb-4 text-[10px] font-black uppercase tracking-widest text-slate-400">{t("table.folio")}</th>
+                                    <th className="pb-4 text-[10px] font-black uppercase tracking-widest text-slate-400">{t("table.status")}</th>
+                                    <th className="pb-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">{t("table.total")}</th>
+                                    <th className="pb-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">{t("table.actions")}</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-50">
@@ -272,7 +277,7 @@ export default function EstimatesPage({ params }: { params: Promise<{ tenant: st
                                                         onClick={() => handleConvertToInvoice(est.id)}
                                                         disabled={processingId === est.id}
                                                         className="p-2 rounded-lg bg-emerald-50 text-emerald-500 hover:bg-emerald-500 hover:text-white transition-all border border-emerald-100"
-                                                        title="Convertir a Factura"
+                                                        title={t("actions.convert")}
                                                     >
                                                         {processingId === est.id ? <Loader2 size={16} className="animate-spin" /> : <Receipt size={16} />}
                                                     </button>
@@ -281,7 +286,7 @@ export default function EstimatesPage({ params }: { params: Promise<{ tenant: st
                                                     onClick={() => handleSendEmail(est.id)}
                                                     disabled={processingId === est.id}
                                                     className="p-2 rounded-lg bg-turq-primary/5 text-turq-primary hover:bg-turq-primary hover:text-white transition-all border border-turq-primary/10"
-                                                    title="Enviar por Correo"
+                                                    title={t("actions.send")}
                                                 >
                                                     {processingId === est.id ? <Loader2 size={16} className="animate-spin" /> : <Mail size={16} />}
                                                 </button>
@@ -302,7 +307,7 @@ export default function EstimatesPage({ params }: { params: Promise<{ tenant: st
                 ) : (
                     <div className="py-20 text-center">
                         <FileText size={48} className="mx-auto text-slate-100 mb-4" />
-                        <p className="text-slate-400 font-medium">No hay presupuestos disponibles.</p>
+                        <p className="text-slate-400 font-medium">{t("no_estimates")}</p>
                     </div>
                 )}
             </div>

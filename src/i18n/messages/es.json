@@ -1,4 +1,25 @@
 {
+    "Common": {
+        "save": "Guardar",
+        "saving": "Guardando...",
+        "cancel": "Cancelar",
+        "delete": "Eliminar",
+        "edit": "Editar",
+        "view": "Ver",
+        "actions": "Acciones",
+        "status": "Estado",
+        "created": "Creado",
+        "total": "Total",
+        "search": "Buscar...",
+        "filter": "Filtrar",
+        "placeholder": "Escribe aquí...",
+        "success": "Éxito",
+        "error": "Error",
+        "no_data": "No hay datos disponibles",
+        "add": "Añadir",
+        "create": "Crear",
+        "update": "Actualizar"
+    },
     "Landing": {
         "evolution": "10 Días de Prueba Gratuita • La evolución del presupuesto comercial",
         "title": "Escala tu negocio con presupuestos <italic>inteligentes</italic>.",
@@ -58,5 +79,151 @@
         "estimates": "Presupuestos Pendientes",
         "clients": "Cartera de Clientes",
         "revenue": "Ingresos Proyectados"
+    },
+    "Clients": {
+        "title": "Directorio de Clientes",
+        "description": "Base de relaciones para {tenant}",
+        "add_button": "Añadir Cliente",
+        "portfolio": "Cartera de Clientes",
+        "search_placeholder": "Nombre, email o empresa...",
+        "no_clients": "No hay clientes registrados",
+        "empty_desc": "Comienza a construir tu base de datos de clientes para gestionar presupuestos y proyectos.",
+        "table": {
+            "client_contact": "Cliente / Contacto",
+            "company": "Empresa",
+            "status": "Estado",
+            "actions": "Acciones"
+        },
+        "status": {
+            "active": "Activo",
+            "inactive": "Inactivo"
+        },
+        "company_type": {
+            "individual": "Particular"
+        },
+        "import": {
+            "title": "Importar Contactos",
+            "description": "Sincroniza tu lista desde CSV o Google Contacts.",
+            "button": "Configurar Importación"
+        }
+    },
+    "Projects": {
+        "title": "Gestión de Proyectos",
+        "description": "Infraestructura activa para {tenant}",
+        "add_button": "Nuevo Proyecto",
+        "stats": {
+            "in_progress": "En Ejecución",
+            "completed": "Finalizados",
+            "pending": "Pendientes"
+        },
+        "list_title": "Todos los Proyectos",
+        "search_placeholder": "Buscar proyecto...",
+        "no_projects": "No hay proyectos activos",
+        "empty_desc": "Comienza a utilizar la infraestructura de ContractorIA creando tu primer proyecto inteligente.",
+        "empty_cta": "Empezar Ahora",
+        "status": {
+            "planning": "Planeación",
+            "in_progress": "En Marcha",
+            "completed": "Finalizado"
+        },
+        "view_details": "Ver Detalles"
+    },
+    "Estimates": {
+        "title": "Neural Estimates",
+        "description": "Gestión inteligente para {tenant}",
+        "add_button": "Crear Presupuesto",
+        "history": "Historial de Negocios",
+        "search_placeholder": "Buscar folio...",
+        "no_estimates": "No hay presupuestos disponibles.",
+        "ocr": {
+            "title": "Revisión de Materiales (IA)",
+            "description": "Gemini ha extraído {count} materiales. Valídalos y asígnalos a un cliente.",
+            "assign": "Asignar a Cliente",
+            "select_placeholder": "Seleccionar cliente...",
+            "table_desc": "Descripción",
+            "table_qty": "Cantidad",
+            "discard": "Descartar",
+            "save_draft": "Crear Borrador (Draft)"
+        },
+        "table": {
+            "folio": "Folio",
+            "status": "Estado",
+            "total": "Total",
+            "actions": "Acciones"
+        },
+        "actions": {
+            "convert": "Convertir a Factura",
+            "send": "Enviar por Correo",
+            "view": "Ver Detalle"
+        }
+    },
+    "Invoices": {
+        "title": "Centro de Facturación",
+        "description": "Ingresos y cobros para {tenant}",
+        "stats": {
+            "paid": "Cobrado",
+            "pending": "Pendiente",
+            "overdue": "Vencido"
+        },
+        "no_invoices": "Sin facturas emitidas",
+        "table": {
+            "number": "Factura #",
+            "due": "Vencimiento",
+            "amount": "Monto"
+        }
+    },
+    "Settings": {
+        "title": "Configuración",
+        "description": "Personaliza tu experiencia y gestiona tu empresa.",
+        "tabs": {
+            "profile": "Perfil",
+            "organization": "Organización",
+            "team": "Equipo",
+            "billing": "Facturación",
+            "security": "Seguridad"
+        },
+        "profile": {
+            "title": "Perfil de Usuario",
+            "subtitle": "Información personal y preferencias",
+            "first_name": "Nombre",
+            "last_name": "Apellido",
+            "phone": "Teléfono",
+            "save": "Guardar Perfil"
+        },
+        "organization": {
+            "title": "Corporación",
+            "subtitle": "Datos legales y fiscales de la empresa",
+            "name": "Nombre Legal",
+            "email": "Email Corporativo",
+            "phone": "Teléfono Comercial",
+            "tax_id": "Tax ID / RFC",
+            "tax_rate": "Tasa de Impuesto (%)",
+            "address": "Dirección Física",
+            "branding": "Identidad Visual",
+            "primary_color": "Color Primario",
+            "secondary_color": "Color Secundario",
+            "sync": "Sincronizar Datos"
+        }
+    },
+    "Audit": {
+        "title": "Log de Auditoría",
+        "description": "Registro de seguridad de {tenant}",
+        "table": {
+            "user": "Usuario",
+            "action": "Acción",
+            "resource": "Recurso",
+            "date": "Fecha"
+        }
+    },
+    "Expenses": {
+        "title": "Control de Gastos",
+        "description": "Gestión de costos para {tenant}",
+        "add_button": "Registrar Gasto",
+        "no_expenses": "No hay gastos registrados",
+        "table": {
+            "category": "Categoría",
+            "amount": "Monto",
+            "date": "Fecha"
+        }
     }
 }

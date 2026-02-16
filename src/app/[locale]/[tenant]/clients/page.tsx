@@ -2,11 +2,14 @@ import { Users, Search, Filter, Mail, Phone, MoreVertical, UserPlus, MailQuestio
 import Link from "next/link";
 import { getUserProfile } from "@/app/actions/auth";
 import { getClients } from "@/app/actions/clients";
+import { getTranslations } from "next-intl/server";
 
 export default async function ClientsPage({ params }: { params: Promise<{ locale: string; tenant: string }> }) {
     const { locale, tenant } = await params;
     const profile = await getUserProfile();
     const companyId = profile?.companyId;
+    const t = await getTranslations("Clients");
+    const tc = await getTranslations("Common");
 
     const clients = companyId ? await getClients(companyId) : [];
 
@@ -16,16 +19,18 @@ export default async function ClientsPage({ params }: { params: Promise<{ locale
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <div>
                     <h1 className="text-4xl font-[900] text-deep-blue tracking-tight mb-2">
-                        Directorio de <span className="text-turq-primary">Clientes</span>
+                        {t.rich("title", {
+                            span: (chunks) => <span className="text-turq-primary">{chunks}</span>
+                        })}
                     </h1>
                     <p className="text-slate-500 font-medium font-inter">
-                        Base de relaciones para <span className="text-deep-blue font-bold">{tenant}</span>
+                        {t("description", { tenant })}
                     </p>
                 </div>
                 <Link href={`/${locale}/${tenant}/clients/new`}>
                     <button className="pro-button shadow-xl shadow-turq-primary/20 group !py-3 !px-6 text-sm">
                         <UserPlus size={18} />
-                        Añadir Cliente
+                        {t("add_button")}
                     </button>
                 </Link>
             </div>
@@ -35,14 +40,14 @@ export default async function ClientsPage({ params }: { params: Promise<{ locale
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
                     <h2 className="text-xl font-[900] text-deep-blue flex items-center gap-3">
                         <Users className="text-turq-primary" size={24} />
-                        Cartera de Clientes
+                        {t("portfolio")}
                     </h2>
                     <div className="flex gap-3 w-full md:w-auto">
                         <div className="relative flex-1 md:w-64">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
                             <input
                                 type="text"
-                                placeholder="Nombre, email o empresa..."
+                                placeholder={t("search_placeholder")}
                                 className="w-full pl-10 pr-4 py-2 rounded-xl border border-turq-primary/10 bg-white/50 focus:outline-none focus:ring-2 focus:ring-turq-primary/20 text-sm font-medium"
                             />
                         </div>
@@ -57,9 +62,9 @@ export default async function ClientsPage({ params }: { params: Promise<{ locale
                         <div className="w-20 h-20 rounded-full bg-turq-primary/5 flex items-center justify-center text-turq-primary/30 mb-6">
                             <Users size={40} />
                         </div>
-                        <h3 className="text-xl font-bold text-deep-blue mb-2">No hay clientes registrados</h3>
+                        <h3 className="text-xl font-bold text-deep-blue mb-2">{t("no_clients")}</h3>
                         <p className="text-slate-500 max-w-sm mb-8 font-medium">
-                            Comienza a construir tu base de datos de clientes para gestionar presupuestos y proyectos.
+                            {t("empty_desc")}
                         </p>
                     </div>
                 ) : (
@@ -68,10 +73,10 @@ export default async function ClientsPage({ params }: { params: Promise<{ locale
                         <table className="w-full text-left border-separate border-spacing-y-3">
                             <thead>
                                 <tr className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
-                                    <th className="px-6 py-4">Cliente / Contacto</th>
-                                    <th className="px-6 py-4">Empresa</th>
-                                    <th className="px-6 py-4">Estado</th>
-                                    <th className="px-6 py-4 text-right">Acciones</th>
+                                    <th className="px-6 py-4">{t("table.client_contact")}</th>
+                                    <th className="px-6 py-4">{t("table.company")}</th>
+                                    <th className="px-6 py-4">{t("table.status")}</th>
+                                    <th className="px-6 py-4 text-right">{t("table.actions")}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -89,12 +94,12 @@ export default async function ClientsPage({ params }: { params: Promise<{ locale
                                             </div>
                                         </td>
                                         <td className="px-6 py-5 border-y border-turq-primary/5">
-                                            <span className="text-sm font-bold text-slate-600">{client.company_name || 'Particular'}</span>
+                                            <span className="text-sm font-bold text-slate-600">{client.company_name || t("company_type.individual")}</span>
                                         </td>
                                         <td className="px-6 py-5 border-y border-turq-primary/5">
                                             <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider border ${client.status === 'ACTIVE' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-slate-50 text-slate-500 border-slate-100'
                                                 }`}>
-                                                {client.status === 'ACTIVE' ? 'Activo' : 'Inactivo'}
+                                                {client.status === 'ACTIVE' ? t("status.active") : t("status.inactive")}
                                             </span>
                                         </td>
                                         <td className="px-6 py-5 rounded-r-2xl border-y border-r border-turq-primary/5 text-right">
@@ -116,12 +121,12 @@ export default async function ClientsPage({ params }: { params: Promise<{ locale
                             <MailQuestion size={32} />
                         </div>
                         <div>
-                            <h4 className="font-bold text-deep-blue">Importar Contactos</h4>
-                            <p className="text-sm text-slate-500 font-medium">Sincroniza tu lista desde CSV o Google Contacts.</p>
+                            <h4 className="font-bold text-deep-blue">{t("import.title")}</h4>
+                            <p className="text-sm text-slate-500 font-medium">{t("import.description")}</p>
                         </div>
                     </div>
                     <button className="pro-card !py-3 !px-8 text-xs font-black uppercase tracking-widest text-deep-blue border-turq-primary/20 hover:border-turq-primary transition-all">
-                        Configurar Importación
+                        {t("import.button")}
                     </button>
                 </div>
             </div>

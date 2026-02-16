@@ -3,7 +3,8 @@ import { Plus, TrendingUp, Clock, AlertCircle, Briefcase, FileText, Users, Recei
 import { createClient } from "@/utils/supabase/server";
 import { getUserProfile } from "@/app/actions/auth";
 import { getTranslations } from "next-intl/server";
-import { ProfitabilityCard } from "@/components/ProfitabilityCard";
+import { getFinancialAnalytics } from "@/app/actions/analytics";
+import FinancialChart from "@/components/dashboard/FinancialChart";
 
 export default async function TenantDashboard({ params }: { params: Promise<{ tenant: string; locale: string }> }) {
     const { tenant, locale } = await params;
@@ -11,6 +12,9 @@ export default async function TenantDashboard({ params }: { params: Promise<{ te
     const profile = await getUserProfile();
     const companyId = profile?.companyId;
     const t = await getTranslations("Dashboard");
+
+    // Fetch Analytics Data
+    const financialData = await getFinancialAnalytics();
 
     // Fetch real metrics from Supabase
     const { count: projectsCount } = await supabase
@@ -26,12 +30,12 @@ export default async function TenantDashboard({ params }: { params: Promise<{ te
     // Estimates and Revenue
     const { data: estimates } = await supabase
         .from('estimates')
-        .select('total, status')
+        .select('total_amount, status')
         .eq('company_id', companyId)
         .neq('status', 'CANCELED');
 
     const estimatesCount = estimates?.length || 0;
-    const totalRevenue = estimates?.reduce((acc, est) => acc + Number(est.total), 0) || 0;
+    const totalRevenue = estimates?.reduce((acc, est) => acc + Number(est.total_amount), 0) || 0;
 
     // Expenses
     const { data: expensesData } = await supabase
@@ -40,10 +44,6 @@ export default async function TenantDashboard({ params }: { params: Promise<{ te
         .eq('company_id', companyId);
 
     const totalExpenses = expensesData?.reduce((acc, exp) => acc + Number(exp.amount), 0) || 0;
-
-    // Profitability calc for aggregated view
-    const margin = totalRevenue - totalExpenses;
-    const marginPercent = totalRevenue > 0 ? (margin / totalRevenue) * 100 : 0;
 
     const stats = [
         {
@@ -81,8 +81,8 @@ export default async function TenantDashboard({ params }: { params: Promise<{ te
             {/* Contextual Header */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                 <div>
-                    <h1 className="text-4xl font-[900] text-deep-blue tracking-tight mb-2">
-                        {t("welcome")}, <span className="text-turq-primary capitalize">{profile?.user?.user_metadata?.first_name || 'User'}</span>
+                    <h1 className="text-4xl font-[900] text-deep-blue tracking-tight mb-2 uppercase">
+                        {t("welcome")}, <span className="text-turq-primary italic">{profile?.user?.user_metadata?.first_name || 'User'}</span>
                     </h1>
                     <p className="text-slate-500 font-medium font-inter">
                         {t("infrastructure")} • <span className="text-deep-blue font-bold opacity-80">{tenant}</span>
@@ -121,14 +121,11 @@ export default async function TenantDashboard({ params }: { params: Promise<{ te
 
             {/* Operational Layout */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/* Main Profitability Activity */}
+                {/* Main Analytics Hub */}
                 <div className="lg:col-span-2">
-                    <ProfitabilityCard data={{
-                        revenue: totalRevenue,
-                        totalExpenses: totalExpenses,
-                        margin: margin,
-                        marginPercent: marginPercent
-                    }} />
+                    <div className="pro-card p-10 bg-white/60 min-h-[500px] border-turq-primary/5">
+                        <FinancialChart data={financialData || []} />
+                    </div>
                 </div>
 
                 {/* Status Column */}

@@ -1,12 +1,19 @@
 "use client";
 
 import { useEstimate } from "./EstimateContext";
-import { Send, Bot, User, Mic, Paperclip, Image as ImageIcon, History } from "lucide-react";
+import { ClientSelector, ClientOption } from "./ClientSelector";
+import { Send, Bot, User, Mic, Paperclip, Image as ImageIcon, History, UserCheck } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { processEstimateAICommand } from "@/app/actions/estimate-ai";
+import { LineItem } from "@/types/domain";
 
 export function EstimateChatBuilder() {
-    const { messages, addMessage, updateEstimate, estimate, isLoadingAI, setLoadingAI } = useEstimate();
+    const {
+        messages, addMessage, addItems, estimate,
+        isLoadingAI, setLoadingAI,
+        company, selectedClient, setClient
+    } = useEstimate();
+
     const [input, setInput] = useState("");
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -36,7 +43,6 @@ export function EstimateChatBuilder() {
         setLoadingAI(true);
 
         try {
-            // Pass current items as context for the AI
             const context = {
                 currentItems: estimate.items || []
             };
@@ -44,7 +50,6 @@ export function EstimateChatBuilder() {
             const response = await processEstimateAICommand(userMsg, context);
 
             if (response) {
-                // Add AI Message
                 addMessage({
                     id: (Date.now() + 1).toString(),
                     role: 'assistant',
@@ -52,31 +57,9 @@ export function EstimateChatBuilder() {
                     timestamp: new Date()
                 });
 
-                // Update Estimate Items if suggested
+                // Use addItems from context — handles recalculation automatically
                 if (response.suggestedItems && response.suggestedItems.length > 0) {
-                    const currentItems = estimate.items || [];
-
-                    // Add items with calculated totals
-                    const newItems = response.suggestedItems.map((item: any) => ({
-                        ...item,
-                        id: crypto.randomUUID(),
-                        total: (Number(item.quantity) || 1) * (Number(item.rate) || 0)
-                    }));
-
-                    const updatedItems = [...currentItems, ...newItems];
-
-                    // Recalculate totals
-                    const subtotal = updatedItems.reduce((sum, item) => sum + item.total, 0);
-                    const taxRate = estimate.tax_rate || 0;
-                    const taxAmount = subtotal * (taxRate / 100);
-                    const total = subtotal + taxAmount;
-
-                    updateEstimate({
-                        items: updatedItems,
-                        subtotal,
-                        tax_amount: taxAmount,
-                        total
-                    });
+                    addItems(response.suggestedItems as Partial<LineItem>[]);
                 }
             }
         } catch (error) {
@@ -99,6 +82,19 @@ export function EstimateChatBuilder() {
         }
     }
 
+    const handleClientSelect = (client: ClientOption | null) => {
+        setClient(client);
+
+        if (client) {
+            addMessage({
+                id: `client-${Date.now()}`,
+                role: 'assistant',
+                content: `✅ Cliente asignado: **${client.first_name} ${client.last_name}**${client.company_name ? ` (${client.company_name})` : ''}. El presupuesto será enviado a ${client.email}. ¿Continuamos con los ítems?`,
+                timestamp: new Date()
+            });
+        }
+    };
+
     return (
         <aside className="w-[420px] flex flex-col border-r border-slate-200 bg-slate-50 relative z-20 shadow-xl shadow-slate-200/50">
             {/* Header */}
@@ -112,6 +108,21 @@ export function EstimateChatBuilder() {
                 <button className="text-slate-400 hover:text-turq-primary transition-colors">
                     <History size={20} />
                 </button>
+            </div>
+
+            {/* Client Selector Section */}
+            <div className="px-5 pt-4 pb-2 border-b border-slate-100">
+                <div className="flex items-center gap-2 mb-2">
+                    <UserCheck size={14} className="text-turq-primary" />
+                    <span className="text-[10px] uppercase font-black text-slate-400 tracking-widest">Cliente</span>
+                </div>
+                {company?.id && (
+                    <ClientSelector
+                        companyId={company.id}
+                        selectedClientId={selectedClient?.id}
+                        onSelect={handleClientSelect}
+                    />
+                )}
             </div>
 
             {/* Messages */}

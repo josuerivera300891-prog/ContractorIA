@@ -176,3 +176,79 @@ export async function getEstimates(companyId: string) {
     }
     return data
 }
+/**
+ * Fetches a single estimate by ID with client details.
+ */
+export async function getEstimateById(estimateId: string) {
+    const supabase = await createClient()
+    const { data, error } = await supabase
+        .from('estimates')
+        .select(`
+            *,
+            clients (id, first_name, last_name, email, phone, company_name, address)
+        `)
+        .eq('id', estimateId)
+        .single()
+
+    if (error) {
+        console.error('Error fetching estimate:', error)
+        return null
+    }
+    return data
+}
+/**
+ * Updates estimate status or notes.
+ */
+export async function updateEstimateAction(estimateId: string, companyId: string, data: any) {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return { success: false, error: 'Unauthorized' }
+
+    const { error } = await supabase
+        .from('estimates')
+        .update(data)
+        .eq('id', estimateId)
+        .eq('company_id', companyId)
+
+    if (error) return { success: false, error: error.message }
+
+    // Audit Log
+    await supabase.from('audit_logs').insert({
+        company_id: companyId,
+        actor_id: user.id,
+        action: 'ESTIMATE_UPDATED',
+        metadata: { estimate_id: estimateId, changes: data }
+    })
+
+    revalidatePath('/[locale]/[tenant]/estimates', 'page')
+    revalidatePath(`/[locale]/[tenant]/estimates/${estimateId}`, 'page')
+    return { success: true }
+}
+
+/**
+ * Deletes an estimate.
+ */
+export async function deleteEstimateAction(estimateId: string, companyId: string) {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return { success: false, error: 'Unauthorized' }
+
+    const { error } = await supabase
+        .from('estimates')
+        .delete()
+        .eq('id', estimateId)
+        .eq('company_id', companyId)
+
+    if (error) return { success: false, error: error.message }
+
+    // Audit Log
+    await supabase.from('audit_logs').insert({
+        company_id: companyId,
+        actor_id: user.id,
+        action: 'ESTIMATE_DELETED',
+        metadata: { estimate_id: estimateId }
+    })
+
+    revalidatePath('/[locale]/[tenant]/estimates', 'page')
+    return { success: true }
+}

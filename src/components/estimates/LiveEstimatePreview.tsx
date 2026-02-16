@@ -1,11 +1,11 @@
 "use client";
 
 import { useEstimate } from "./EstimateContext";
-import { Estimate, LineItem } from "@/types/domain";
-import { MoreHorizontal, ZoomIn, ZoomOut, Printer, Download, Eye } from "lucide-react";
+import { ZoomIn, ZoomOut, Eye, Trash2 } from "lucide-react";
+import Image from "next/image";
 
 export function LiveEstimatePreview() {
-    const { estimate, company } = useEstimate();
+    const { estimate, company, selectedClient, removeItem } = useEstimate();
 
     return (
         <section className="flex-1 bg-slate-100 overflow-y-auto p-12 custom-scrollbar font-inter flex flex-col items-center">
@@ -34,7 +34,7 @@ export function LiveEstimatePreview() {
                 <div className="flex justify-between items-start mb-16">
                     <div className="flex gap-6">
                         {company?.logo_url ? (
-                            <img src={company.logo_url} alt={company.name} className="w-20 h-20 object-contain rounded-xl" />
+                            <Image src={company.logo_url} alt={company.name} width={80} height={80} className="w-20 h-20 object-contain rounded-xl" />
                         ) : (
                             <div className="w-20 h-20 bg-deep-blue text-white rounded-2xl flex items-center justify-center text-3xl font-black">
                                 {company?.name?.charAt(0) || 'C'}
@@ -45,8 +45,7 @@ export function LiveEstimatePreview() {
                                 {company?.name || 'Contractor IA'}
                             </h3>
                             <p className="text-xs text-slate-500 font-medium mt-1">
-                                {company?.settings?.address || 'Dirección de la empresa'}<br />
-                                {company?.settings?.address?.includes('Monterrey') ? '' : ''}
+                                {company?.settings?.address || 'Dirección de la empresa'}
                             </p>
                         </div>
                     </div>
@@ -61,14 +60,26 @@ export function LiveEstimatePreview() {
                 <div className="grid grid-cols-2 gap-12 mb-16 pb-8 border-b border-slate-100">
                     <div>
                         <span className="text-[10px] uppercase font-black text-slate-300 tracking-widest block mb-3">Presupuesto Para</span>
-                        {estimate.client_id ? (
+                        {selectedClient ? (
                             <div>
-                                <h4 className="font-bold text-deep-blue text-lg">Cliente Seleccionado</h4>
-                                <p className="text-sm text-slate-500 font-medium mt-1">Dirección del cliente...</p>
+                                <h4 className="font-bold text-deep-blue text-lg">
+                                    {selectedClient.first_name} {selectedClient.last_name}
+                                </h4>
+                                {selectedClient.company_name && (
+                                    <p className="text-sm text-slate-500 font-medium mt-0.5">{selectedClient.company_name}</p>
+                                )}
+                                <p className="text-sm text-slate-400 font-medium mt-1">{selectedClient.email}</p>
+                                {selectedClient.address && (
+                                    <p className="text-xs text-slate-400 font-medium mt-1">{selectedClient.address}</p>
+                                )}
+                                {selectedClient.phone && (
+                                    <p className="text-xs text-slate-400 font-medium mt-0.5">{selectedClient.phone}</p>
+                                )}
                             </div>
                         ) : (
                             <div className="p-4 border-2 border-dashed border-slate-200 rounded-xl bg-slate-50 text-center">
                                 <p className="text-xs font-bold text-slate-400">Sin Cliente Asignado</p>
+                                <p className="text-[10px] text-slate-300 mt-1">Selecciona un cliente en el panel izquierdo</p>
                             </div>
                         )}
                     </div>
@@ -89,6 +100,7 @@ export function LiveEstimatePreview() {
                                 <th className="py-4 text-[10px] uppercase font-black text-slate-300 tracking-widest text-center">Cant.</th>
                                 <th className="py-4 text-[10px] uppercase font-black text-slate-300 tracking-widest text-right">Precio Unit.</th>
                                 <th className="py-4 text-[10px] uppercase font-black text-slate-300 tracking-widest text-right">Total</th>
+                                <th className="py-4 w-10"></th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
@@ -102,11 +114,19 @@ export function LiveEstimatePreview() {
                                         <td className="py-5 text-center text-sm font-bold text-deep-blue">{item.quantity}</td>
                                         <td className="py-5 text-right text-sm font-medium text-slate-500">${item.rate.toFixed(2)}</td>
                                         <td className="py-5 text-right text-sm font-black text-deep-blue">${(item.quantity * item.rate).toFixed(2)}</td>
+                                        <td className="py-5 text-center">
+                                            <button
+                                                onClick={() => removeItem(idx)}
+                                                className="p-1.5 text-slate-200 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-all opacity-0 group-hover:opacity-100"
+                                            >
+                                                <Trash2 size={14} />
+                                            </button>
+                                        </td>
                                     </tr>
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan={5} className="py-12 text-center text-slate-300 font-medium italic">
+                                    <td colSpan={6} className="py-12 text-center text-slate-300 font-medium italic">
                                         No hay ítems agregados. Usa el chat para describir el trabajo.
                                     </td>
                                 </tr>

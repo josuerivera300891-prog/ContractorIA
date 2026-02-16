@@ -70,3 +70,87 @@ export async function getClients(companyId: string) {
 
     return data
 }
+/**
+ * Fetches a single client by ID.
+ */
+export async function getClientById(clientId: string) {
+    const supabase = await createClient()
+    const { data, error } = await supabase
+        .from('clients')
+        .select('*')
+        .eq('id', clientId)
+        .single()
+
+    if (error) {
+        console.error('Error fetching client:', error)
+        return null
+    }
+    return data
+}
+
+/**
+ * Updates an existing client.
+ */
+export async function updateClientAction(clientId: string, formData: FormData, companyId: string) {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return { success: false, error: 'Unauthorized' }
+
+    const data = {
+        first_name: formData.get('firstName') as string,
+        last_name: formData.get('lastName') as string,
+        email: formData.get('email') as string,
+        phone: formData.get('phone') as string,
+        company_name: formData.get('companyName') as string,
+        address: formData.get('address') as string,
+        notes: formData.get('notes') as string,
+    }
+
+    const { error } = await supabase
+        .from('clients')
+        .update(data)
+        .eq('id', clientId)
+        .eq('company_id', companyId)
+
+    if (error) return { success: false, error: error.message }
+
+    // Audit Log
+    await supabase.from('audit_logs').insert({
+        company_id: companyId,
+        actor_id: user.id,
+        action: 'CLIENT_UPDATED',
+        metadata: { client_id: clientId }
+    })
+
+    revalidatePath('/[locale]/[tenant]/clients', 'page')
+    revalidatePath(`/[locale]/[tenant]/clients/${clientId}`, 'page')
+    return { success: true }
+}
+
+/**
+ * Deletes a client.
+ */
+export async function deleteClientAction(clientId: string, companyId: string) {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return { success: false, error: 'Unauthorized' }
+
+    const { error } = await supabase
+        .from('clients')
+        .delete()
+        .eq('id', clientId)
+        .eq('company_id', companyId)
+
+    if (error) return { success: false, error: error.message }
+
+    // Audit Log
+    await supabase.from('audit_logs').insert({
+        company_id: companyId,
+        actor_id: user.id,
+        action: 'CLIENT_DELETED',
+        metadata: { client_id: clientId }
+    })
+
+    revalidatePath('/[locale]/[tenant]/clients', 'page')
+    return { success: true }
+}

@@ -5,12 +5,14 @@ import { createExpenseAction, deleteExpenseAction } from '@/app/actions/expenses
 import { revalidatePath } from 'next/cache'
 
 export default async function ExpensesPage({
-    params: { locale, tenant }
+    params,
 }: {
-    params: { locale: string; tenant: string }
+    params: Promise<{ locale: string; tenant: string }>;
 }) {
+    const { locale, tenant } = await params;
     const supabase = await createClient()
-    const t = await getTranslations('Sidebar')
+    const t = await getTranslations('Expenses');
+    const tc = await getTranslations('Common');
 
     // Get company ID
     const { data: company } = await supabase
@@ -19,7 +21,7 @@ export default async function ExpensesPage({
         .eq('slug', tenant)
         .single()
 
-    if (!company) return <div>Company not found</div>
+    if (!company) return <div>{tc("error")}</div>
 
     // Get expenses
     const { data: expenses } = await supabase
@@ -63,17 +65,19 @@ export default async function ExpensesPage({
                             <Receipt size={20} />
                         </div>
                         <span className="text-xs font-black text-turq-primary uppercase tracking-[0.2em] font-inter">
-                            Administración Financiera
+                            {t("subtitle")}
                         </span>
                     </div>
                     <h1 className="text-5xl font-[900] text-deep-blue tracking-tighter font-outfit">
-                        Control de <span className="text-turq-primary">Gastos</span>
+                        {t.rich("title", {
+                            span: (chunks) => <span className="text-turq-primary">{chunks}</span>
+                        })}
                     </h1>
                 </div>
 
                 <div className="flex items-center gap-4 bg-white/80 backdrop-blur-md p-2 rounded-[2rem] border border-turq-primary/5 shadow-xl shadow-turq-primary/5">
                     <div className="px-6 py-3">
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Gastos Totales (Acumulado)</p>
+                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-0.5">{t("total_stats")}</p>
                         <p className="text-2xl font-black text-deep-blue font-outfit">${totalExpenses.toLocaleString()}</p>
                     </div>
                 </div>
@@ -87,24 +91,24 @@ export default async function ExpensesPage({
                             <div className="p-3 bg-turq-primary rounded-2xl text-white shadow-lg shadow-turq-primary/20">
                                 <Plus size={20} />
                             </div>
-                            <h2 className="text-xl font-black text-deep-blue font-outfit tracking-tight">Nuevo Gasto</h2>
+                            <h2 className="text-xl font-black text-deep-blue font-outfit tracking-tight">{t("form.title")}</h2>
                         </div>
 
                         <form action={handleAddExpense} className="space-y-6">
                             <div className="space-y-2">
-                                <label className="text-xs font-black text-slate-500 uppercase tracking-widest px-1">Concepto / Descripción</label>
+                                <label className="text-xs font-black text-slate-500 uppercase tracking-widest px-1">{t("form.description")}</label>
                                 <input
                                     name="description"
                                     type="text"
                                     required
-                                    placeholder="Ej: Materiales Home Depot"
+                                    placeholder={t("form.description_placeholder")}
                                     className="w-full px-6 py-4 rounded-2xl bg-slate-50 border-none focus:ring-2 focus:ring-turq-primary/20 text-deep-blue font-bold placeholder:text-slate-300 transition-all font-inter"
                                 />
                             </div>
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-2">
-                                    <label className="text-xs font-black text-slate-500 uppercase tracking-widest px-1">Monto ($)</label>
+                                    <label className="text-xs font-black text-slate-500 uppercase tracking-widest px-1">{t("form.amount")}</label>
                                     <input
                                         name="amount"
                                         type="number"
@@ -114,7 +118,7 @@ export default async function ExpensesPage({
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-xs font-black text-slate-500 uppercase tracking-widest px-1">Fecha</label>
+                                    <label className="text-xs font-black text-slate-500 uppercase tracking-widest px-1">{t("form.date")}</label>
                                     <input
                                         name="expense_date"
                                         type="date"
@@ -126,26 +130,26 @@ export default async function ExpensesPage({
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-xs font-black text-slate-500 uppercase tracking-widest px-1">Categoría</label>
+                                <label className="text-xs font-black text-slate-500 uppercase tracking-widest px-1">{t("form.category")}</label>
                                 <select
                                     name="category"
                                     className="w-full px-6 py-4 rounded-2xl bg-slate-50 border-none focus:ring-2 focus:ring-turq-primary/20 text-deep-blue font-bold appearance-none bg-no-repeat bg-[right_1.5rem_center] font-inter"
                                 >
-                                    <option value="Material">Material</option>
-                                    <option value="Labor">Mano de Obra</option>
-                                    <option value="Equipment">Equipo</option>
-                                    <option value="Subcontractor">Subcontratista</option>
-                                    <option value="Other">Otros</option>
+                                    <option value="Material">{t("categories.material")}</option>
+                                    <option value="Labor">{t("categories.labor")}</option>
+                                    <option value="Equipment">{t("categories.equipment")}</option>
+                                    <option value="Subcontractor">{t("categories.subcontractor")}</option>
+                                    <option value="Other">{t("categories.other")}</option>
                                 </select>
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-xs font-black text-slate-500 uppercase tracking-widest px-1">Vincular Proyecto</label>
+                                <label className="text-xs font-black text-slate-500 uppercase tracking-widest px-1">{t("form.project")}</label>
                                 <select
                                     name="estimate_id"
                                     className="w-full px-6 py-4 rounded-2xl bg-slate-50 border-none focus:ring-2 focus:ring-turq-primary/20 text-deep-blue font-bold font-inter"
                                 >
-                                    <option value="">General (Sin proyecto)</option>
+                                    <option value="">{t("form.none_project")}</option>
                                     {estimates?.map(est => (
                                         <option key={est.id} value={est.id}>{est.title}</option>
                                     ))}
@@ -153,7 +157,7 @@ export default async function ExpensesPage({
                             </div>
 
                             <button className="w-full py-5 rounded-[2rem] bg-turq-primary text-white font-black text-sm uppercase tracking-[0.2em] shadow-xl shadow-turq-primary/20 hover:scale-[1.02] active:scale-95 transition-all duration-300 font-inter">
-                                Registrar Gasto
+                                {t("form.submit")}
                             </button>
                         </form>
                     </div>
@@ -166,7 +170,7 @@ export default async function ExpensesPage({
                             <div className="p-2 bg-slate-100 rounded-lg text-slate-400">
                                 <Filter size={16} />
                             </div>
-                            <h3 className="font-bold text-slate-500">Historial de Gastos</h3>
+                            <h3 className="font-bold text-slate-500">{t("history")}</h3>
                         </div>
                     </div>
 
@@ -176,8 +180,8 @@ export default async function ExpensesPage({
                                 <div className="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-6 text-slate-300">
                                     <TrendingDown size={32} />
                                 </div>
-                                <h4 className="text-lg font-black text-slate-400 font-outfit">No hay gastos registrados</h4>
-                                <p className="text-slate-400 text-sm mt-2">Los gastos de tus proyectos aparecerán aquí.</p>
+                                <h4 className="text-lg font-black text-slate-400 font-outfit">{t("empty.title")}</h4>
+                                <p className="text-slate-400 text-sm mt-2">{t("empty.description")}</p>
                             </div>
                         )}
 
@@ -202,7 +206,7 @@ export default async function ExpensesPage({
                                                 </h4>
                                                 <div className="flex items-center gap-3 mt-1.5">
                                                     <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 bg-slate-50 px-2.5 py-1 rounded-full border border-slate-100 font-inter">
-                                                        {expense.category}
+                                                        {t(`categories.${expense.category.toLowerCase()}`)}
                                                     </span>
                                                     {expense.estimates && (
                                                         <span className="flex items-center gap-1.5 text-[10px] font-bold text-turq-primary font-inter">

@@ -75,3 +75,58 @@ export async function getProject(id: string, companyId: string) {
 
     return data
 }
+/**
+ * Updates project details.
+ */
+export async function updateProjectAction(projectId: string, companyId: string, data: any) {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return { success: false, error: 'Unauthorized' }
+
+    const { error } = await supabase
+        .from('projects')
+        .update(data)
+        .eq('id', projectId)
+        .eq('company_id', companyId)
+
+    if (error) return { success: false, error: error.message }
+
+    // Audit Log
+    await supabase.from('audit_logs').insert({
+        company_id: companyId,
+        actor_id: user.id,
+        action: 'PROJECT_UPDATED',
+        metadata: { project_id: projectId, changes: data }
+    })
+
+    revalidatePath('/[locale]/[tenant]/projects', 'page')
+    return { success: true }
+}
+
+/**
+ * Deletes a project.
+ */
+export async function deleteProjectAction(projectId: string, companyId: string) {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return { success: false, error: 'Unauthorized' }
+
+    const { error } = await supabase
+        .from('projects')
+        .delete()
+        .eq('id', projectId)
+        .eq('company_id', companyId)
+
+    if (error) return { success: false, error: error.message }
+
+    // Audit Log
+    await supabase.from('audit_logs').insert({
+        company_id: companyId,
+        actor_id: user.id,
+        action: 'PROJECT_DELETED',
+        metadata: { project_id: projectId }
+    })
+
+    revalidatePath('/[locale]/[tenant]/projects', 'page')
+    return { success: true }
+}

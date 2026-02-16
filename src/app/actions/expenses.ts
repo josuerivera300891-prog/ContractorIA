@@ -102,3 +102,73 @@ export async function getProjectProfitability(estimateId: string) {
         expenses: expenses || []
     }
 }
+
+/**
+ * Updates an expense.
+ */
+export async function updateExpenseAction(expenseId: string, formData: FormData, companyId: string) {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return { success: false, error: 'Unauthorized' }
+
+    const rawData = {
+        estimate_id: formData.get('estimate_id') || null,
+        category: formData.get('category'),
+        description: formData.get('description'),
+        amount: Number(formData.get('amount')),
+        expense_date: formData.get('expense_date'),
+    }
+
+    const validated = ExpenseSchema.safeParse(rawData)
+    if (!validated.success) return { success: false, error: 'Datos inválidos' }
+
+    const { error } = await supabase
+        .from('expenses')
+        .update({
+            ...validated.data,
+            company_id: companyId,
+        })
+        .eq('id', expenseId)
+        .eq('company_id', companyId)
+
+    if (error) return { success: false, error: error.message }
+
+    // Audit Log
+    await supabase.from('audit_logs').insert({
+        company_id: companyId,
+        actor_id: user.id,
+        action: 'EXPENSE_UPDATED',
+        metadata: { expense_id: expenseId }
+    })
+
+    revalidatePath('/[locale]/[tenant]/dashboard', 'layout')
+    return { success: true }
+}
+
+export async function getExpensesAction(companyId: string, estimateId?: string) {
+    const supabase = await createClient()
+
+    let query = supabase
+        .from('expenses')
+        .select(`
+            *,
+            estimates (
+                title
+            )
+        `)
+        .eq('company_id', companyId)
+        .order('expense_date', { ascending: false })
+
+    if (estimateId) {
+        query = query.eq('estimate_id', estimateId)
+    }
+
+    const { data, error } = await query
+
+    if (error) {
+        console.error('Error fetching expenses:', error)
+        return []
+    }
+
+    return data
+}

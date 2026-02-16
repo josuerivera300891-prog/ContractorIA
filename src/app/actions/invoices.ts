@@ -65,3 +65,89 @@ export async function convertEstimateToInvoiceAction(estimateId: string) {
     revalidatePath('/[locale]/[tenant]/estimates')
     return { success: true, data: invoice }
 }
+/**
+ * Fetches invoices for a company.
+ */
+export async function getInvoices(companyId: string) {
+    const supabase = await createClient()
+    const { data, error } = await supabase
+        .from('invoices')
+        .select(`
+            *,
+            clients (id, first_name, last_name, company_name)
+        `)
+        .eq('company_id', companyId)
+        .order('created_at', { ascending: false })
+
+    if (error) {
+        console.error('Error fetching invoices:', error)
+        return []
+    }
+    return data
+}
+
+/**
+ * Fetches a single invoice by ID with client details.
+ */
+export async function getInvoiceById(invoiceId: string) {
+    const supabase = await createClient()
+    const { data, error } = await supabase
+        .from('invoices')
+        .select(`
+            *,
+            clients (id, first_name, last_name, email, phone, company_name, address)
+        `)
+        .eq('id', invoiceId)
+        .single()
+
+    if (error) {
+        console.error('Error fetching invoice:', error)
+        return null
+    }
+    return data
+}
+
+export async function createInvoiceAction(formData: FormData, companyId: string) {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+
+    if (!user) return { success: false, error: 'No autorizado' }
+
+    const rawData = {
+        client_id: formData.get('clientId') as string,
+        estimate_id: formData.get('estimateId') as string || null,
+        invoice_number: `INV-${Date.now().toString().slice(-6)}`,
+        status: 'DRAFT',
+        subtotal: Number(formData.get('subtotal')),
+        tax_rate: Number(formData.get('taxRate')),
+        tax_amount: Number(formData.get('taxAmount')),
+        total: Number(formData.get('total')),
+        due_date: formData.get('dueDate') as string,
+        notes: formData.get('notes') as string,
+        company_id: companyId,
+        items: JSON.parse(formData.get('items') as string || '[]')
+    }
+
+    const { data, error } = await supabase
+        .from('invoices')
+        .insert(rawData)
+        .select()
+        .single()
+
+    if (error) {
+        console.error('Error creating invoice:', error)
+        return { success: false, error: error.message }
+    }
+
+    // Audit Log
+    await supabase.from('audit_logs').insert({
+        company_id: companyId,
+        user_id: user.id,
+        action: 'CREATE_INVOICE',
+        entity_type: 'INVOICE',
+        entity_id: data.id,
+        new_data: data
+    })
+
+    return { success: true, data }
+}

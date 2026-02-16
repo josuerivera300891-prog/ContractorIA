@@ -2,15 +2,20 @@ import { Clock, Shield, User, Info, Calendar, Filter, ArrowUpRight } from "lucid
 import { getAuditLogs } from "@/app/actions/audit";
 import { getUserProfile } from "@/app/actions/auth";
 import { createClient } from "@/utils/supabase/server";
+import { getTranslations } from "next-intl/server";
 
 export default async function AuditPage({
-    params: { locale, tenant }
+    params,
 }: {
-    params: { locale: string; tenant: string }
+    params: Promise<{ locale: string; tenant: string }>;
 }) {
+    const { locale, tenant } = await params;
     const profile = await getUserProfile();
     const companyId = profile?.companyId;
-    if (!companyId) return <div>No autorizado</div>;
+    const t = await getTranslations("Audit");
+    const tc = await getTranslations("Common");
+
+    if (!companyId) return <div>{tc("unauthorized")}</div>;
 
     const logs = await getAuditLogs(companyId);
 
@@ -29,24 +34,24 @@ export default async function AuditPage({
                 <div className="space-y-2">
                     <div className="flex items-center gap-2 text-turq-primary font-black text-xs uppercase tracking-widest mb-2">
                         <Shield size={16} />
-                        Centro de Seguridad
+                        {t("subtitle")}
                     </div>
                     <h1 className="text-4xl font-[900] text-deep-blue tracking-tight">
-                        Historial de Auditoría
+                        {t("title")}
                     </h1>
                     <p className="text-slate-500 font-medium font-inter">
-                        Trazabilidad total de todas las acciones críticas en tu empresa.
+                        {t("description")}
                     </p>
                 </div>
 
                 <div className="flex gap-3">
                     <button className="flex items-center gap-2 px-5 py-2.5 bg-white border border-turq-primary/10 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-50 transition-all">
                         <Filter size={16} />
-                        Filtrar Acciones
+                        {t("actions.filter")}
                     </button>
                     <button className="flex items-center gap-2 px-5 py-2.5 bg-deep-blue text-white rounded-xl text-xs font-bold hover:bg-deep-blue/90 transition-all">
                         <ArrowUpRight size={16} />
-                        Exportar Reporte
+                        {t("actions.export")}
                     </button>
                 </div>
             </div>
@@ -57,10 +62,10 @@ export default async function AuditPage({
                     <table className="w-full text-left border-collapse">
                         <thead>
                             <tr className="bg-slate-50/50 border-b border-turq-primary/5">
-                                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Fecha y Hora</th>
-                                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Acción</th>
-                                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Usuario</th>
-                                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Detalles</th>
+                                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">{t("table.timestamp")}</th>
+                                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">{t("table.action")}</th>
+                                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">{t("table.user")}</th>
+                                <th className="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">{t("table.details")}</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-turq-primary/5">
@@ -69,10 +74,10 @@ export default async function AuditPage({
                                     <td className="px-8 py-6">
                                         <div className="flex flex-col">
                                             <span className="text-sm font-bold text-deep-blue">
-                                                {new Date(log.created_at).toLocaleDateString()}
+                                                {new Date(log.created_at).toLocaleDateString(locale)}
                                             </span>
                                             <span className="text-[10px] font-medium text-slate-400 tabular-nums">
-                                                {new Date(log.created_at).toLocaleTimeString()}
+                                                {new Date(log.created_at).toLocaleTimeString(locale)}
                                             </span>
                                         </div>
                                     </td>
@@ -88,7 +93,7 @@ export default async function AuditPage({
                                             </div>
                                             <div className="flex flex-col">
                                                 <span className="text-sm font-bold text-deep-blue">
-                                                    {log.actor?.full_name || 'Sistema'}
+                                                    {log.actor?.full_name || t("system")}
                                                 </span>
                                                 <span className="text-[10px] font-medium text-slate-400">
                                                     {log.actor?.email}

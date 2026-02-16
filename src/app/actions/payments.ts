@@ -38,7 +38,7 @@ export async function createInvoiceCheckoutSession(invoiceId: string, locale: st
                         name: `Factura ${invoice.invoice_number || 'IA-000'}`,
                         description: `Pago por servicios - ContractorIA`,
                     },
-                    unit_amount: Math.round(Number(invoice.total_amount) * 100), // Cents
+                    unit_amount: Math.round(Number(invoice.total) * 100), // Cents
                 },
                 quantity: 1,
             },
