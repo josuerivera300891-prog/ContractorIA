@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/utils/supabase/server'
+import { createClient } from '@/lib/supabase/server'
 import { sendEmail, getEstimateEmailTemplate } from '@/lib/mail'
 
 export async function sendEstimateEmailAction(estimateId: string, clientEmail: string) {

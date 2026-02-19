@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 
 export interface EstimateAIResponse {
     role: 'assistant';
@@ -9,7 +9,11 @@ export interface EstimateAIResponse {
     updatedEstimate?: unknown; // Full estimate object if updated
 }
 
-export async function processEstimateAICommand(message: string, currentContext: unknown): Promise<EstimateAIResponse> {
+export async function processEstimateAICommand(
+    message: string,
+    currentContext: unknown,
+    companyId: string
+): Promise<EstimateAIResponse> {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
 
@@ -18,6 +22,20 @@ export async function processEstimateAICommand(message: string, currentContext: 
         return {
             role: 'assistant',
             content: "Error: No autorizado. Por favor recarga la página."
+        };
+    }
+
+    // 2. Verify user belongs to company (multi-tenant security)
+    const { data: profile } = await supabase
+        .from('profiles')
+        .select('company_id')
+        .eq('id', user.id)
+        .single();
+
+    if (!profile || profile.company_id !== companyId) {
+        return {
+            role: 'assistant',
+            content: "Error: No tienes acceso a este recurso."
         };
     }
 

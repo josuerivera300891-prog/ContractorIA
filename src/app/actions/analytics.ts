@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/utils/supabase/server'
+import { createClient } from '@/lib/supabase/server'
 import { startOfMonth, endOfMonth, format, subMonths } from 'date-fns'
 
 export async function getFinancialAnalytics() {
@@ -33,21 +33,21 @@ export async function getFinancialAnalytics() {
         // Ingresos (Estimaciones Firmadas)
         const { data: revenueData } = await supabase
             .from('estimates')
-            .select('total_amount')
+            .select('total')
             .eq('company_id', companyId)
             .eq('status', 'SIGNED')
             .gte('created_at', month.start)
             .lte('created_at', month.end)
 
-        const revenue = revenueData?.reduce((sum, item) => sum + (Number(item.total_amount) || 0), 0) || 0
+        const revenue = revenueData?.reduce((sum, item) => sum + (Number(item.total) || 0), 0) || 0
 
         // Gastos
         const { data: expenseData } = await supabase
             .from('expenses')
             .select('amount')
             .eq('company_id', companyId)
-            .gte('date', month.start)
-            .lte('date', month.end)
+            .gte('expense_date', month.start)
+            .lte('expense_date', month.end)
 
         const expenses = expenseData?.reduce((sum, item) => sum + (Number(item.amount) || 0), 0) || 0
 

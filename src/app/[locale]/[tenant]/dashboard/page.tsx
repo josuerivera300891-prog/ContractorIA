@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Plus, TrendingUp, Clock, AlertCircle, Briefcase, FileText, Users, Receipt } from "lucide-react";
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 import { getUserProfile } from "@/app/actions/auth";
 import { getTranslations } from "next-intl/server";
 import { getFinancialAnalytics } from "@/app/actions/analytics";

@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/utils/supabase/server'
+import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 
@@ -82,6 +82,7 @@ export async function getProjectTasks(projectId: string, companyId: string) {
         .select('*')
         .eq('project_id', projectId)
         .eq('company_id', companyId)
+        .order('position', { ascending: true })
         .order('created_at', { ascending: true })
 
     if (error) {
@@ -90,4 +91,95 @@ export async function getProjectTasks(projectId: string, companyId: string) {
     }
 
     return data
+}
+
+export async function deleteTaskAction(taskId: string, companyId: string) {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return { success: false, error: 'No autorizado' }
+
+    // Obtener info de la tarea antes de eliminar
+    const { data: task } = await supabase
+        .from('project_tasks')
+        .select('title, project_id')
+        .eq('id', taskId)
+        .eq('company_id', companyId)
+        .single()
+
+    const { error } = await supabase
+        .from('project_tasks')
+        .delete()
+        .eq('id', taskId)
+        .eq('company_id', companyId)
+
+    if (error) return { success: false, error: error.message }
+
+    // Audit Log
+    await supabase.from('audit_logs').insert({
+        company_id: companyId,
+        actor_id: user.id,
+        action: 'PROJECT_TASK_DELETED',
+        metadata: { task_id: taskId, title: task?.title }
+    })
+
+    revalidatePath('/[locale]/[tenant]/projects/[id]', 'page')
+    return { success: true }
+}
+
+export async function updateTaskAction(
+    taskId: string,
+    companyId: string,
+    data: {
+        title?: string;
+        description?: string;
+        status?: 'TODO' | 'IN_PROGRESS' | 'DONE';
+        due_date?: string | null;
+        priority?: 'low' | 'medium' | 'high';
+        position?: number;
+    }
+) {
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return { success: false, error: 'No autorizado' }
+
+    const { error } = await supabase
+        .from('project_tasks')
+        .update(data)
+        .eq('id', taskId)
+        .eq('company_id', companyId)
+
+    if (error) return { success: false, error: error.message }
+
+    // Audit Log
+    await supabase.from('audit_logs').insert({
+        company_id: companyId,
+        actor_id: user.id,
+        action: 'PROJECT_TASK_UPDATED',
+        metadata: { task_id: taskId, changes: data }
+    })
+
+    revalidatePath('/[locale]/[tenant]/projects/[id]', 'page')
+    return { success: true }
+}
+
+export async function getProjectProgress(projectId: string, companyId: string) {
+    const supabase = await createClient()
+
+    const { data, error } = await supabase
+        .from('project_tasks')
+        .select('status')
+        .eq('project_id', projectId)
+        .eq('company_id', companyId)
+
+    if (error || !data || data.length === 0) {
+        return { total: 0, done: 0, inProgress: 0, todo: 0, percent: 0 }
+    }
+
+    const total = data.length
+    const done = data.filter(t => t.status === 'DONE').length
+    const inProgress = data.filter(t => t.status === 'IN_PROGRESS').length
+    const todo = data.filter(t => t.status === 'TODO').length
+    const percent = total > 0 ? Math.round((done / total) * 100) : 0
+
+    return { total, done, inProgress, todo, percent }
 }

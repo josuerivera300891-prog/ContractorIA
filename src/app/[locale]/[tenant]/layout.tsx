@@ -1,6 +1,6 @@
 import { Sidebar } from "@/components/Sidebar";
 import DashboardHeader from "@/components/DashboardHeader";
-import { createClient } from '@/utils/supabase/server';
+import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import { AIChat } from "@/components/AIChat";
 

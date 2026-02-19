@@ -1,4 +1,4 @@
-import { createClient } from '@/utils/supabase/server'
+import { createClient } from '@/lib/supabase/server'
 import { getTranslations } from 'next-intl/server'
 import { Receipt, Plus, Filter, TrendingDown, DollarSign, Briefcase } from 'lucide-react'
 import { createExpenseAction, deleteExpenseAction } from '@/app/actions/expenses'

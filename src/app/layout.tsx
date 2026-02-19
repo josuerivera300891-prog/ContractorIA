@@ -1,15 +1,14 @@
 import type { Metadata } from 'next'
-import { siteConfig } from '@/config/siteConfig'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: siteConfig.seo.siteTitle,
-  description: siteConfig.seo.defaultDescription,
+  title: 'ContractorIA | Estimates & Invoices for Service Businesses',
+  description: 'Professional estimate and invoice management for contractors, plumbers, electricians, and service businesses. AI-powered, multi-tenant SaaS platform.',
   openGraph: {
-    title: siteConfig.seo.siteTitle,
-    description: siteConfig.seo.defaultDescription,
-    locale: siteConfig.seo.locale,
-    siteName: siteConfig.firmName,
+    title: 'ContractorIA | Estimates & Invoices for Service Businesses',
+    description: 'Professional estimate and invoice management for contractors, plumbers, electricians, and service businesses.',
+    locale: 'en_US',
+    siteName: 'ContractorIA',
     type: 'website',
   },
 }
@@ -20,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="es">
+    <html lang="en">
       <body>{children}</body>
     </html>
   )

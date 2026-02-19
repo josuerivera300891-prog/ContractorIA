@@ -69,6 +69,7 @@
     "audit": "Audit",
     "tasks": "Tasks",
     "expenses": "Expenses",
+    "accounts": "Accounts",
     "infrastructure": "Infrastructure",
     "administration": "Administration"
   },

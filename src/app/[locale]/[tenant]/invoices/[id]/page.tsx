@@ -1,21 +1,18 @@
 import { getInvoiceById } from "@/app/actions/invoices";
+import { getInvoicePayments } from "@/app/actions/payments";
 import { getUserProfile } from "@/app/actions/auth";
 import {
-    Receipt,
     ArrowLeft,
     CreditCard,
     Download,
-    Printer,
     MoreHorizontal,
     Clock,
-    User,
-    Calendar,
-    CheckCircle2,
-    AlertCircle,
-    FileText
+    AlertCircle
 } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { PaymentProgressBar, PaymentHistory } from "@/components/invoices";
+import InvoicePaymentActions from "./InvoicePaymentActions";
 
 export default async function InvoiceDetailPage({
     params,
@@ -29,11 +26,14 @@ export default async function InvoiceDetailPage({
         return <div className="p-8 text-center text-slate-400">No autorizado</div>;
     }
 
-    const invoice = await getInvoiceById(id);
+    const invoice = await getInvoiceById(id, profile.companyId);
 
-    if (!invoice || invoice.company_id !== profile.companyId) {
+    if (!invoice) {
         return notFound();
     }
+
+    // Get payment history
+    const payments = await getInvoicePayments(id);
 
     const statusColors = {
         PAID: "bg-emerald-50 text-emerald-600 border-emerald-100",
@@ -69,12 +69,6 @@ export default async function InvoiceDetailPage({
                         <Download size={16} />
                         Descargar
                     </button>
-                    {(invoice.status === 'UNPAID' || invoice.status === 'OVERDUE') && (
-                        <button className="pro-button !py-2.5 !px-6 text-xs flex items-center gap-2">
-                            <CreditCard size={16} />
-                            Pagar Ahora
-                        </button>
-                    )}
                     <button className="p-2.5 bg-white border border-turq-primary/10 rounded-xl text-slate-400 hover:text-deep-blue shadow-sm">
                         <MoreHorizontal size={20} />
                     </button>
@@ -181,53 +175,67 @@ export default async function InvoiceDetailPage({
 
                 {/* Sidebar */}
                 <div className="space-y-8">
+                    {/* Payment Progress */}
+                    <div className="pro-card bg-white p-6">
+                        <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">
+                            Progreso de Pago
+                        </h3>
+                        <PaymentProgressBar
+                            total={Number(invoice.total)}
+                            paid={Number(invoice.amount_paid)}
+                        />
+                    </div>
+
+                    {/* Payment Actions */}
+                    {invoice.status !== 'PAID' && (
+                        <div className="pro-card bg-white p-6">
+                            <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4">
+                                Opciones de Pago
+                            </h3>
+                            <InvoicePaymentActions
+                                invoiceId={id}
+                                balanceDue={Number(invoice.balance_due)}
+                                total={Number(invoice.total)}
+                                status={invoice.status}
+                                locale={locale}
+                                tenant={tenant}
+                            />
+                        </div>
+                    )}
+
                     {/* Payment Status Card */}
                     <div className={`pro-card p-8 relative overflow-hidden ${invoice.status === 'PAID' ? 'bg-emerald-600' : 'bg-deep-blue'}`}>
                         <div className="absolute -bottom-10 -right-10 text-white/5">
                             <CreditCard size={140} />
                         </div>
-                        <div className="relative z-10 space-y-6">
+                        <div className="relative z-10 space-y-4">
                             <h3 className="text-[10px] font-black text-white/60 uppercase tracking-widest flex items-center gap-2">
                                 <div className={`w-2 h-2 rounded-full animate-pulse ${invoice.status === 'PAID' ? 'bg-emerald-300' : 'bg-amber-400'}`}></div>
                                 Estado de Liquidación
                             </h3>
                             <div>
                                 <p className="text-white font-[900] text-3xl font-outfit tracking-tighter">
-                                    {invoice.status === 'PAID' ? 'Completado' : 'Pendiente'}
+                                    {invoice.status === 'PAID' ? 'Pagado' : invoice.status === 'PARTIAL' ? 'Parcial' : 'Pendiente'}
                                 </p>
                                 <p className="text-turq-primary text-[10px] font-black uppercase tracking-widest mt-1">
-                                    {invoice.status === 'PAID' ? 'Factura pagada en su totalidad' : 'A la espera de confirmación de pago'}
+                                    {invoice.status === 'PAID'
+                                        ? 'Factura pagada en su totalidad'
+                                        : invoice.status === 'PARTIAL'
+                                        ? `Pagado $${Number(invoice.amount_paid).toLocaleString()} de $${Number(invoice.total).toLocaleString()}`
+                                        : 'A la espera de confirmación de pago'
+                                    }
                                 </p>
                             </div>
-                            <button className="w-full py-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-2xl text-[10px] font-black text-white uppercase tracking-widest transition-all">
-                                Ver Historial de Pagos
-                            </button>
                         </div>
                     </div>
 
-                    {/* Timeline */}
-                    <div className="pro-card bg-white p-8">
-                        <h3 className="text-sm font-black text-deep-blue uppercase tracking-widest mb-8 flex items-center gap-2">
+                    {/* Payment History */}
+                    <div className="pro-card bg-white p-6">
+                        <h3 className="text-sm font-black text-deep-blue uppercase tracking-widest mb-6 flex items-center gap-2">
                             <Clock size={18} className="text-turq-primary" />
-                            Historial
+                            Historial de Pagos
                         </h3>
-                        <div className="space-y-8">
-                            <div className="relative pl-6 border-l-2 border-turq-primary/10">
-                                <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-turq-primary border-2 border-white shadow-sm"></div>
-                                <div className="space-y-1">
-                                    <p className="text-xs font-black text-deep-blue uppercase tracking-widest">Generada</p>
-                                    <p className="text-[10px] font-medium text-slate-400">{new Date(invoice.created_at).toLocaleString()}</p>
-                                    <p className="text-[10px] text-slate-500 italic">Desde presupuesto EST-{invoice.id.split('-')[0].toUpperCase()}</p>
-                                </div>
-                            </div>
-                            <div className="relative pl-6">
-                                <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-slate-100 border-2 border-white"></div>
-                                <div className="space-y-1">
-                                    <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Vencimiento</p>
-                                    <p className="text-[10px] font-medium text-slate-400">{new Date(invoice.due_date).toLocaleDateString()}</p>
-                                </div>
-                            </div>
-                        </div>
+                        <PaymentHistory payments={payments} />
                     </div>
 
                     {/* Quick Help */}

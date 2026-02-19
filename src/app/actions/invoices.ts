@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/utils/supabase/server'
+import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 
 export async function convertEstimateToInvoiceAction(estimateId: string) {
@@ -88,9 +88,14 @@ export async function getInvoices(companyId: string) {
 
 /**
  * Fetches a single invoice by ID with client details.
+ * SECURITY: Requires companyId to prevent cross-tenant data access.
  */
-export async function getInvoiceById(invoiceId: string) {
+export async function getInvoiceById(invoiceId: string, companyId: string) {
     const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+
+    if (!user) return null
+
     const { data, error } = await supabase
         .from('invoices')
         .select(`
@@ -98,6 +103,7 @@ export async function getInvoiceById(invoiceId: string) {
             clients (id, first_name, last_name, email, phone, company_name, address)
         `)
         .eq('id', invoiceId)
+        .eq('company_id', companyId)
         .single()
 
     if (error) {

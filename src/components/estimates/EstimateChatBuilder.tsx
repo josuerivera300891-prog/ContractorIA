@@ -47,7 +47,9 @@ export function EstimateChatBuilder() {
                 currentItems: estimate.items || []
             };
 
-            const response = await processEstimateAICommand(userMsg, context);
+            // Pass companyId for multi-tenant security validation
+            const companyId = company?.id || '';
+            const response = await processEstimateAICommand(userMsg, context, companyId);
 
             if (response) {
                 addMessage({

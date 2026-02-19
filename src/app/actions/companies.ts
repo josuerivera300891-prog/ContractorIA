@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 import { Company } from "@/types/domain";
 
 export async function getCompanyBySlug(slug: string): Promise<{ data: Company | null; error: string | null }> {

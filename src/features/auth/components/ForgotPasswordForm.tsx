@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { resetPassword } from '@/actions/auth'
+import { resetPassword } from '@/app/actions/auth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 

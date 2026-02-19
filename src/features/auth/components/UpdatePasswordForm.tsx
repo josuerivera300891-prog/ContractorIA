@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { updatePassword } from '@/actions/auth'
+import { updatePassword } from '@/app/actions/auth'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 

@@ -1,24 +1,29 @@
-import { getClientById } from "@/app/actions/clients";
+import {
+    getClientById,
+    getClientStats,
+    getClientEstimates,
+    getClientInvoices,
+    getClientProjects,
+    getClientActivity,
+    deleteClientAction
+} from "@/app/actions/clients";
 import { getUserProfile } from "@/app/actions/auth";
 import {
-    User,
     Mail,
     Phone,
     Building2,
     MapPin,
     History,
-    Plus,
     ArrowLeft,
     MoreHorizontal,
-    Briefcase,
-    Receipt,
     ExternalLink
 } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import DeleteButton from "@/components/common/DeleteButton";
 import EditClientDialog from "@/components/clients/EditClientDialog";
-import { deleteClientAction } from "@/app/actions/clients";
+import ClientStatsCard from "@/components/clients/ClientStatsCard";
+import ClientTabs from "@/components/clients/ClientTabs";
 
 export default async function ClientDetailPage({
     params,
@@ -37,6 +42,15 @@ export default async function ClientDetailPage({
     if (!client || client.company_id !== profile.companyId) {
         return notFound();
     }
+
+    // Fetch all client data in parallel
+    const [stats, estimates, invoices, projects, activity] = await Promise.all([
+        getClientStats(id, profile.companyId),
+        getClientEstimates(id, profile.companyId),
+        getClientInvoices(id, profile.companyId),
+        getClientProjects(id, profile.companyId),
+        getClientActivity(id, profile.companyId)
+    ]);
 
     return (
         <div className="space-y-8 max-w-6xl mx-auto pb-20">
@@ -129,60 +143,21 @@ export default async function ClientDetailPage({
                     </div>
 
                     {/* Stats Card */}
-                    <div className="pro-card bg-deep-blue p-8 relative overflow-hidden">
-                        <div className="absolute -bottom-10 -right-10 text-white/5 rotate-12">
-                            <Briefcase size={120} />
-                        </div>
-                        <div className="relative z-10 space-y-6">
-                            <h3 className="text-xs font-black text-white/60 uppercase tracking-widest">Relación Comercial</h3>
-                            <div className="space-y-4">
-                                <div>
-                                    <p className="text-white font-[900] text-3xl font-outfit tracking-tighter">$0.00</p>
-                                    <p className="text-turq-primary text-[10px] font-black uppercase tracking-widest mt-1">Facturado Total</p>
-                                </div>
-                                <div className="grid grid-cols-2 gap-3">
-                                    <div className="bg-white/5 p-3 rounded-xl border border-white/10">
-                                        <p className="text-white font-black text-lg">0</p>
-                                        <p className="text-[8px] text-white/40 uppercase font-black">Proyectos</p>
-                                    </div>
-                                    <div className="bg-white/5 p-3 rounded-xl border border-white/10">
-                                        <p className="text-white font-black text-lg">0</p>
-                                        <p className="text-[8px] text-white/40 uppercase font-black">Presupuestos</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <ClientStatsCard stats={stats} />
                 </div>
 
                 {/* Right: Activity / Projects / Estimates */}
                 <div className="lg:col-span-2 space-y-8">
-                    {/* Status Tabs Placeholder */}
-                    <div className="flex gap-4 border-b border-slate-100 pb-px font-outfit">
-                        <button className="px-6 py-4 border-b-2 border-turq-primary text-deep-blue text-sm font-black uppercase tracking-widest">Actividad</button>
-                        <button className="px-6 py-4 border-b-2 border-transparent text-slate-400 text-sm font-black uppercase tracking-widest hover:text-deep-blue transition-all">Presupuestos</button>
-                        <button className="px-6 py-4 border-b-2 border-transparent text-slate-400 text-sm font-black uppercase tracking-widest hover:text-deep-blue transition-all">Proyectos</button>
-                        <button className="px-6 py-4 border-b-2 border-transparent text-slate-400 text-sm font-black uppercase tracking-widest hover:text-deep-blue transition-all">Facturas</button>
-                    </div>
-
-                    {/* Content Area */}
-                    <div className="pro-card bg-white/60 border-dashed p-12 text-center">
-                        <div className="w-20 h-20 bg-slate-50 rounded-[2rem] flex items-center justify-center text-slate-200 mx-auto mb-6">
-                            <History size={40} />
-                        </div>
-                        <h3 className="text-xl font-black text-slate-400 uppercase tracking-widest font-outfit mb-2">Sin Historial Reciente</h3>
-                        <p className="text-sm text-slate-500 max-w-xs mx-auto font-medium font-inter mb-8">Comienza a trabajar con {client.first_name} creando su primer presupuesto o proyecto.</p>
-                        <div className="flex flex-wrap justify-center gap-4">
-                            <button className="px-6 py-3 bg-white border border-turq-primary/10 rounded-2xl text-xs font-black text-deep-blue hover:bg-turq-primary hover:text-white transition-all shadow-sm flex items-center gap-2">
-                                <Receipt size={16} />
-                                Nuevo Presupuesto
-                            </button>
-                            <button className="px-6 py-3 bg-white border border-turq-primary/10 rounded-2xl text-xs font-black text-deep-blue hover:bg-turq-primary hover:text-white transition-all shadow-sm flex items-center gap-2">
-                                <Briefcase size={16} />
-                                Crear Proyecto
-                            </button>
-                        </div>
-                    </div>
+                    {/* Tabs with real data */}
+                    <ClientTabs
+                        estimates={estimates}
+                        invoices={invoices}
+                        projects={projects}
+                        activity={activity}
+                        clientName={client.first_name}
+                        locale={locale}
+                        tenant={tenant}
+                    />
 
                     {/* Footer Info */}
                     <div className="bg-turq-primary/5 p-8 rounded-[2.5rem] border border-turq-primary/10 flex items-center justify-between group">

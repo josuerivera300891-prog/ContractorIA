@@ -1,14 +1,11 @@
 import { getProject } from "@/app/actions/projects";
 import { getUserProfile } from "@/app/actions/auth";
 import { getProjectProfitability } from "@/app/actions/expenses";
+import { getProjectTasks, getProjectProgress } from "@/app/actions/tasks";
 import {
-    Briefcase,
-    Clock,
     TrendingUp,
     ArrowLeft,
     CheckCircle2,
-    AlertCircle,
-    Plus,
     Calendar,
     DollarSign,
     Target
@@ -18,6 +15,8 @@ import { notFound } from "next/navigation";
 import DeleteButton from "@/components/common/DeleteButton";
 import EditProjectDialog from "@/components/projects/EditProjectDialog";
 import { deleteProjectAction } from "@/app/actions/projects";
+import { TaskList } from "@/components/tasks";
+import ProjectProgressBar from "@/components/projects/ProjectProgressBar";
 
 export default async function ProjectDetailPage({
     params,
@@ -39,6 +38,10 @@ export default async function ProjectDetailPage({
 
     // Get profitability data
     const stats = project.estimate_id ? await getProjectProfitability(project.estimate_id) : null;
+
+    // Get tasks and progress
+    const tasks = await getProjectTasks(id, profile.companyId);
+    const progress = await getProjectProgress(id, profile.companyId);
 
     const statusColors = {
         PLANNING: "bg-blue-50 text-blue-600 border-blue-100",
@@ -76,13 +79,16 @@ export default async function ProjectDetailPage({
                         onDelete={deleteProjectAction}
                         redirectTo={`/${locale}/${tenant}/projects`}
                     />
-                    <button className="flex items-center gap-2 px-5 py-2.5 bg-white border border-turq-primary/10 rounded-xl text-xs font-bold text-slate-600 hover:bg-slate-50 transition-all shadow-sm">
-                        <Plus size={16} />
-                        Nueva Tarea
-                    </button>
                     <EditProjectDialog project={project} companyId={profile.companyId} />
                 </div>
             </div>
+
+            {/* Progress Bar */}
+            {progress.total > 0 && (
+                <div className="pro-card bg-white p-6">
+                    <ProjectProgressBar progress={progress} />
+                </div>
+            )}
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Left: Project Stats & Profitability */}
@@ -168,25 +174,20 @@ export default async function ProjectDetailPage({
                         </p>
                     </div>
 
-                    {/* Project Tasks List Component Placeholder */}
+                    {/* Project Tasks */}
                     <div className="pro-card bg-white p-8">
-                        <div className="flex justify-between items-center mb-10">
+                        <div className="flex justify-between items-center mb-6">
                             <h3 className="text-sm font-black text-deep-blue uppercase tracking-widest flex items-center gap-2">
                                 <CheckCircle2 size={18} className="text-turq-primary" />
                                 Lista de Tareas
                             </h3>
-                            <button className="text-[10px] font-black text-turq-primary uppercase tracking-widest hover:underline">Gestionar Tareas →</button>
                         </div>
 
-                        <div className="py-20 text-center border-2 border-dashed border-slate-100 rounded-[2rem]">
-                            <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center text-slate-200 mx-auto mb-6">
-                                <Clock size={32} />
-                            </div>
-                            <p className="text-sm font-bold text-slate-400 mb-4 uppercase tracking-widest">No hay tareas programadas</p>
-                            <button className="px-6 py-3 bg-deep-blue text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-turq-primary transition-all">
-                                Crear Primera Tarea
-                            </button>
-                        </div>
+                        <TaskList
+                            tasks={tasks}
+                            projectId={id}
+                            companyId={profile.companyId}
+                        />
                     </div>
 
                     {/* Estimate Link */}

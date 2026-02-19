@@ -2,7 +2,7 @@
 
 import { use, useEffect, useState } from "react";
 import { FileText, Plus, Search, Filter, Mail, Receipt, ExternalLink, MoreVertical, Loader2, CheckCircle2, Sparkles, Trash2, Save } from "lucide-react";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 import { convertEstimateToInvoiceAction } from "@/app/actions/invoices";
 import { sendEstimateEmailAction } from "@/app/actions/email-actions";
 import { createEstimateAction } from "@/app/actions/estimates";

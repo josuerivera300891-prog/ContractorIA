@@ -3,7 +3,7 @@
 import { use, useState, useEffect } from "react";
 import { Plus, Briefcase, Calendar, MapPin, Users, FileText, CheckCircle2, ChevronRight, Loader2 } from "lucide-react";
 import { createProjectAction } from "@/app/actions/projects";
-import { createClient as createSupabaseClient } from "@/utils/supabase/client";
+import { createClient as createSupabaseClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 
 export default function NewProjectPage({ params }: { params: Promise<{ tenant: string; locale: string }> }) {

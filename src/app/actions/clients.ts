@@ -1,6 +1,6 @@
 'use server'
 
-import { createClient } from '@/utils/supabase/server'
+import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
 
 /**
@@ -153,4 +153,136 @@ export async function deleteClientAction(clientId: string, companyId: string) {
 
     revalidatePath('/[locale]/[tenant]/clients', 'page')
     return { success: true }
+}
+
+// =====================================================
+// CRM: Estadísticas y datos del cliente
+// =====================================================
+
+/**
+ * Obtiene estadísticas del cliente: total facturado, pagado, presupuestos, proyectos
+ */
+export async function getClientStats(clientId: string, companyId: string) {
+    const supabase = await createClient()
+
+    // Obtener facturas del cliente
+    const { data: invoices } = await supabase
+        .from('invoices')
+        .select('total, amount_paid, status')
+        .eq('client_id', clientId)
+        .eq('company_id', companyId)
+
+    // Contar presupuestos
+    const { count: estimatesCount } = await supabase
+        .from('estimates')
+        .select('id', { count: 'exact', head: true })
+        .eq('client_id', clientId)
+        .eq('company_id', companyId)
+
+    // Contar proyectos
+    const { count: projectsCount } = await supabase
+        .from('projects')
+        .select('id', { count: 'exact', head: true })
+        .eq('client_id', clientId)
+        .eq('company_id', companyId)
+
+    // Calcular totales
+    const totalInvoiced = invoices?.reduce((sum, inv) => sum + Number(inv.total), 0) || 0
+    const totalPaid = invoices?.reduce((sum, inv) => sum + Number(inv.amount_paid), 0) || 0
+    const invoicesCount = invoices?.length || 0
+
+    return {
+        totalInvoiced,
+        totalPaid,
+        balanceDue: totalInvoiced - totalPaid,
+        estimatesCount: estimatesCount || 0,
+        projectsCount: projectsCount || 0,
+        invoicesCount
+    }
+}
+
+/**
+ * Obtiene presupuestos del cliente
+ */
+export async function getClientEstimates(clientId: string, companyId: string) {
+    const supabase = await createClient()
+
+    const { data, error } = await supabase
+        .from('estimates')
+        .select('id, estimate_number, status, total, created_at')
+        .eq('client_id', clientId)
+        .eq('company_id', companyId)
+        .order('created_at', { ascending: false })
+
+    if (error) {
+        console.error('Error fetching client estimates:', error)
+        return []
+    }
+
+    return data
+}
+
+/**
+ * Obtiene facturas del cliente
+ */
+export async function getClientInvoices(clientId: string, companyId: string) {
+    const supabase = await createClient()
+
+    const { data, error } = await supabase
+        .from('invoices')
+        .select('id, invoice_number, status, total, balance_due, due_date, created_at')
+        .eq('client_id', clientId)
+        .eq('company_id', companyId)
+        .order('created_at', { ascending: false })
+
+    if (error) {
+        console.error('Error fetching client invoices:', error)
+        return []
+    }
+
+    return data
+}
+
+/**
+ * Obtiene proyectos del cliente
+ */
+export async function getClientProjects(clientId: string, companyId: string) {
+    const supabase = await createClient()
+
+    const { data, error } = await supabase
+        .from('projects')
+        .select('id, name, status, start_date, end_date, created_at')
+        .eq('client_id', clientId)
+        .eq('company_id', companyId)
+        .order('created_at', { ascending: false })
+
+    if (error) {
+        console.error('Error fetching client projects:', error)
+        return []
+    }
+
+    return data
+}
+
+/**
+ * Obtiene actividad reciente del cliente (audit logs + cambios de estado)
+ */
+export async function getClientActivity(clientId: string, companyId: string, limit = 20) {
+    const supabase = await createClient()
+
+    // Obtener audit logs relacionados con el cliente
+    const { data: logs, error } = await supabase
+        .from('audit_logs')
+        .select('id, action, metadata, created_at')
+        .eq('company_id', companyId)
+        .or(`metadata->client_id.eq.${clientId},metadata->>client_id.eq.${clientId}`)
+        .order('created_at', { ascending: false })
+        .limit(limit)
+
+    if (error) {
+        console.error('Error fetching client activity:', error)
+        return []
+    }
+
+    return logs || []
 }

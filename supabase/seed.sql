@@ -1,109 +1,134 @@
 -- =====================================================
--- SEED DATA - LexAgenda
+-- SEED DATA - ContractorIA
 -- =====================================================
--- INSTRUCCIONES:
--- 1. Ve a Supabase Dashboard > SQL Editor
--- 2. Copia y pega este script completo
--- 3. Ejecuta (Run)
+-- Sistema de Estimados y Facturación para Empresas de Servicios
 -- =====================================================
 
--- Primero, crear usuarios de prueba en auth.users
--- (Supabase requiere que los profiles tengan un user_id válido)
+-- Crear empresa de prueba
+INSERT INTO companies (id, name, slug, logo_url, primary_color, plan_tier, is_active, settings)
+VALUES (
+    'c0000001-0001-0001-0001-000000000001',
+    'Rivera Construction LLC',
+    'rivera-construction',
+    NULL,
+    '#0891B2',
+    'professional',
+    true,
+    '{"currency": "USD", "tax_rate": 8.25, "address": "123 Main St, Houston TX 77001"}'
+)
+ON CONFLICT (id) DO NOTHING;
 
+-- Crear usuario de prueba en auth.users
 INSERT INTO auth.users (id, instance_id, email, encrypted_password, email_confirmed_at, created_at, updated_at, raw_app_meta_data, raw_user_meta_data, aud, role)
 VALUES
-  ('11111111-1111-1111-1111-111111111111', '00000000-0000-0000-0000-000000000000', 'juan.perez@lexagenda.com', crypt('password123', gen_salt('bf')), now(), now(), now(), '{"provider":"email","providers":["email"]}', '{}', 'authenticated', 'authenticated'),
-  ('22222222-2222-2222-2222-222222222222', '00000000-0000-0000-0000-000000000000', 'ana.martinez@lexagenda.com', crypt('password123', gen_salt('bf')), now(), now(), now(), '{"provider":"email","providers":["email"]}', '{}', 'authenticated', 'authenticated'),
-  ('33333333-3333-3333-3333-333333333333', '00000000-0000-0000-0000-000000000000', 'carlos.gomez@lexagenda.com', crypt('password123', gen_salt('bf')), now(), now(), now(), '{"provider":"email","providers":["email"]}', '{}', 'authenticated', 'authenticated'),
-  ('44444444-4444-4444-4444-444444444444', '00000000-0000-0000-0000-000000000000', 'laura.sanchez@lexagenda.com', crypt('password123', gen_salt('bf')), now(), now(), now(), '{"provider":"email","providers":["email"]}', '{}', 'authenticated', 'authenticated')
+  ('u0000001-0001-0001-0001-000000000001', '00000000-0000-0000-0000-000000000000', 'admin@riveraconstruction.com', crypt('password123', gen_salt('bf')), now(), now(), now(), '{"provider":"email","providers":["email"]}', '{}', 'authenticated', 'authenticated'),
+  ('u0000002-0002-0002-0002-000000000002', '00000000-0000-0000-0000-000000000000', 'estimator@riveraconstruction.com', crypt('password123', gen_salt('bf')), now(), now(), now(), '{"provider":"email","providers":["email"]}', '{}', 'authenticated', 'authenticated')
 ON CONFLICT (id) DO NOTHING;
 
--- Insertar identidades (requerido por Supabase auth)
+-- Insertar identidades
 INSERT INTO auth.identities (id, user_id, identity_data, provider, provider_id, created_at, updated_at)
 VALUES
-  ('11111111-1111-1111-1111-111111111111', '11111111-1111-1111-1111-111111111111', '{"sub":"11111111-1111-1111-1111-111111111111","email":"juan.perez@lexagenda.com"}', 'email', '11111111-1111-1111-1111-111111111111', now(), now()),
-  ('22222222-2222-2222-2222-222222222222', '22222222-2222-2222-2222-222222222222', '{"sub":"22222222-2222-2222-2222-222222222222","email":"ana.martinez@lexagenda.com"}', 'email', '22222222-2222-2222-2222-222222222222', now(), now()),
-  ('33333333-3333-3333-3333-333333333333', '33333333-3333-3333-3333-333333333333', '{"sub":"33333333-3333-3333-3333-333333333333","email":"carlos.gomez@lexagenda.com"}', 'email', '33333333-3333-3333-3333-333333333333', now(), now()),
-  ('44444444-4444-4444-4444-444444444444', '44444444-4444-4444-4444-444444444444', '{"sub":"44444444-4444-4444-4444-444444444444","email":"laura.sanchez@lexagenda.com"}', 'email', '44444444-4444-4444-4444-444444444444', now(), now())
+  ('u0000001-0001-0001-0001-000000000001', 'u0000001-0001-0001-0001-000000000001', '{"sub":"u0000001-0001-0001-0001-000000000001","email":"admin@riveraconstruction.com"}', 'email', 'u0000001-0001-0001-0001-000000000001', now(), now()),
+  ('u0000002-0002-0002-0002-000000000002', 'u0000002-0002-0002-0002-000000000002', '{"sub":"u0000002-0002-0002-0002-000000000002","email":"estimator@riveraconstruction.com"}', 'email', 'u0000002-0002-0002-0002-000000000002', now(), now())
 ON CONFLICT (id) DO NOTHING;
 
--- Los profiles se crean automáticamente por el trigger, pero actualizamos los datos
-UPDATE profiles SET full_name = 'Dr. Juan Pérez', role = 'lawyer' WHERE id = '11111111-1111-1111-1111-111111111111';
-UPDATE profiles SET full_name = 'Dra. Ana Martínez', role = 'lawyer' WHERE id = '22222222-2222-2222-2222-222222222222';
-UPDATE profiles SET full_name = 'Dr. Carlos Gómez', role = 'lawyer' WHERE id = '33333333-3333-3333-3333-333333333333';
-UPDATE profiles SET full_name = 'Dra. Laura Sánchez', role = 'lawyer' WHERE id = '44444444-4444-4444-4444-444444444444';
+-- Actualizar profiles con company_id
+UPDATE profiles
+SET
+    full_name = 'Jose Rivera',
+    role = 'admin',
+    company_id = 'c0000001-0001-0001-0001-000000000001'
+WHERE id = 'u0000001-0001-0001-0001-000000000001';
 
--- Insertar datos de abogados
-INSERT INTO lawyers (id, user_id, specialty, bio, experience_years, hourly_rate, rating, is_active) VALUES
-  ('aaaa1111-1111-1111-1111-111111111111', '11111111-1111-1111-1111-111111111111',
-   'Derecho Civil',
-   'Especialista en derecho civil con amplia experiencia en contratos, sucesiones y litigios civiles. Graduado con honores de la Universidad Nacional.',
-   15, 150.00, 4.9, true),
+UPDATE profiles
+SET
+    full_name = 'Maria Garcia',
+    role = 'estimator',
+    company_id = 'c0000001-0001-0001-0001-000000000001'
+WHERE id = 'u0000002-0002-0002-0002-000000000002';
 
-  ('aaaa2222-2222-2222-2222-222222222222', '22222222-2222-2222-2222-222222222222',
-   'Derecho Laboral',
-   'Experta en derecho laboral y seguridad social. Representación de trabajadores y empresas en conflictos laborales.',
-   12, 120.00, 4.8, true),
-
-  ('aaaa3333-3333-3333-3333-333333333333', '33333333-3333-3333-3333-333333333333',
-   'Derecho Penal',
-   'Abogado penalista con más de 10 años de experiencia en defensa penal. Casos de delitos económicos y violencia familiar.',
-   10, 180.00, 4.7, true),
-
-  ('aaaa4444-4444-4444-4444-444444444444', '44444444-4444-4444-4444-444444444444',
-   'Derecho Familiar',
-   'Especialista en divorcios, custodia de menores y pensiones alimenticias. Enfoque en mediación y resolución pacífica de conflictos.',
-   8, 100.00, 4.9, true)
+-- Insertar clientes de prueba
+INSERT INTO clients (id, company_id, first_name, last_name, email, phone, company_name, address, status)
+VALUES
+  ('cl000001-0001-0001-0001-000000000001', 'c0000001-0001-0001-0001-000000000001', 'John', 'Smith', 'john.smith@email.com', '555-0101', 'Smith Properties', '456 Oak Ave, Houston TX 77002', 'ACTIVE'),
+  ('cl000002-0002-0002-0002-000000000002', 'c0000001-0001-0001-0001-000000000001', 'Sarah', 'Johnson', 'sarah.j@email.com', '555-0102', NULL, '789 Pine St, Houston TX 77003', 'ACTIVE'),
+  ('cl000003-0003-0003-0003-000000000003', 'c0000001-0001-0001-0001-000000000001', 'Michael', 'Brown', 'mbrown@company.com', '555-0103', 'Brown & Associates', '321 Elm Rd, Houston TX 77004', 'ACTIVE')
 ON CONFLICT (id) DO NOTHING;
 
--- Insertar disponibilidad para cada abogado (Lunes a Viernes)
--- Abogado 1: Dr. Juan Pérez (Lunes-Viernes 9-18)
-INSERT INTO availability (lawyer_id, day_of_week, start_time, end_time, is_available) VALUES
-  ('aaaa1111-1111-1111-1111-111111111111', 1, '09:00:00', '18:00:00', true),
-  ('aaaa1111-1111-1111-1111-111111111111', 2, '09:00:00', '18:00:00', true),
-  ('aaaa1111-1111-1111-1111-111111111111', 3, '09:00:00', '18:00:00', true),
-  ('aaaa1111-1111-1111-1111-111111111111', 4, '09:00:00', '18:00:00', true),
-  ('aaaa1111-1111-1111-1111-111111111111', 5, '09:00:00', '18:00:00', true)
-ON CONFLICT DO NOTHING;
+-- Insertar estimados de prueba
+INSERT INTO estimates (id, company_id, client_id, estimate_number, version, status, items, subtotal, tax_rate, tax_amount, total, deposit_amount, balance_due, notes, created_by)
+VALUES
+  (
+    'est00001-0001-0001-0001-000000000001',
+    'c0000001-0001-0001-0001-000000000001',
+    'cl000001-0001-0001-0001-000000000001',
+    'EST-001',
+    1,
+    'DRAFT',
+    '[{"id": "item1", "description": "Kitchen Cabinet Installation", "unit_type": "unit", "quantity": 12, "rate": 350, "total": 4200}, {"id": "item2", "description": "Granite Countertop", "unit_type": "sqft", "quantity": 45, "rate": 85, "total": 3825}]',
+    8025.00,
+    8.25,
+    662.06,
+    8687.06,
+    0,
+    8687.06,
+    'Kitchen renovation project - Phase 1',
+    'u0000001-0001-0001-0001-000000000001'
+  ),
+  (
+    'est00002-0002-0002-0002-000000000002',
+    'c0000001-0001-0001-0001-000000000001',
+    'cl000002-0002-0002-0002-000000000002',
+    'EST-002',
+    1,
+    'SIGNED',
+    '[{"id": "item1", "description": "Bathroom Tile Installation", "unit_type": "sqft", "quantity": 120, "rate": 15, "total": 1800}, {"id": "item2", "description": "Plumbing Fixtures", "unit_type": "unit", "quantity": 5, "rate": 250, "total": 1250}]',
+    3050.00,
+    8.25,
+    251.63,
+    3301.63,
+    1000.00,
+    2301.63,
+    'Master bathroom remodel',
+    'u0000001-0001-0001-0001-000000000001'
+  )
+ON CONFLICT (id) DO NOTHING;
 
--- Abogado 2: Dra. Ana Martínez (Lunes-Viernes 8-16)
-INSERT INTO availability (lawyer_id, day_of_week, start_time, end_time, is_available) VALUES
-  ('aaaa2222-2222-2222-2222-222222222222', 1, '08:00:00', '16:00:00', true),
-  ('aaaa2222-2222-2222-2222-222222222222', 2, '08:00:00', '16:00:00', true),
-  ('aaaa2222-2222-2222-2222-222222222222', 3, '08:00:00', '16:00:00', true),
-  ('aaaa2222-2222-2222-2222-222222222222', 4, '08:00:00', '16:00:00', true),
-  ('aaaa2222-2222-2222-2222-222222222222', 5, '08:00:00', '16:00:00', true)
-ON CONFLICT DO NOTHING;
+-- Insertar proyecto de prueba
+INSERT INTO projects (id, company_id, client_id, estimate_id, name, description, status, start_date)
+VALUES
+  (
+    'prj00001-0001-0001-0001-000000000001',
+    'c0000001-0001-0001-0001-000000000001',
+    'cl000002-0002-0002-0002-000000000002',
+    'est00002-0002-0002-0002-000000000002',
+    'Master Bathroom Remodel',
+    'Complete bathroom renovation including tiles, fixtures, and vanity',
+    'IN_PROGRESS',
+    CURRENT_DATE
+  )
+ON CONFLICT (id) DO NOTHING;
 
--- Abogado 3: Dr. Carlos Gómez (Lunes-Jueves 10-19, Sábado 9-14)
-INSERT INTO availability (lawyer_id, day_of_week, start_time, end_time, is_available) VALUES
-  ('aaaa3333-3333-3333-3333-333333333333', 1, '10:00:00', '19:00:00', true),
-  ('aaaa3333-3333-3333-3333-333333333333', 2, '10:00:00', '19:00:00', true),
-  ('aaaa3333-3333-3333-3333-333333333333', 3, '10:00:00', '19:00:00', true),
-  ('aaaa3333-3333-3333-3333-333333333333', 4, '10:00:00', '19:00:00', true),
-  ('aaaa3333-3333-3333-3333-333333333333', 6, '09:00:00', '14:00:00', true)
-ON CONFLICT DO NOTHING;
-
--- Abogado 4: Dra. Laura Sánchez (Lunes-Viernes 9-17)
-INSERT INTO availability (lawyer_id, day_of_week, start_time, end_time, is_available) VALUES
-  ('aaaa4444-4444-4444-4444-444444444444', 1, '09:00:00', '17:00:00', true),
-  ('aaaa4444-4444-4444-4444-444444444444', 2, '09:00:00', '17:00:00', true),
-  ('aaaa4444-4444-4444-4444-444444444444', 3, '09:00:00', '17:00:00', true),
-  ('aaaa4444-4444-4444-4444-444444444444', 4, '09:00:00', '17:00:00', true),
-  ('aaaa4444-4444-4444-4444-444444444444', 5, '09:00:00', '17:00:00', true)
-ON CONFLICT DO NOTHING;
+-- Insertar tareas de proyecto
+INSERT INTO project_tasks (id, project_id, company_id, title, description, status, priority, position)
+VALUES
+  ('tsk00001-0001-0001-0001-000000000001', 'prj00001-0001-0001-0001-000000000001', 'c0000001-0001-0001-0001-000000000001', 'Demo existing bathroom', 'Remove old tiles, fixtures, and vanity', 'DONE', 'high', 1),
+  ('tsk00002-0002-0002-0002-000000000002', 'prj00001-0001-0001-0001-000000000001', 'c0000001-0001-0001-0001-000000000001', 'Plumbing rough-in', 'Install new plumbing lines', 'IN_PROGRESS', 'high', 2),
+  ('tsk00003-0003-0003-0003-000000000003', 'prj00001-0001-0001-0001-000000000001', 'c0000001-0001-0001-0001-000000000001', 'Tile installation', 'Install floor and wall tiles', 'TODO', 'medium', 3),
+  ('tsk00004-0004-0004-0004-000000000004', 'prj00001-0001-0001-0001-000000000001', 'c0000001-0001-0001-0001-000000000001', 'Fixture installation', 'Install toilet, sink, and shower', 'TODO', 'medium', 4)
+ON CONFLICT (id) DO NOTHING;
 
 -- Verificar datos insertados
-SELECT 'auth.users:' as tabla, count(*) as total FROM auth.users WHERE id IN ('11111111-1111-1111-1111-111111111111', '22222222-2222-2222-2222-222222222222', '33333333-3333-3333-3333-333333333333', '44444444-4444-4444-4444-444444444444');
-SELECT 'profiles (lawyers):' as tabla, count(*) as total FROM profiles WHERE role = 'lawyer';
-SELECT 'lawyers:' as tabla, count(*) as total FROM lawyers;
-SELECT 'availability:' as tabla, count(*) as total FROM availability;
-SELECT 'appointment_types:' as tabla, count(*) as total FROM appointment_types;
+SELECT 'companies:' as tabla, count(*) as total FROM companies;
+SELECT 'profiles:' as tabla, count(*) as total FROM profiles WHERE company_id IS NOT NULL;
+SELECT 'clients:' as tabla, count(*) as total FROM clients;
+SELECT 'estimates:' as tabla, count(*) as total FROM estimates;
+SELECT 'projects:' as tabla, count(*) as total FROM projects;
+SELECT 'project_tasks:' as tabla, count(*) as total FROM project_tasks;
 
 -- =====================================================
 -- CREDENCIALES DE PRUEBA:
--- Email: juan.perez@lexagenda.com | Password: password123
--- Email: ana.martinez@lexagenda.com | Password: password123
--- Email: carlos.gomez@lexagenda.com | Password: password123
--- Email: laura.sanchez@lexagenda.com | Password: password123
+-- Email: admin@riveraconstruction.com | Password: password123
+-- Email: estimator@riveraconstruction.com | Password: password123
+-- Tenant Slug: rivera-construction
 -- =====================================================

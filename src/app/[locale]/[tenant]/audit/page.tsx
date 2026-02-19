@@ -1,7 +1,7 @@
 import { Clock, Shield, User, Info, Calendar, Filter, ArrowUpRight } from "lucide-react";
 import { getAuditLogs } from "@/app/actions/audit";
 import { getUserProfile } from "@/app/actions/auth";
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 import { getTranslations } from "next-intl/server";
 
 export default async function AuditPage({

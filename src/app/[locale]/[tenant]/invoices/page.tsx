@@ -1,4 +1,4 @@
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 import { getUserProfile } from "@/app/actions/auth";
 import { Receipt, CreditCard, Clock, ExternalLink, Search } from "lucide-react";
 import Link from "next/link";

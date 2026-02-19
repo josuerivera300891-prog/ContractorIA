@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 
 export async function POST(req: NextRequest) {
     const body = await req.text();
@@ -23,29 +23,57 @@ export async function POST(req: NextRequest) {
     if (event.type === "checkout.session.completed") {
         const session = event.data.object as any;
         const invoiceId = session.metadata?.invoiceId;
+        const paymentId = session.metadata?.paymentId;
+        const isPartial = session.metadata?.isPartial === "true";
 
         if (invoiceId) {
             const supabase = await createClient();
 
-            // Update invoice status to PAID
-            const { error } = await supabase
-                .from("invoices")
-                .update({
-                    status: "PAID",
-                    balance_due: 0,
-                    metadata: {
-                        stripe_session_id: session.id,
-                        payment_intent: session.payment_intent
-                    }
-                })
-                .eq("id", invoiceId);
+            if (isPartial && paymentId) {
+                // PAGO PARCIAL: Actualizar el registro de pago
+                // El trigger de la BD actualizará automáticamente el balance de la factura
+                const { error } = await supabase
+                    .from("invoice_payments")
+                    .update({
+                        status: "COMPLETED",
+                        stripe_payment_intent: session.payment_intent,
+                        paid_at: new Date().toISOString()
+                    })
+                    .eq("id", paymentId);
 
-            if (error) {
-                console.error("Error updating invoice status:", error);
-                return new NextResponse("Error updating database", { status: 500 });
+                if (error) {
+                    console.error("Error updating payment record:", error);
+                    return new NextResponse("Error updating payment", { status: 500 });
+                }
+
+                console.log(`Partial payment ${paymentId} for invoice ${invoiceId} completed`);
+            } else {
+                // PAGO COMPLETO (legacy): Crear registro en invoice_payments y marcar como pagado
+                const { data: invoice } = await supabase
+                    .from("invoices")
+                    .select("company_id, total")
+                    .eq("id", invoiceId)
+                    .single();
+
+                if (invoice) {
+                    // Crear registro de pago completo
+                    await supabase
+                        .from("invoice_payments")
+                        .insert({
+                            invoice_id: invoiceId,
+                            company_id: invoice.company_id,
+                            amount: invoice.total,
+                            payment_method: 'STRIPE',
+                            status: 'COMPLETED',
+                            stripe_session_id: session.id,
+                            stripe_payment_intent: session.payment_intent,
+                            paid_at: new Date().toISOString()
+                        });
+                    // El trigger actualizará el balance automáticamente
+                }
+
+                console.log(`Invoice ${invoiceId} paid in full`);
             }
-
-            console.log(`Invoice ${invoiceId} marked as PAID`);
         }
     }
 

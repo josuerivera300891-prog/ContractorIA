@@ -1,166 +1,194 @@
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
-import type { PaymentStatus } from '@/types/database'
 
-export interface PaymentWithAppointment {
+export interface InvoicePayment {
   id: string
-  appointment_id: string
+  invoice_id: string
   amount: number
-  status: PaymentStatus
-  payment_method: string | null
+  payment_method: 'stripe' | 'cash' | 'check' | 'bank_transfer' | 'other'
   transaction_id: string | null
-  paid_at: string | null
+  notes: string | null
+  recorded_by: string | null
   created_at: string
-  appointment: {
+}
+
+export interface PaymentWithInvoice extends InvoicePayment {
+  invoice: {
     id: string
-    scheduled_at: string
-    client: { profile: { full_name: string; email: string } }
-    lawyer: { profile: { full_name: string } }
-    appointment_type: { name: string; price: number } | null
+    invoice_number: string
+    total: number
+    balance_due: number
+    status: string
+    client: {
+      first_name: string
+      last_name: string
+      email: string
+      company_name: string | null
+    } | null
   } | null
 }
 
 export const paymentService = {
-  async getPaymentsByUser(userId: string, role: 'client' | 'lawyer' | 'admin') {
+  /**
+   * Get all payments for a company
+   */
+  async getPaymentsByCompany(companyId: string) {
     const supabase = await createClient()
 
-    let query = supabase
-      .from('payments')
+    const { data, error } = await supabase
+      .from('invoice_payments')
       .select(`
         *,
-        appointment:appointments(
+        invoice:invoices(
           id,
-          scheduled_at,
-          client:clients(profile:profiles(full_name, email)),
-          lawyer:lawyers(profile:profiles(full_name)),
-          appointment_type:appointment_types(name, price)
+          invoice_number,
+          total,
+          balance_due,
+          status,
+          client:clients(first_name, last_name, email, company_name)
         )
       `)
+      .eq('invoice.company_id', companyId)
       .order('created_at', { ascending: false })
-
-    if (role === 'client') {
-      const { data: client } = await supabase
-        .from('clients')
-        .select('id')
-        .eq('user_id', userId)
-        .single()
-
-      if (client) {
-        query = query.eq('appointment.client_id', client.id)
-      }
-    } else if (role === 'lawyer') {
-      const { data: lawyer } = await supabase
-        .from('lawyers')
-        .select('id')
-        .eq('user_id', userId)
-        .single()
-
-      if (lawyer) {
-        query = query.eq('appointment.lawyer_id', lawyer.id)
-      }
-    }
-
-    const { data, error } = await query
 
     if (error) {
       console.error('Error fetching payments:', error)
       return []
     }
 
-    return data as PaymentWithAppointment[]
+    return data as PaymentWithInvoice[]
   },
 
-  async getPaymentStats(userId: string, role: 'client' | 'lawyer' | 'admin') {
+  /**
+   * Get payment statistics for a company
+   */
+  async getPaymentStats(companyId: string) {
     const supabase = await createClient()
 
     const startOfMonth = new Date()
     startOfMonth.setDate(1)
     startOfMonth.setHours(0, 0, 0, 0)
 
-    let query = supabase
-      .from('payments')
-      .select('amount, status, created_at')
+    // Get all invoices for this company
+    const { data: invoices } = await supabase
+      .from('invoices')
+      .select('id, total, amount_paid, balance_due, status')
+      .eq('company_id', companyId)
 
-    if (role === 'lawyer') {
-      const { data: lawyer } = await supabase
-        .from('lawyers')
-        .select('id')
-        .eq('user_id', userId)
-        .single()
-
-      if (lawyer) {
-        query = query.eq('appointment.lawyer_id', lawyer.id)
-      }
-    }
-
-    const { data: payments } = await query
-
-    if (!payments) return {
+    if (!invoices) return {
       totalRevenue: 0,
       monthlyRevenue: 0,
       pendingPayments: 0,
-      completedPayments: 0
+      paidInvoices: 0,
+      outstandingBalance: 0
     }
 
-    const totalRevenue = payments
-      .filter(p => p.status === 'completed')
-      .reduce((sum, p) => sum + p.amount, 0)
+    // Get payments this month
+    const { data: monthlyPayments } = await supabase
+      .from('invoice_payments')
+      .select('amount, created_at, invoice:invoices!inner(company_id)')
+      .eq('invoice.company_id', companyId)
+      .gte('created_at', startOfMonth.toISOString())
 
-    const monthlyRevenue = payments
-      .filter(p =>
-        p.status === 'completed' &&
-        new Date(p.created_at) >= startOfMonth
-      )
-      .reduce((sum, p) => sum + p.amount, 0)
+    const totalRevenue = invoices
+      .reduce((sum, inv) => sum + Number(inv.amount_paid || 0), 0)
 
-    const pendingPayments = payments.filter(p => p.status === 'pending').length
-    const completedPayments = payments.filter(p => p.status === 'completed').length
+    const monthlyRevenue = monthlyPayments
+      ?.reduce((sum, p) => sum + Number(p.amount), 0) || 0
+
+    const pendingPayments = invoices
+      .filter(inv => inv.status === 'UNPAID' || inv.status === 'PARTIAL').length
+
+    const paidInvoices = invoices
+      .filter(inv => inv.status === 'PAID').length
+
+    const outstandingBalance = invoices
+      .reduce((sum, inv) => sum + Number(inv.balance_due || 0), 0)
 
     return {
       totalRevenue,
       monthlyRevenue,
       pendingPayments,
-      completedPayments
+      paidInvoices,
+      outstandingBalance
     }
   },
 
-  async updatePaymentStatus(paymentId: string, status: PaymentStatus, transactionId?: string) {
+  /**
+   * Record a new payment for an invoice
+   */
+  async recordPayment(
+    invoiceId: string,
+    amount: number,
+    paymentMethod: InvoicePayment['payment_method'],
+    transactionId?: string,
+    notes?: string,
+    recordedBy?: string
+  ) {
     const supabase = await createClient()
 
-    const updateData: { status: PaymentStatus; paid_at?: string; transaction_id?: string } = { status }
-    if (status === 'completed') {
-      updateData.paid_at = new Date().toISOString()
-    }
-    if (transactionId) {
-      updateData.transaction_id = transactionId
+    // Insert payment record
+    const { data: payment, error: paymentError } = await supabase
+      .from('invoice_payments')
+      .insert({
+        invoice_id: invoiceId,
+        amount,
+        payment_method: paymentMethod,
+        transaction_id: transactionId || null,
+        notes: notes || null,
+        recorded_by: recordedBy || null
+      })
+      .select()
+      .single()
+
+    if (paymentError) {
+      return { error: paymentError.message }
     }
 
-    const { error } = await supabase
-      .from('payments')
-      .update(updateData)
-      .eq('id', paymentId)
+    // Get current invoice
+    const { data: invoice } = await supabase
+      .from('invoices')
+      .select('total, amount_paid, balance_due')
+      .eq('id', invoiceId)
+      .single()
+
+    if (invoice) {
+      const newAmountPaid = Number(invoice.amount_paid || 0) + amount
+      const newBalanceDue = Number(invoice.total) - newAmountPaid
+      const newStatus = newBalanceDue <= 0 ? 'PAID' : newBalanceDue < Number(invoice.total) ? 'PARTIAL' : 'UNPAID'
+
+      // Update invoice totals
+      await supabase
+        .from('invoices')
+        .update({
+          amount_paid: newAmountPaid,
+          balance_due: Math.max(0, newBalanceDue),
+          status: newStatus
+        })
+        .eq('id', invoiceId)
+    }
+
+    return { success: true, data: payment }
+  },
+
+  /**
+   * Get payments for a specific invoice
+   */
+  async getInvoicePayments(invoiceId: string) {
+    const supabase = await createClient()
+
+    const { data, error } = await supabase
+      .from('invoice_payments')
+      .select('*')
+      .eq('invoice_id', invoiceId)
+      .order('created_at', { ascending: false })
 
     if (error) {
-      return { error: error.message }
+      console.error('Error fetching invoice payments:', error)
+      return []
     }
 
-    // If payment completed, update appointment status to 'paid'
-    if (status === 'completed') {
-      const { data: payment } = await supabase
-        .from('payments')
-        .select('appointment_id')
-        .eq('id', paymentId)
-        .single()
-
-      if (payment) {
-        await supabase
-          .from('appointments')
-          .update({ status: 'paid' })
-          .eq('id', payment.appointment_id)
-      }
-    }
-
-    return { success: true }
+    return data as InvoicePayment[]
   }
 }

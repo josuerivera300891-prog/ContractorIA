@@ -29,6 +29,7 @@ export function Sidebar({ tenant, locale }: { tenant: string; locale: string }) 
             group: t("infrastructure"),
             items: [
                 { name: t("dashboard"), href: `/${locale}/${tenant}/dashboard`, icon: LayoutDashboard },
+                { name: t("accounts"), href: `/${locale}/${tenant}/accounts`, icon: PlusCircle },
                 { name: t("projects"), href: `/${locale}/${tenant}/projects`, icon: Briefcase },
                 { name: t("estimates"), href: `/${locale}/${tenant}/estimates`, icon: BarChart3 },
                 { name: "Invoices", href: `/${locale}/${tenant}/invoices`, icon: Receipt },

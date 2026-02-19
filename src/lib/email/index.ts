@@ -1,7 +1,7 @@
 export { getResend, EMAIL_CONFIG } from './resend'
 export {
-  appointmentCreatedClientEmail,
-  appointmentCreatedLawyerEmail,
-  appointmentCreatedAdminEmail,
-  appointmentStatusChangedEmail,
+  estimateSentEmail,
+  invoiceCreatedEmail,
+  paymentReceivedEmail,
+  paymentReminderEmail,
 } from './templates'
